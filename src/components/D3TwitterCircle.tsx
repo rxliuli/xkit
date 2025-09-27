@@ -58,16 +58,47 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
     const maxScale = 1.2 // Maximum scale ratio to avoid being too large
     const finalScale = Math.min(Math.max(scale, minScale), maxScale)
 
-    // Divide users into three layers with fixed counts
+    // Divide users into layers intelligently to ensure complete circles
     const sortedUsers = [...data.users].sort((a, b) => b.weight - a.weight)
     
-    const coreCount = Math.min(8, sortedUsers.length)
-    const innerCount = Math.min(15, Math.max(0, sortedUsers.length - coreCount))
-    const outerCount = Math.min(25, Math.max(0, sortedUsers.length - coreCount - innerCount))
+    // Define minimum users required for each complete circle
+    const minCoreUsers = 6   // Minimum users for core circle
+    const minInnerUsers = 12  // Minimum users for inner circle  
+    const minOuterUsers = 18  // Minimum users for outer circle
     
-    const coreUsers = sortedUsers.slice(0, coreCount)
-    const innerUsers = sortedUsers.slice(coreCount, coreCount + innerCount)
-    const outerUsers = sortedUsers.slice(coreCount + innerCount, coreCount + innerCount + outerCount)
+    let coreUsers: any[] = []
+    let innerUsers: any[] = []
+    let outerUsers: any[] = []
+    
+    // Smart layer distribution to ensure complete circles
+    if (sortedUsers.length >= minCoreUsers + minInnerUsers + minOuterUsers) {
+      // Enough users for 3 complete circles
+      const coreCount = Math.min(8, Math.floor(sortedUsers.length * 0.15)) // 15% for core
+      const innerCount = Math.min(16, Math.floor(sortedUsers.length * 0.35)) // 35% for inner
+      const outerCount = Math.min(24, sortedUsers.length - coreCount - innerCount) // Rest for outer
+      
+      coreUsers = sortedUsers.slice(0, Math.max(coreCount, minCoreUsers))
+      innerUsers = sortedUsers.slice(coreUsers.length, coreUsers.length + Math.max(innerCount, minInnerUsers))
+      outerUsers = sortedUsers.slice(coreUsers.length + innerUsers.length, coreUsers.length + innerUsers.length + Math.max(outerCount, minOuterUsers))
+    } else if (sortedUsers.length >= minCoreUsers + minInnerUsers) {
+      // Enough users for 2 complete circles - distribute between core and inner
+      const coreCount = Math.min(10, Math.floor(sortedUsers.length * 0.4)) // 40% for core
+      const innerCount = sortedUsers.length - coreCount // Rest for inner
+      
+      coreUsers = sortedUsers.slice(0, Math.max(coreCount, minCoreUsers))
+      innerUsers = sortedUsers.slice(coreUsers.length, coreUsers.length + Math.max(innerCount, minInnerUsers))
+      outerUsers = [] // No outer circle
+    } else if (sortedUsers.length >= minCoreUsers) {
+      // Only enough users for 1 complete circle - all go to core
+      coreUsers = sortedUsers.slice(0, Math.min(sortedUsers.length, 20)) // Max 20 users in single circle
+      innerUsers = []
+      outerUsers = []
+    } else {
+      // Very few users - still put them in core circle but reduce minimum requirement
+      coreUsers = sortedUsers.slice(0, Math.min(sortedUsers.length, 12)) // Even fewer users, still make a circle
+      innerUsers = []
+      outerUsers = []
+    }
 
     // Define circle radii - adaptive to screen size for better space utilization
     const maxRadius = Math.min(width, height) * 0.45 // Outermost circle radius, occupying 45% of canvas
