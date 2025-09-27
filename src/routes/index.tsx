@@ -2,6 +2,96 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import logo from '../logo.png'
 
 export const Route = createFileRoute('/')({
+  head: () => ({
+    meta: [
+      {
+        title: 'XKit Tools - Social Media Analysis Suite',
+      },
+      {
+        name: 'description',
+        content: 'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles, analyze user engagement, and visualize your social media presence.',
+      },
+      {
+        name: 'keywords',
+        content: 'social media analysis, twitter tools, interaction circle, data visualization, network analysis, twitter analytics, social media insights, user engagement analysis',
+      },
+      // Open Graph tags
+      {
+        property: 'og:title',
+        content: 'XKit Tools - Social Media Analysis Suite',
+      },
+      {
+        property: 'og:description',
+        content: 'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles and analyze user engagement.',
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:url',
+        content: 'https://xkit.rxliuli.com',
+      },
+      {
+        property: 'og:image',
+        content: 'https://xkit.rxliuli.com/logo512.png',
+      },
+      {
+        property: 'og:image:width',
+        content: '512',
+      },
+      {
+        property: 'og:image:height',
+        content: '512',
+      },
+      {
+        property: 'og:image:alt',
+        content: 'XKit Tools Logo - Social Media Analysis Suite',
+      },
+      {
+        property: 'og:site_name',
+        content: 'XKit Tools',
+      },
+      // Twitter Card tags
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: 'XKit Tools - Social Media Analysis Suite',
+      },
+      {
+        name: 'twitter:description',
+        content: 'A powerful suite of social media analysis tools. Create Twitter interaction circles and analyze your social media network data.',
+      },
+      {
+        name: 'twitter:image',
+        content: 'https://xkit.rxliuli.com/logo512.png',
+      },
+      {
+        name: 'twitter:image:alt',
+        content: 'XKit Tools Logo - Social Media Analysis Suite',
+      },
+      {
+        name: 'twitter:creator',
+        content: '@moeruri',
+      },
+      {
+        name: 'twitter:site',
+        content: '@moeruri',
+      },
+      // Additional meta tags
+      {
+        name: 'robots',
+        content: 'index, follow',
+      },
+      {
+        name: 'author',
+        content: 'XKit Tools',
+      },
+    ],
+  }),
   component: App,
 })
 

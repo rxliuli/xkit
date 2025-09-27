@@ -24,6 +24,7 @@ export const Route = createFileRoute('/interaction-circle')({
         content:
           'twitter, interaction circle, social media analysis, twitter analytics, data visualization, twitter tools, social network analysis',
       },
+      // Open Graph tags
       {
         property: 'og:title',
         content: 'Twitter Interaction Circle Generator - XKit Tools',
@@ -38,6 +39,31 @@ export const Route = createFileRoute('/interaction-circle')({
         content: 'website',
       },
       {
+        property: 'og:url',
+        content: 'https://xkit.rxliuli.com/interaction-circle',
+      },
+      {
+        property: 'og:image',
+        content: 'https://xkit.rxliuli.com/logo512.png',
+      },
+      {
+        property: 'og:image:width',
+        content: '512',
+      },
+      {
+        property: 'og:image:height',
+        content: '512',
+      },
+      {
+        property: 'og:image:alt',
+        content: 'Twitter Interaction Circle Generator - XKit Tools',
+      },
+      {
+        property: 'og:site_name',
+        content: 'XKit Tools',
+      },
+      // Twitter Card tags
+      {
         name: 'twitter:card',
         content: 'summary_large_image',
       },
@@ -49,6 +75,31 @@ export const Route = createFileRoute('/interaction-circle')({
         name: 'twitter:description',
         content:
           'Analyze your Twitter interaction data and generate personalized interaction circle visualizations.',
+      },
+      {
+        name: 'twitter:image',
+        content: 'https://xkit.rxliuli.com/logo512.png',
+      },
+      {
+        name: 'twitter:image:alt',
+        content: 'Twitter Interaction Circle Generator - XKit Tools',
+      },
+      {
+        name: 'twitter:creator',
+        content: '@moeruri',
+      },
+      {
+        name: 'twitter:site',
+        content: '@moeruri',
+      },
+      // Additional meta tags
+      {
+        name: 'robots',
+        content: 'index, follow',
+      },
+      {
+        name: 'author',
+        content: 'XKit Tools',
       },
     ],
   }),

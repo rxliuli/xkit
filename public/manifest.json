@@ -1,6 +1,7 @@
 {
-  "short_name": "TanStack App",
-  "name": "Create TanStack App Sample",
+  "short_name": "XKit Tools",
+  "name": "XKit Tools - Social Media Analysis Suite",
+  "description": "A powerful suite of social media analysis tools to help you understand your network interaction data.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,8 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#2563eb",
+  "background_color": "#f8fafc",
+  "categories": ["productivity", "utilities", "social"],
+  "lang": "en"
 }
