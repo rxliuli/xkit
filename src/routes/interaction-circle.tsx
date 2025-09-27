@@ -99,11 +99,15 @@ function TwitterCircle() {
       setProgressText('Fetching like data...')
 
       let currentLikes = 0
-      const likes = await apiProxy.getLikes(username, 500, (current, total) => {
-        currentLikes = current
-        setProgress(50 + (current / total) * 30) // 50-80%
-        setProgressText(`Analyzing like data... ${current}/${total} likes`)
-      })
+      const likes = await apiProxy.getLikes(
+        username,
+        1000,
+        (current, total) => {
+          currentLikes = current
+          setProgress(50 + (current / total) * 30) // 50-80%
+          setProgressText(`Analyzing like data... ${current}/${total} likes`)
+        },
+      )
 
       // Fetch target user information
       setProgress(80)

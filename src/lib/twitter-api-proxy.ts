@@ -94,7 +94,7 @@ export class TwitterAPIProxy {
    */
   async getReplies(
     username: string,
-    count: number = 500,
+    count: number,
     onProgress?: (current: number, total: number) => void,
   ): Promise<TwitterTweet[]> {
     const isAvailable = await this.checkExtensionAvailability()
@@ -153,7 +153,7 @@ export class TwitterAPIProxy {
    */
   async getLikes(
     username: string,
-    count: number = 1000,
+    count: number,
     onProgress?: (current: number, total: number) => void,
   ): Promise<TwitterLike[]> {
     const isAvailable = await this.checkExtensionAvailability()
