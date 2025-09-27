@@ -2,6 +2,8 @@
 
 🚀 A powerful suite of social media analysis tools to help you understand your X(Twitter) network interaction data.
 
+<img width="1280" height="800" alt="image" src="https://github.com/user-attachments/assets/6e341385-d76f-448c-9d7e-e01bb98c713a" />
+
 ## ✨ Features
 
 ### 🐦 Twitter Interaction Circle
