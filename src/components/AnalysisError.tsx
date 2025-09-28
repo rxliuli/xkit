@@ -1,15 +1,15 @@
 interface AnalysisErrorProps {
-  error: string;
+  error: string
 }
 
 export function AnalysisError({ error }: AnalysisErrorProps) {
-  if (!error) return null;
+  if (!error) return null
 
   const buildErrorMessage = (error: string) => {
-    if (error.includes("https://chromewebstore.google.com")) {
+    if (error.includes('https://chromewebstore.google.com')) {
       return (
         <div>
-          {error.split("https://chromewebstore.google.com")[0]}
+          {error.split('https://chromewebstore.google.com')[0]}
           <a
             href="https://chromewebstore.google.com/detail/pnbhkojogdglhidcgnfljnomjdckkfjh"
             target="_blank"
@@ -18,22 +18,16 @@ export function AnalysisError({ error }: AnalysisErrorProps) {
           >
             https://chromewebstore.google.com/detail/pnbhkojogdglhidcgnfljnomjdckkfjh
           </a>
-          {
-            error.split(
-              "https://chromewebstore.google.com/detail/pnbhkojogdglhidcgnfljnomjdckkfjh"
-            )[1]
-          }
+          {error.split('https://chromewebstore.google.com/detail/pnbhkojogdglhidcgnfljnomjdckkfjh')[1]}
         </div>
-      );
+      )
     }
-    return error;
-  };
+    return error
+  }
 
   return (
     <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-      <div className="text-red-600 text-sm whitespace-pre-line">
-        {buildErrorMessage(error)}
-      </div>
+      <div className="text-red-600 text-sm whitespace-pre-line">{buildErrorMessage(error)}</div>
     </div>
-  );
+  )
 }

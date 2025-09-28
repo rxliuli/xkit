@@ -1,14 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { MenuIcon } from 'lucide-react'
 import logo from '../logo.png'
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from './ui/sheet'
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
 
 export function Header() {
   return (
@@ -17,11 +10,7 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <Link to="/" className="flex items-center space-x-3">
-            <img
-              src={logo}
-              alt="XKit Logo"
-              className="h-8 w-8"
-            />
+            <img src={logo} alt="XKit Logo" className="h-8 w-8" />
             <span className="text-xl font-bold text-gray-900">XKit Tools</span>
           </Link>
 
@@ -31,7 +20,7 @@ export function Header() {
               to="/"
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
-                className: "text-blue-600 hover:text-blue-700"
+                className: 'text-blue-600 hover:text-blue-700',
               }}
             >
               Home
@@ -40,7 +29,7 @@ export function Header() {
               to="/interaction-circle"
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
-                className: "text-blue-600 hover:text-blue-700"
+                className: 'text-blue-600 hover:text-blue-700',
               }}
             >
               Twitter Circle
@@ -59,28 +48,22 @@ export function Header() {
                   <MenuIcon className="h-6 w-6" />
                 </button>
               </SheetTrigger>
-              
+
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <SheetHeader>
                   <div className="flex items-center space-x-3 mb-6">
-                    <img
-                      src={logo}
-                      alt="XKit Logo"
-                      className="h-8 w-8"
-                    />
-                    <SheetTitle className="text-xl font-bold text-gray-900">
-                      XKit Tools
-                    </SheetTitle>
+                    <img src={logo} alt="XKit Logo" className="h-8 w-8" />
+                    <SheetTitle className="text-xl font-bold text-gray-900">XKit Tools</SheetTitle>
                   </div>
                 </SheetHeader>
-                
+
                 <nav className="flex flex-col space-y-4">
                   <SheetClose asChild>
                     <Link
                       to="/"
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
-                        className: "text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200"
+                        className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',
                       }}
                     >
                       🏠 Home
@@ -91,7 +74,7 @@ export function Header() {
                       to="/interaction-circle"
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
-                        className: "text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200"
+                        className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',
                       }}
                     >
                       🐦 Twitter Circle

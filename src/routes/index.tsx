@@ -9,11 +9,13 @@ export const Route = createFileRoute('/')({
       },
       {
         name: 'description',
-        content: 'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles, analyze user engagement, and visualize your social media presence.',
+        content:
+          'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles, analyze user engagement, and visualize your social media presence.',
       },
       {
         name: 'keywords',
-        content: 'social media analysis, twitter tools, interaction circle, data visualization, network analysis, twitter analytics, social media insights, user engagement analysis',
+        content:
+          'social media analysis, twitter tools, interaction circle, data visualization, network analysis, twitter analytics, social media insights, user engagement analysis',
       },
       // Open Graph tags
       {
@@ -22,7 +24,8 @@ export const Route = createFileRoute('/')({
       },
       {
         property: 'og:description',
-        content: 'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles and analyze user engagement.',
+        content:
+          'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles and analyze user engagement.',
       },
       {
         property: 'og:type',
@@ -63,7 +66,8 @@ export const Route = createFileRoute('/')({
       },
       {
         name: 'twitter:description',
-        content: 'A powerful suite of social media analysis tools. Create Twitter interaction circles and analyze your social media network data.',
+        content:
+          'A powerful suite of social media analysis tools. Create Twitter interaction circles and analyze your social media network data.',
       },
       {
         name: 'twitter:image',
@@ -121,9 +125,7 @@ function App() {
               className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block max-w-2xl mx-auto mb-6 sm:mb-8"
             >
               <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🐦</div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">
-                Twitter Interaction Circle
-              </h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">Twitter Interaction Circle</h3>
               <p className="text-gray-600 text-sm sm:text-base">
                 Analyze your Twitter interaction data and generate personalized interaction circle visualizations.
                 Discover which users you interact with most frequently and uncover your core social network.
@@ -136,12 +138,7 @@ function App() {
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
             </Link>
@@ -150,20 +147,14 @@ function App() {
             <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl shadow-lg p-6 sm:p-8 border-2 border-dashed border-purple-200 max-w-2xl mx-auto">
               <div className="text-center">
                 <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🚀</div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">
-                  More Features Coming Soon
-                </h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">More Features Coming Soon</h3>
                 <p className="text-gray-600">
-                  We're working hard to develop more useful Twitter analysis tools, including tweet sentiment analysis, topic trend tracking, user influence assessment, and more. Stay tuned!
+                  We're working hard to develop more useful Twitter analysis tools, including tweet sentiment analysis,
+                  topic trend tracking, user influence assessment, and more. Stay tuned!
                 </p>
                 <div className="mt-6 inline-flex items-center text-purple-600 font-medium">
                   Coming Soon
-                  <svg
-                    className="ml-2 w-4 h-4 animate-pulse"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="ml-2 w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"

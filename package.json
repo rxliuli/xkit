@@ -7,7 +7,18 @@
     "start": "node .output/server/index.mjs",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "format": "prettier --write src/",
+    "postinstall": "simple-git-hooks"
+  },
+  "prettier": "@liuli-util/prettier-standard-config",
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,css,vue}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -35,6 +46,10 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "devDependencies": {
+    "@liuli-util/prettier-standard-config": "^0.3.0",
+    "lint-staged": "^16.2.1",
+    "prettier": "^3.6.2",
+    "simple-git-hooks": "^2.13.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^22.10.2",

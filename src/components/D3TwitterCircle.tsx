@@ -28,11 +28,7 @@ interface CircleNode {
   radius?: number
 }
 
-const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ 
-  data, 
-  width = 600, 
-  height = 600 
-}) => {
+const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, height = 600 }) => {
   const svgRef = useRef<SVGSVGElement>(null)
   const [tooltip, setTooltip] = useState<{
     visible: boolean
@@ -60,31 +56,34 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
 
     // Divide users into layers intelligently to ensure complete circles
     const sortedUsers = [...data.users].sort((a, b) => b.weight - a.weight)
-    
+
     // Define minimum users required for each complete circle
-    const minCoreUsers = 6   // Minimum users for core circle
-    const minInnerUsers = 12  // Minimum users for inner circle  
-    const minOuterUsers = 18  // Minimum users for outer circle
-    
+    const minCoreUsers = 6 // Minimum users for core circle
+    const minInnerUsers = 12 // Minimum users for inner circle
+    const minOuterUsers = 18 // Minimum users for outer circle
+
     let coreUsers: any[] = []
     let innerUsers: any[] = []
     let outerUsers: any[] = []
-    
+
     // Smart layer distribution to ensure complete circles
     if (sortedUsers.length >= minCoreUsers + minInnerUsers + minOuterUsers) {
       // Enough users for 3 complete circles
       const coreCount = Math.min(8, Math.floor(sortedUsers.length * 0.15)) // 15% for core
       const innerCount = Math.min(16, Math.floor(sortedUsers.length * 0.35)) // 35% for inner
       const outerCount = Math.min(24, sortedUsers.length - coreCount - innerCount) // Rest for outer
-      
+
       coreUsers = sortedUsers.slice(0, Math.max(coreCount, minCoreUsers))
       innerUsers = sortedUsers.slice(coreUsers.length, coreUsers.length + Math.max(innerCount, minInnerUsers))
-      outerUsers = sortedUsers.slice(coreUsers.length + innerUsers.length, coreUsers.length + innerUsers.length + Math.max(outerCount, minOuterUsers))
+      outerUsers = sortedUsers.slice(
+        coreUsers.length + innerUsers.length,
+        coreUsers.length + innerUsers.length + Math.max(outerCount, minOuterUsers),
+      )
     } else if (sortedUsers.length >= minCoreUsers + minInnerUsers) {
       // Enough users for 2 complete circles - distribute between core and inner
       const coreCount = Math.min(10, Math.floor(sortedUsers.length * 0.4)) // 40% for core
       const innerCount = sortedUsers.length - coreCount // Rest for inner
-      
+
       coreUsers = sortedUsers.slice(0, Math.max(coreCount, minCoreUsers))
       innerUsers = sortedUsers.slice(coreUsers.length, coreUsers.length + Math.max(innerCount, minInnerUsers))
       outerUsers = [] // No outer circle
@@ -103,8 +102,8 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
     // Define circle radii - adaptive to screen size for better space utilization
     const maxRadius = Math.min(width, height) * 0.45 // Outermost circle radius, occupying 45% of canvas
     const outerRadius = maxRadius
-    const innerRadius = maxRadius * 0.75  // Inner circle radius
-    const coreRadius = maxRadius * 0.45   // Core circle radius, increased to avoid overlap
+    const innerRadius = maxRadius * 0.75 // Inner circle radius
+    const coreRadius = maxRadius * 0.45 // Core circle radius, increased to avoid overlap
 
     // Create node data
     const createNodes = (): CircleNode[] => {
@@ -122,13 +121,13 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
           verified: user.user.verified,
           interactions: {
             replies: user.interactions.replies,
-            likes: user.interactions.likes
+            likes: user.interactions.likes,
           },
           layer: 'core',
           angle,
           radius: coreRadius,
           x: centerX + Math.cos(angle) * coreRadius,
-          y: centerY + Math.sin(angle) * coreRadius
+          y: centerY + Math.sin(angle) * coreRadius,
         })
       })
 
@@ -144,13 +143,13 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
           verified: user.user.verified,
           interactions: {
             replies: user.interactions.replies,
-            likes: user.interactions.likes
+            likes: user.interactions.likes,
           },
           layer: 'inner',
           angle,
           radius: innerRadius,
           x: centerX + Math.cos(angle) * innerRadius,
-          y: centerY + Math.sin(angle) * innerRadius
+          y: centerY + Math.sin(angle) * innerRadius,
         })
       })
 
@@ -166,13 +165,13 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
           verified: user.user.verified,
           interactions: {
             replies: user.interactions.replies,
-            likes: user.interactions.likes
+            likes: user.interactions.likes,
           },
           layer: 'outer',
           angle,
           radius: outerRadius,
           x: centerX + Math.cos(angle) * outerRadius,
-          y: centerY + Math.sin(angle) * outerRadius
+          y: centerY + Math.sin(angle) * outerRadius,
         })
       })
 
@@ -182,7 +181,8 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
     const nodes = createNodes()
 
     // Create color scale
-    const colorScale = d3.scaleOrdinal<string>()
+    const colorScale = d3
+      .scaleOrdinal<string>()
       .domain(['core', 'inner', 'outer'])
       .range(['#3b82f6', '#60a5fa', '#93c5fd']) // Blue gradient
 
@@ -192,7 +192,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
       let baseSize: number
       let userCount: number
       let radius: number
-      
+
       switch (layer) {
         case 'core':
           baseSize = 36
@@ -210,54 +210,46 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
           radius = outerRadius
           break
       }
-      
+
       // Calculate maximum spacing between adjacent avatars on circumference to avoid overlap
       const circumference = 2 * Math.PI * radius
       const maxSizeBySpacing = userCount > 0 ? (circumference / userCount) * 0.7 : baseSize // Leave 70% space for avatars
-      
+
       // Take smaller value to avoid overlap, but ensure minimum size
       const calculatedSize = Math.min(baseSize * finalScale, maxSizeBySpacing)
       return Math.max(calculatedSize, baseSize * 0.5) // Minimum not less than 50%
     }
 
-
-
     // Create node group
     const nodeGroup = svg.append('g').attr('class', 'nodes')
-    
+
     // Define gradients
     const defs = svg.append('defs')
-    
+
     // Define gradient for current user
-    const currentUserGradient = defs.append('radialGradient')
+    const currentUserGradient = defs
+      .append('radialGradient')
       .attr('id', 'current-user-gradient')
       .attr('cx', '30%')
       .attr('cy', '30%')
       .attr('r', '70%')
-    
-    currentUserGradient.append('stop')
-      .attr('offset', '0%')
-      .attr('stop-color', '#ffffff')
-      .attr('stop-opacity', 0.3)
-    
-    currentUserGradient.append('stop')
-      .attr('offset', '100%')
-      .attr('stop-color', '#3b82f6')
-      .attr('stop-opacity', 0.8)
-    
-    nodes.forEach(node => {
-      const gradient = defs.append('radialGradient')
+
+    currentUserGradient.append('stop').attr('offset', '0%').attr('stop-color', '#ffffff').attr('stop-opacity', 0.3)
+
+    currentUserGradient.append('stop').attr('offset', '100%').attr('stop-color', '#3b82f6').attr('stop-opacity', 0.8)
+
+    nodes.forEach((node) => {
+      const gradient = defs
+        .append('radialGradient')
         .attr('id', `gradient-${node.id}`)
         .attr('cx', '30%')
         .attr('cy', '30%')
         .attr('r', '70%')
-      
-      gradient.append('stop')
-        .attr('offset', '0%')
-        .attr('stop-color', '#ffffff')
-        .attr('stop-opacity', 0.3)
-      
-      gradient.append('stop')
+
+      gradient.append('stop').attr('offset', '0%').attr('stop-color', '#ffffff').attr('stop-opacity', 0.3)
+
+      gradient
+        .append('stop')
         .attr('offset', '100%')
         .attr('stop-color', colorScale(node.layer))
         .attr('stop-opacity', 0.8)
@@ -265,12 +257,13 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
 
     // Add current user's avatar to center
     const currentUserGroup = svg.append('g').attr('class', 'current-user')
-    
+
     // User avatar size - adaptive to core circle radius, maintaining proportional coordination
     const userAvatarSize = Math.max(coreRadius * 0.45, 35) // Based on 45% of core circle radius, minimum 35px
-    
+
     // User avatar shadow
-    currentUserGroup.append('circle')
+    currentUserGroup
+      .append('circle')
       .attr('cx', centerX + 1)
       .attr('cy', centerY + 1)
       .attr('r', userAvatarSize)
@@ -278,14 +271,16 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
       .attr('opacity', 0.15)
 
     // User avatar background circle
-    currentUserGroup.append('circle')
+    currentUserGroup
+      .append('circle')
       .attr('cx', centerX)
       .attr('cy', centerY)
       .attr('r', userAvatarSize + 2)
       .attr('fill', 'url(#current-user-gradient)')
 
     // User avatar image clip path
-    defs.append('clipPath')
+    defs
+      .append('clipPath')
       .attr('id', 'current-user-clip')
       .append('circle')
       .attr('cx', centerX)
@@ -293,7 +288,8 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
       .attr('r', userAvatarSize - 2)
 
     // User avatar image
-    currentUserGroup.append('image')
+    currentUserGroup
+      .append('image')
       .attr('href', data.currentUser.avatar)
       .attr('x', centerX - userAvatarSize + 2)
       .attr('y', centerY - userAvatarSize + 2)
@@ -302,47 +298,51 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
       .attr('clip-path', 'url(#current-user-clip)')
 
     // Draw nodes (using pre-calculated positions)
-    const nodeElements = nodeGroup.selectAll('.node')
+    const nodeElements = nodeGroup
+      .selectAll('.node')
       .data(nodes)
       .enter()
       .append('g')
       .attr('class', 'node')
-      .attr('transform', d => `translate(${d.x}, ${d.y})`)
+      .attr('transform', (d) => `translate(${d.x}, ${d.y})`)
       .style('cursor', 'pointer')
 
     // Node shadow
-    nodeElements.append('circle')
-      .attr('r', d => getNodeSize(d.layer))
+    nodeElements
+      .append('circle')
+      .attr('r', (d) => getNodeSize(d.layer))
       .attr('fill', '#000000')
       .attr('opacity', 0.15)
       .attr('transform', 'translate(1, 1)')
 
     // Node body
-    nodeElements.append('circle')
-      .attr('r', d => getNodeSize(d.layer))
-      .attr('fill', d => `url(#gradient-${d.id})`)
+    nodeElements
+      .append('circle')
+      .attr('r', (d) => getNodeSize(d.layer))
+      .attr('fill', (d) => `url(#gradient-${d.id})`)
 
     // Avatar images
-    nodeElements.append('clipPath')
-      .attr('id', d => `clip-${d.id}`)
+    nodeElements
+      .append('clipPath')
+      .attr('id', (d) => `clip-${d.id}`)
       .append('circle')
-      .attr('r', d => getNodeSize(d.layer) - 2)
+      .attr('r', (d) => getNodeSize(d.layer) - 2)
 
-    nodeElements.append('image')
-      .attr('href', d => d.avatar)
-      .attr('x', d => -getNodeSize(d.layer) + 2)
-      .attr('y', d => -getNodeSize(d.layer) + 2)
-      .attr('width', d => (getNodeSize(d.layer) - 2) * 2)
-      .attr('height', d => (getNodeSize(d.layer) - 2) * 2)
-      .attr('clip-path', d => `url(#clip-${d.id})`)
-
-
+    nodeElements
+      .append('image')
+      .attr('href', (d) => d.avatar)
+      .attr('x', (d) => -getNodeSize(d.layer) + 2)
+      .attr('y', (d) => -getNodeSize(d.layer) + 2)
+      .attr('width', (d) => (getNodeSize(d.layer) - 2) * 2)
+      .attr('height', (d) => (getNodeSize(d.layer) - 2) * 2)
+      .attr('clip-path', (d) => `url(#clip-${d.id})`)
 
     // Add hover interactions
     nodeElements
-      .on('mouseover', function(event, d) {
+      .on('mouseover', function (event, d) {
         // Highlight effect
-        d3.select(this).select('circle')
+        d3.select(this)
+          .select('circle')
           .transition()
           .duration(200)
           .attr('filter', 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.5))')
@@ -355,18 +355,14 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
           visible: true,
           x: svgRect.left + mouseX + 10,
           y: svgRect.top + mouseY - 10,
-          content: `@${d.username}\nReplies: ${d.interactions.replies} | Likes: ${d.interactions.likes}`
+          content: `@${d.username}\nReplies: ${d.interactions.replies} | Likes: ${d.interactions.likes}`,
         })
       })
-      .on('mouseout', function() {
+      .on('mouseout', function () {
         // Remove highlight
-        d3.select(this).select('circle')
-          .transition()
-          .duration(200)
-          .attr('filter', null)
-          .attr('transform', 'scale(1)')
+        d3.select(this).select('circle').transition().duration(200).attr('filter', null).attr('transform', 'scale(1)')
 
-        setTooltip(prev => ({ ...prev, visible: false }))
+        setTooltip((prev) => ({ ...prev, visible: false }))
       })
       .on('click', (_, d) => {
         window.open(`https://twitter.com/${d.username}`, '_blank')
@@ -381,7 +377,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
         height={height}
         className="border border-gray-200 rounded-lg bg-gradient-to-br from-slate-50 to-blue-50"
       />
-      
+
       {/* Tooltip */}
       {tooltip.visible && (
         <div
@@ -389,7 +385,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({
           style={{
             left: tooltip.x,
             top: tooltip.y,
-            transform: 'translate(-50%, -100%)'
+            transform: 'translate(-50%, -100%)',
           }}
         >
           {tooltip.content}

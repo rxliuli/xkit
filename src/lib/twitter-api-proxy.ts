@@ -3,22 +3,13 @@
  * Communicate with Twitter API through browser extension
  */
 
-import {
-  TwitterTweet,
-  TwitterLike,
-  TwitterUser,
-  convertTweet,
-} from './twitter-adapter'
+import { TwitterTweet, TwitterLike, TwitterUser, convertTweet } from './twitter-adapter'
 
 /**
  * Process avatar URL, remove _normal suffix to get higher quality images
  */
 function processAvatarUrl(url: string): string {
-  if (
-    url.endsWith('_normal.jpg') ||
-    url.endsWith('_normal.jpeg') ||
-    url.endsWith('_normal.png')
-  ) {
+  if (url.endsWith('_normal.jpg') || url.endsWith('_normal.jpeg') || url.endsWith('_normal.png')) {
     return url.replace(/_normal\.(jpg|jpeg|png)$/, '.$1')
   }
   return url
@@ -34,8 +25,7 @@ export class TwitterAPIProxy {
       if (typeof window === 'undefined') return false
 
       // 1. Check if extension is installed (check dataset.twitterWebAPI)
-      const hasExtensionMarker =
-        document.documentElement.dataset.twitterWebAPI === 'true'
+      const hasExtensionMarker = document.documentElement.dataset.twitterWebAPI === 'true'
       if (!hasExtensionMarker) {
         console.warn('Twitter Web API Extension Not Installed')
         return false
@@ -67,9 +57,7 @@ export class TwitterAPIProxy {
     }
 
     try {
-      const user = await window.__TWITTER_WEB_API__.getUserByScreenName(
-        username,
-      )
+      const user = await window.__TWITTER_WEB_API__.getUserByScreenName(username)
       if (!user) {
         throw new Error(`User @${username} does not exist`)
       }
@@ -83,9 +71,7 @@ export class TwitterAPIProxy {
       }
     } catch (error) {
       console.error('Failed to get user information:', error)
-      throw new Error(
-        `Failed to get user @${username} information, please try again`,
-      )
+      throw new Error(`Failed to get user @${username} information, please try again`)
     }
   }
 
@@ -107,9 +93,7 @@ export class TwitterAPIProxy {
 
     try {
       // First get user information
-      const user = await window.__TWITTER_WEB_API__.getUserByScreenName(
-        username,
-      )
+      const user = await window.__TWITTER_WEB_API__.getUserByScreenName(username)
       if (!user) {
         throw new Error(`User @${username} does not exist`)
       }
@@ -119,12 +103,11 @@ export class TwitterAPIProxy {
       let hasMore = true
 
       while (hasMore && allReplies.length < count) {
-        const response =
-          await window.__TWITTER_WEB_API__.getUserTweetsAndReplies({
-            userId: user.rest_id,
-            cursor,
-            count: Math.min(100, count - allReplies.length), // Get up to 100 at a time
-          })
+        const response = await window.__TWITTER_WEB_API__.getUserTweetsAndReplies({
+          userId: user.rest_id,
+          cursor,
+          count: Math.min(100, count - allReplies.length), // Get up to 100 at a time
+        })
 
         // Convert tweet data and filter out replies
         const convertedTweets = response.data
@@ -166,9 +149,7 @@ export class TwitterAPIProxy {
 
     try {
       // First get user information
-      const user = await window.__TWITTER_WEB_API__.getUserByScreenName(
-        username,
-      )
+      const user = await window.__TWITTER_WEB_API__.getUserByScreenName(username)
       if (!user) {
         throw new Error(`User @${username} does not exist`)
       }

@@ -10,11 +10,7 @@ interface Options {
   onChange?: (width: number, height: number) => void // Callback function to execute on window resize (optional)
 }
 
-export const useWindowSize = ({
-  initialWidth = Infinity,
-  initialHeight = Infinity,
-  onChange,
-}: Options = {}) => {
+export const useWindowSize = ({ initialWidth = Infinity, initialHeight = Infinity, onChange }: Options = {}) => {
   // Use the useRafState hook to maintain the current window size (width and height)
   const [state, setState] = useRafState<{ width: number; height: number }>({
     width: isBrowser ? window.innerWidth : initialWidth,

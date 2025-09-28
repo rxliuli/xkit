@@ -12,7 +12,7 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
   // Divide users into three layers
   const sortedUsers = [...data.users].sort((a, b) => b.weight - a.weight)
   const totalUsers = sortedUsers.length
-  
+
   // Core circle (top 20%)
   const coreUsers = sortedUsers.slice(0, Math.ceil(totalUsers * 0.2))
   // Inner circle (21%-60%)
@@ -30,7 +30,7 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
         backgroundColor: '#ffffff',
         scale: 2, // High resolution
         width: 800,
-        height: 800
+        height: 800,
       })
 
       // Create download link
@@ -46,13 +46,13 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
     }
   }
 
-  const UserAvatar: React.FC<{ 
-    user: typeof sortedUsers[0]
+  const UserAvatar: React.FC<{
+    user: (typeof sortedUsers)[0]
     size: number
     className?: string
     style?: React.CSSProperties
   }> = ({ user, size, className = '', style }) => (
-    <div 
+    <div
       className={`relative group cursor-pointer ${className}`}
       style={style}
       title={`@${user.user.username} - Weight: ${Math.round(user.weight)}`}
@@ -67,7 +67,11 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
       {user.user.verified && (
         <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
           <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
           </svg>
         </div>
       )}
@@ -75,7 +79,9 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
       <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
         <div className="font-bold">@{user.user.username}</div>
         <div>Weight: {Math.round(user.weight)}</div>
-        <div>Replies: {user.interactions.replies} | Likes: {user.interactions.likes}</div>
+        <div>
+          Replies: {user.interactions.replies} | Likes: {user.interactions.likes}
+        </div>
       </div>
     </div>
   )
@@ -89,14 +95,19 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
           </svg>
           Export Image
         </button>
       </div>
 
       {/* Interaction circle */}
-      <div 
+      <div
         ref={circleRef}
         className="relative bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-8"
         style={{ width: 800, height: 800 }}
@@ -104,14 +115,18 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
         {/* Title */}
         <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">My Twitter Interaction Circle</h2>
-          <p className="text-sm text-gray-600">Based on analysis of recent {data.totalReplies} replies and {data.totalLikes} likes</p>
+          <p className="text-sm text-gray-600">
+            Based on analysis of recent {data.totalReplies} replies and {data.totalLikes} likes
+          </p>
         </div>
 
         {/* Three-layer circles */}
         <div className="absolute inset-8 flex items-center justify-center">
           {/* Outer circle - light blue */}
-          <div className="absolute rounded-full border-2 border-blue-200 bg-blue-50/30" 
-               style={{ width: 650, height: 650 }}>
+          <div
+            className="absolute rounded-full border-2 border-blue-200 bg-blue-50/30"
+            style={{ width: 650, height: 650 }}
+          >
             <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
               <span className="text-xs font-medium text-blue-600 bg-white px-2 py-1 rounded">
                 Outer Circle ({outerUsers.length} users)
@@ -120,8 +135,10 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
           </div>
 
           {/* Inner circle - medium blue */}
-          <div className="absolute rounded-full border-2 border-blue-300 bg-blue-100/50" 
-               style={{ width: 450, height: 450 }}>
+          <div
+            className="absolute rounded-full border-2 border-blue-300 bg-blue-100/50"
+            style={{ width: 450, height: 450 }}
+          >
             <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
               <span className="text-xs font-medium text-blue-700 bg-white px-2 py-1 rounded">
                 Inner Circle ({innerUsers.length} users)
@@ -130,8 +147,10 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
           </div>
 
           {/* Core circle - dark blue */}
-          <div className="absolute rounded-full border-2 border-blue-500 bg-blue-200/60" 
-               style={{ width: 250, height: 250 }}>
+          <div
+            className="absolute rounded-full border-2 border-blue-500 bg-blue-200/60"
+            style={{ width: 250, height: 250 }}
+          >
             <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
               <span className="text-xs font-medium text-blue-800 bg-white px-2 py-1 rounded">
                 Core Circle ({coreUsers.length} users)

@@ -1,9 +1,4 @@
-import {
-  HeadContent,
-  Scripts,
-  createRootRouteWithContext,
-  Outlet,
-} from '@tanstack/react-router'
+import { HeadContent, Scripts, createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanstackDevtools } from '@tanstack/react-devtools'
 
@@ -34,11 +29,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         name: 'description',
-        content: 'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles, analyze user engagement, and visualize your social media presence.',
+        content:
+          'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles, analyze user engagement, and visualize your social media presence.',
       },
       {
         name: 'keywords',
-        content: 'social media analysis, twitter tools, interaction circle, data visualization, network analysis, twitter analytics, social media insights, user engagement analysis',
+        content:
+          'social media analysis, twitter tools, interaction circle, data visualization, network analysis, twitter analytics, social media insights, user engagement analysis',
       },
       {
         name: 'author',
@@ -55,7 +52,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         property: 'og:description',
-        content: 'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles and analyze user engagement.',
+        content:
+          'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles and analyze user engagement.',
       },
       {
         property: 'og:type',
@@ -96,7 +94,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         name: 'twitter:description',
-        content: 'A powerful suite of social media analysis tools. Create Twitter interaction circles and analyze your social media network data.',
+        content:
+          'A powerful suite of social media analysis tools. Create Twitter interaction circles and analyze your social media network data.',
       },
       {
         name: 'twitter:image',
@@ -189,7 +188,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
               name: 'XKit Tools',
-              description: 'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles, analyze user engagement, and visualize your social media presence.',
+              description:
+                'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles, analyze user engagement, and visualize your social media presence.',
               url: 'https://xkit.rxliuli.com',
               applicationCategory: 'BusinessApplication',
               operatingSystem: 'Web Browser',

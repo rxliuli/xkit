@@ -15,11 +15,7 @@ interface NodeData extends d3.SimulationNodeDatum {
   color: string
 }
 
-const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
-  data,
-  width = 800,
-  height = 600
-}) => {
+const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({ data, width = 800, height = 600 }) => {
   const svgRef = useRef<SVGSVGElement>(null)
   const [selectedNode, setSelectedNode] = useState<NodeData | null>(null)
   const [tooltip, setTooltip] = useState<{
@@ -31,7 +27,7 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
     visible: false,
     x: 0,
     y: 0,
-    content: ''
+    content: '',
   })
 
   useEffect(() => {
@@ -41,9 +37,9 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
     svg.selectAll('*').remove() // 清除之前的内容
 
     // 创建节点数据
-    const nodes: NodeData[] = data.users.map(user => {
+    const nodes: NodeData[] = data.users.map((user) => {
       // 根据权重计算节点半径
-      const maxWeight = Math.max(...data.users.map(u => u.weight))
+      const maxWeight = Math.max(...data.users.map((u) => u.weight))
       const minRadius = 20
       const maxRadius = 60
       const radius = minRadius + (user.weight / maxWeight) * (maxRadius - minRadius)
@@ -64,15 +60,19 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
         radius,
         color,
         x: Math.random() * width,
-        y: Math.random() * height
+        y: Math.random() * height,
       }
     })
 
     // 创建力导向模拟
-    const simulation = d3.forceSimulation(nodes)
+    const simulation = d3
+      .forceSimulation(nodes)
       .force('charge', d3.forceManyBody().strength(-300))
       .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('collision', d3.forceCollide().radius(d => (d as NodeData).radius + 5))
+      .force(
+        'collision',
+        d3.forceCollide().radius((d) => (d as NodeData).radius + 5),
+      )
       .force('x', d3.forceX(width / 2).strength(0.1))
       .force('y', d3.forceY(height / 2).strength(0.1))
 
@@ -80,7 +80,8 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
     const container = svg.append('g')
 
     // 添加缩放功能
-    const zoom = d3.zoom<SVGSVGElement, unknown>()
+    const zoom = d3
+      .zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.5, 3])
       .on('zoom', (event) => {
         container.attr('transform', event.transform)
@@ -90,26 +91,26 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
 
     // 创建渐变定义
     const defs = svg.append('defs')
-    nodes.forEach(node => {
-      const gradient = defs.append('radialGradient')
+    nodes.forEach((node) => {
+      const gradient = defs
+        .append('radialGradient')
         .attr('id', `gradient-${node.id}`)
         .attr('cx', '30%')
         .attr('cy', '30%')
         .attr('r', '70%')
 
-      gradient.append('stop')
+      gradient
+        .append('stop')
         .attr('offset', '0%')
         .attr('stop-color', d3.color(node.color)!.brighter(0.5).toString())
         .attr('stop-opacity', 0.8)
 
-      gradient.append('stop')
-        .attr('offset', '100%')
-        .attr('stop-color', node.color)
-        .attr('stop-opacity', 1)
+      gradient.append('stop').attr('offset', '100%').attr('stop-color', node.color).attr('stop-opacity', 1)
     })
 
     // 创建节点组
-    const nodeGroups = container.selectAll('.node-group')
+    const nodeGroups = container
+      .selectAll('.node-group')
       .data(nodes)
       .enter()
       .append('g')
@@ -117,60 +118,62 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
       .style('cursor', 'pointer')
 
     // 添加外圈（选中状态）
-    nodeGroups.append('circle')
+    nodeGroups
+      .append('circle')
       .attr('class', 'selection-ring')
-      .attr('r', d => d.radius + 3)
+      .attr('r', (d) => d.radius + 3)
       .attr('fill', 'none')
       .attr('stroke', '#3B82F6')
       .attr('stroke-width', 3)
       .attr('opacity', 0)
 
     // 添加主圆圈
-    nodeGroups.append('circle')
+    nodeGroups
+      .append('circle')
       .attr('class', 'main-circle')
-      .attr('r', d => d.radius)
-      .attr('fill', d => `url(#gradient-${d.id})`)
+      .attr('r', (d) => d.radius)
+      .attr('fill', (d) => `url(#gradient-${d.id})`)
       .attr('stroke', '#ffffff')
       .attr('stroke-width', 2)
 
     // 添加头像（如果有的话）
-    nodeGroups.append('image')
+    nodeGroups
+      .append('image')
       .attr('class', 'avatar')
-      .attr('href', d => d.user.user.avatar)
-      .attr('x', d => -d.radius * 0.7)
-      .attr('y', d => -d.radius * 0.7)
-      .attr('width', d => d.radius * 1.4)
-      .attr('height', d => d.radius * 1.4)
-      .attr('clip-path', d => `circle(${d.radius * 0.7}px at center)`)
+      .attr('href', (d) => d.user.user.avatar)
+      .attr('x', (d) => -d.radius * 0.7)
+      .attr('y', (d) => -d.radius * 0.7)
+      .attr('width', (d) => d.radius * 1.4)
+      .attr('height', (d) => d.radius * 1.4)
+      .attr('clip-path', (d) => `circle(${d.radius * 0.7}px at center)`)
       .style('opacity', 0.9)
 
     // 添加用户名标签
-    nodeGroups.append('text')
+    nodeGroups
+      .append('text')
       .attr('class', 'username-label')
       .attr('text-anchor', 'middle')
-      .attr('dy', d => d.radius + 15)
+      .attr('dy', (d) => d.radius + 15)
       .attr('font-size', '12px')
       .attr('font-weight', 'bold')
       .attr('fill', '#374151')
-      .text(d => `@${d.user.user.username}`)
+      .text((d) => `@${d.user.user.username}`)
 
     // 添加权重标签
-    nodeGroups.append('text')
+    nodeGroups
+      .append('text')
       .attr('class', 'weight-label')
       .attr('text-anchor', 'middle')
-      .attr('dy', d => d.radius + 30)
+      .attr('dy', (d) => d.radius + 30)
       .attr('font-size', '10px')
       .attr('fill', '#6B7280')
-      .text(d => `权重: ${Math.round(d.user.weight)}`)
+      .text((d) => `权重: ${Math.round(d.user.weight)}`)
 
     // 添加交互事件
     nodeGroups
-      .on('mouseover', function(event, d) {
+      .on('mouseover', function (event, d) {
         // 显示选中状态
-        d3.select(this).select('.selection-ring')
-          .transition()
-          .duration(200)
-          .attr('opacity', 1)
+        d3.select(this).select('.selection-ring').transition().duration(200).attr('opacity', 1)
 
         // 显示提示框
         const content = `
@@ -183,42 +186,40 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
             <div class="font-semibold mt-1">权重: ${Math.round(d.user.weight)}</div>
           </div>
         `
-        
+
         setTooltip({
           visible: true,
           x: event.pageX + 10,
           y: event.pageY - 10,
-          content
+          content,
         })
       })
-      .on('mouseout', function() {
+      .on('mouseout', function () {
         // 隐藏选中状态
-        d3.select(this).select('.selection-ring')
-          .transition()
-          .duration(200)
-          .attr('opacity', 0)
+        d3.select(this).select('.selection-ring').transition().duration(200).attr('opacity', 0)
 
         // 隐藏提示框
-        setTooltip(prev => ({ ...prev, visible: false }))
+        setTooltip((prev) => ({ ...prev, visible: false }))
       })
-      .on('click', function(_event, d) {
+      .on('click', function (_event, d) {
         setSelectedNode(d)
         // 可以在这里添加更多点击逻辑，比如跳转到Twitter页面
         window.open(`https://twitter.com/${d.user.user.username}`, '_blank')
       })
 
     // 添加拖拽功能
-    const drag = d3.drag<SVGGElement, NodeData>()
-      .on('start', function(event, d) {
+    const drag = d3
+      .drag<SVGGElement, NodeData>()
+      .on('start', function (event, d) {
         if (!event.active) simulation.alphaTarget(0.3).restart()
         d.fx = d.x
         d.fy = d.y
       })
-      .on('drag', function(event, d) {
+      .on('drag', function (event, d) {
         d.fx = event.x
         d.fy = event.y
       })
-      .on('end', function(event, d) {
+      .on('end', function (event, d) {
         if (!event.active) simulation.alphaTarget(0)
         d.fx = null
         d.fy = null
@@ -228,40 +229,41 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
 
     // 更新节点位置
     simulation.on('tick', () => {
-      nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`)
+      nodeGroups.attr('transform', (d) => `translate(${d.x},${d.y})`)
     })
 
     // 添加图例
-    const legend = svg.append('g')
-      .attr('class', 'legend')
-      .attr('transform', `translate(20, 20)`)
+    const legend = svg.append('g').attr('class', 'legend').attr('transform', `translate(20, 20)`)
 
     const legendData = [
       { color: '#EF4444', text: '回复较多' },
       { color: '#10B981', text: '有转发' },
       { color: '#F59E0B', text: '点赞较多' },
-      { color: '#3B82F6', text: '普通互动' }
+      { color: '#3B82F6', text: '普通互动' },
     ]
 
-    const legendItems = legend.selectAll('.legend-item')
+    const legendItems = legend
+      .selectAll('.legend-item')
       .data(legendData)
       .enter()
       .append('g')
       .attr('class', 'legend-item')
       .attr('transform', (_d, i) => `translate(0, ${i * 25})`)
 
-    legendItems.append('circle')
+    legendItems
+      .append('circle')
       .attr('r', 8)
-      .attr('fill', d => d.color)
+      .attr('fill', (d) => d.color)
       .attr('stroke', '#ffffff')
       .attr('stroke-width', 1)
 
-    legendItems.append('text')
+    legendItems
+      .append('text')
       .attr('x', 20)
       .attr('y', 4)
       .attr('font-size', '12px')
       .attr('fill', '#374151')
-      .text(d => d.text)
+      .text((d) => d.text)
 
     // 清理函数
     return () => {
@@ -271,20 +273,15 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
 
   return (
     <div className="relative">
-      <svg
-        ref={svgRef}
-        width={width}
-        height={height}
-        className="border border-gray-200 rounded-lg bg-white"
-      />
-      
+      <svg ref={svgRef} width={width} height={height} className="border border-gray-200 rounded-lg bg-white" />
+
       {/* 自定义提示框 */}
       {tooltip.visible && (
         <div
           className="absolute z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-3 pointer-events-none"
           style={{
             left: tooltip.x,
-            top: tooltip.y
+            top: tooltip.y,
           }}
           dangerouslySetInnerHTML={{ __html: tooltip.content }}
         />
@@ -297,18 +294,17 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
           <button
             onClick={() => {
               const svg = d3.select(svgRef.current!)
-              svg.transition().duration(750).call(
-                d3.zoom<SVGSVGElement, unknown>().transform,
-                d3.zoomIdentity
-              )
+              svg.transition().duration(750).call(d3.zoom<SVGSVGElement, unknown>().transform, d3.zoomIdentity)
             }}
             className="block w-full text-left px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
           >
             重置视图
           </button>
           <div className="text-xs text-gray-500">
-            拖拽: 移动节点<br/>
-            滚轮: 缩放视图<br/>
+            拖拽: 移动节点
+            <br />
+            滚轮: 缩放视图
+            <br />
             点击: 访问Twitter
           </div>
         </div>
@@ -334,10 +330,7 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({
             <div>点赞: {selectedNode.user.interactions.likes}</div>
             <div className="font-semibold">权重: {Math.round(selectedNode.user.weight)}</div>
           </div>
-          <button
-            onClick={() => setSelectedNode(null)}
-            className="mt-3 text-xs text-gray-400 hover:text-gray-600"
-          >
+          <button onClick={() => setSelectedNode(null)} className="mt-3 text-xs text-gray-400 hover:text-gray-600">
             关闭
           </button>
         </div>

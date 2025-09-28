@@ -52,7 +52,7 @@ export function convertUser(user: User): TwitterUser {
     username: user.core.screen_name,
     displayName: user.core.name,
     avatar: processAvatarUrl(user.avatar.image_url),
-    verified: user.verification.verified || user.is_blue_verified
+    verified: user.verification.verified || user.is_blue_verified,
   }
 }
 
@@ -62,7 +62,7 @@ export function convertUser(user: User): TwitterUser {
 export function convertTweet(tweet: Tweet): TwitterTweet {
   const legacy = tweet.legacy
   const user = tweet.core?.user_results?.result
-  
+
   if (!legacy || !user || user.__typename !== 'User') {
     throw new Error('Invalid tweet data')
   }
@@ -72,12 +72,16 @@ export function convertTweet(tweet: Tweet): TwitterTweet {
     text: legacy.full_text || '',
     author: convertUser(user),
     createdAt: legacy.created_at || new Date().toISOString(),
-    type: legacy.in_reply_to_status_id_str ? 'reply' : 
-          legacy.is_quote_status ? 'quote' :
-          legacy.retweeted_status_result ? 'retweet' : 'original',
+    type: legacy.in_reply_to_status_id_str
+      ? 'reply'
+      : legacy.is_quote_status
+        ? 'quote'
+        : legacy.retweeted_status_result
+          ? 'retweet'
+          : 'original',
     replyTo: legacy.in_reply_to_status_id_str || undefined,
     likeCount: legacy.favorite_count || 0,
     retweetCount: legacy.retweet_count || 0,
-    replyCount: legacy.reply_count || 0
+    replyCount: legacy.reply_count || 0,
   }
 }

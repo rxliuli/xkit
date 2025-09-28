@@ -61,7 +61,7 @@ export class InteractionCalculator {
     quote: 2.5,
     retweet: 1.5,
     like: 0.5,
-    timeDecayFactor: 0.1 // 10% decay per day
+    timeDecayFactor: 0.1, // 10% decay per day
   }
 
   constructor(config?: Partial<WeightConfig>) {
@@ -77,10 +77,10 @@ export class InteractionCalculator {
     const userMap = new Map<string, UserInteraction>()
 
     // Process reply data
-    replies.forEach(tweet => {
+    replies.forEach((tweet) => {
       const userId = tweet.author.id
       const user = this.getOrCreateUserInteraction(userMap, userId, tweet.author)
-      
+
       // Increase corresponding interaction count based on type
       if (tweet.type === 'reply') {
         user.interactions.replies++
@@ -94,7 +94,7 @@ export class InteractionCalculator {
       user.interactionHistory.push({
         type: tweet.type as 'reply' | 'quote' | 'retweet',
         timestamp: tweet.createdAt,
-        tweetId: tweet.id
+        tweetId: tweet.id,
       })
 
       // Update last interaction time
@@ -104,17 +104,17 @@ export class InteractionCalculator {
     })
 
     // Process like data
-    likes.forEach(like => {
+    likes.forEach((like) => {
       const userId = like.tweet.author.id
       const user = this.getOrCreateUserInteraction(userMap, userId, like.tweet.author)
-      
+
       user.interactions.likes++
-      
+
       // Add interaction history
       user.interactionHistory.push({
         type: 'like',
         timestamp: like.likedAt,
-        tweetId: like.tweet.id
+        tweetId: like.tweet.id,
       })
 
       // Update last interaction time
@@ -132,7 +132,7 @@ export class InteractionCalculator {
   private getOrCreateUserInteraction(
     userMap: Map<string, UserInteraction>,
     userId: string,
-    user: TwitterUser
+    user: TwitterUser,
   ): UserInteraction {
     if (!userMap.has(userId)) {
       userMap.set(userId, {
@@ -141,11 +141,11 @@ export class InteractionCalculator {
           replies: 0,
           quotes: 0,
           retweets: 0,
-          likes: 0
+          likes: 0,
         },
         weight: 0,
         lastInteraction: '1970-01-01T00:00:00.000Z',
-        interactionHistory: []
+        interactionHistory: [],
       })
     }
     return userMap.get(userId)!
@@ -156,10 +156,10 @@ export class InteractionCalculator {
    */
   calculateWeights(userInteractions: Map<string, UserInteraction>): Map<string, UserInteraction> {
     const now = Date.now()
-    
+
     userInteractions.forEach((interaction, userId) => {
       let totalWeight = 0
-      
+
       // Basic weight calculation
       totalWeight += interaction.interactions.replies * this.config.reply
       totalWeight += interaction.interactions.quotes * this.config.quote
@@ -169,7 +169,7 @@ export class InteractionCalculator {
       // Time decay calculation
       const daysSinceLastInteraction = (now - new Date(interaction.lastInteraction).getTime()) / (1000 * 60 * 60 * 24)
       const timeDecay = Math.exp(-this.config.timeDecayFactor * daysSinceLastInteraction)
-      
+
       interaction.weight = totalWeight * timeDecay
       userInteractions.set(userId, interaction)
     })
@@ -183,31 +183,31 @@ export class InteractionCalculator {
   generateCircleData(
     userInteractions: Map<string, UserInteraction>,
     currentUser: TwitterUser,
-    limit: number = 50
+    limit: number = 50,
   ): CircleData {
     // Sort by weight and take the top N users, excluding current user
     const sortedUsers = Array.from(userInteractions.values())
-      .filter(user => user.weight > 0) // Filter out users with zero weight
-      .filter(user => user.user.id !== currentUser.id) // Exclude current user
+      .filter((user) => user.weight > 0) // Filter out users with zero weight
+      .filter((user) => user.user.id !== currentUser.id) // Exclude current user
       .sort((a, b) => b.weight - a.weight)
       .slice(0, limit)
 
     // Calculate statistics
     const totalReplies = sortedUsers.reduce((sum, user) => sum + user.interactions.replies, 0)
     const totalLikes = sortedUsers.reduce((sum, user) => sum + user.interactions.likes, 0)
-    
+
     // Find time range
-    const allTimestamps = sortedUsers.flatMap(user => 
-      user.interactionHistory.map(event => event.timestamp)
-    )
-    
-    const startTime = allTimestamps.length > 0 
-      ? new Date(Math.min(...allTimestamps.map(t => new Date(t).getTime()))).toISOString()
-      : new Date().toISOString()
-    
-    const endTime = allTimestamps.length > 0
-      ? new Date(Math.max(...allTimestamps.map(t => new Date(t).getTime()))).toISOString()
-      : new Date().toISOString()
+    const allTimestamps = sortedUsers.flatMap((user) => user.interactionHistory.map((event) => event.timestamp))
+
+    const startTime =
+      allTimestamps.length > 0
+        ? new Date(Math.min(...allTimestamps.map((t) => new Date(t).getTime()))).toISOString()
+        : new Date().toISOString()
+
+    const endTime =
+      allTimestamps.length > 0
+        ? new Date(Math.max(...allTimestamps.map((t) => new Date(t).getTime()))).toISOString()
+        : new Date().toISOString()
 
     return {
       users: sortedUsers,
@@ -218,8 +218,8 @@ export class InteractionCalculator {
       analysisDate: new Date().toLocaleDateString('en-US'),
       timeRange: {
         start: startTime,
-        end: endTime
-      }
+        end: endTime,
+      },
     }
   }
 
@@ -247,12 +247,12 @@ export class InteractionCalculator {
     const dailyMap = new Map<string, number>()
     const typeMap = new Map<string, number>()
 
-    userInteractions.forEach(user => {
-      user.interactionHistory.forEach(event => {
+    userInteractions.forEach((user) => {
+      user.interactionHistory.forEach((event) => {
         // Statistics by date
         const date = event.timestamp.split('T')[0]
         dailyMap.set(date, (dailyMap.get(date) || 0) + 1)
-        
+
         // Statistics by type
         typeMap.set(event.type, (typeMap.get(event.type) || 0) + 1)
       })
@@ -264,14 +264,14 @@ export class InteractionCalculator {
       dailyInteractions: Array.from(dailyMap.entries())
         .map(([date, count]) => ({ date, count }))
         .sort((a, b) => a.date.localeCompare(b.date)),
-      
+
       topInteractionTypes: Array.from(typeMap.entries())
         .map(([type, count]) => ({
           type,
           count,
-          percentage: Math.round((count / totalInteractions) * 100)
+          percentage: Math.round((count / totalInteractions) * 100),
         }))
-        .sort((a, b) => b.count - a.count)
+        .sort((a, b) => b.count - a.count),
     }
   }
 }
