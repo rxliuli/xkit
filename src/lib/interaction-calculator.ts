@@ -7,6 +7,8 @@ export interface UserInteraction {
   user: TwitterUser
   interactions: {
     replies: number
+    incomingReplies: number
+    outgoingReplies: number
     quotes: number
     retweets: number
     likes: number
@@ -21,6 +23,7 @@ export interface UserInteraction {
  */
 export interface InteractionEvent {
   type: 'reply' | 'quote' | 'retweet' | 'like'
+  direction: 'incoming' | 'outgoing'
   timestamp: string
   tweetId: string
 }
@@ -34,6 +37,8 @@ export interface CircleData {
   totalUsers: number
   totalReplies: number
   totalLikes: number
+  totalIncomingReplies: number
+  totalOutgoingReplies: number
   analysisDate: string
   timeRange: {
     start: string
@@ -73,57 +78,112 @@ export class InteractionCalculator {
   /**
    * Parse interaction data
    */
-  parseInteractions(replies: TwitterTweet[], likes: TwitterLike[]): Map<string, UserInteraction> {
+  parseInteractions(
+    replies: TwitterTweet[],
+    likes: TwitterLike[],
+    currentUser: TwitterUser,
+  ): Map<string, UserInteraction> {
     const userMap = new Map<string, UserInteraction>()
 
-    // Process reply data
-    replies.forEach((tweet) => {
-      const userId = tweet.author.id
-      const user = this.getOrCreateUserInteraction(userMap, userId, tweet.author)
+    for (const tweet of replies) {
+      const { author, type, replyTo, createdAt, id } = tweet
+      switch (type) {
+        case 'reply':
+          if (author.id === currentUser.id) {
+            if (!replyTo) {
+              continue
+            }
 
-      // Increase corresponding interaction count based on type
-      if (tweet.type === 'reply') {
-        user.interactions.replies++
-      } else if (tweet.type === 'quote') {
-        user.interactions.quotes++
-      } else if (tweet.type === 'retweet') {
-        user.interactions.retweets++
+            this.recordInteraction(userMap, replyTo, currentUser, {
+              type: 'reply',
+              direction: 'outgoing',
+              timestamp: createdAt,
+              tweetId: id,
+            })
+            continue
+          }
+
+          if (replyTo && replyTo.id === currentUser.id) {
+            this.recordInteraction(userMap, author, currentUser, {
+              type: 'reply',
+              direction: 'incoming',
+              timestamp: createdAt,
+              tweetId: id,
+            })
+          }
+          break
+        case 'quote':
+        case 'retweet':
+          this.recordInteraction(userMap, author, currentUser, {
+            type,
+            direction: 'incoming',
+            timestamp: createdAt,
+            tweetId: id,
+          })
+          break
+        default:
+          break
       }
+    }
 
-      // Add interaction history
-      user.interactionHistory.push({
-        type: tweet.type as 'reply' | 'quote' | 'retweet',
-        timestamp: tweet.createdAt,
-        tweetId: tweet.id,
-      })
-
-      // Update last interaction time
-      if (new Date(tweet.createdAt) > new Date(user.lastInteraction)) {
-        user.lastInteraction = tweet.createdAt
-      }
-    })
-
-    // Process like data
-    likes.forEach((like) => {
-      const userId = like.tweet.author.id
-      const user = this.getOrCreateUserInteraction(userMap, userId, like.tweet.author)
-
-      user.interactions.likes++
-
-      // Add interaction history
-      user.interactionHistory.push({
+    for (const like of likes) {
+      this.recordInteraction(userMap, like.tweet.author, currentUser, {
         type: 'like',
+        direction: 'incoming',
         timestamp: like.likedAt,
         tweetId: like.tweet.id,
       })
-
-      // Update last interaction time
-      if (new Date(like.likedAt) > new Date(user.lastInteraction)) {
-        user.lastInteraction = like.likedAt
-      }
-    })
+    }
 
     return userMap
+  }
+
+  private recordInteraction(
+    userMap: Map<string, UserInteraction>,
+    interactingUser: TwitterUser,
+    currentUser: TwitterUser,
+    event: InteractionEvent,
+  ): void {
+    if (interactingUser.id === currentUser.id) {
+      return
+    }
+
+    const userInteraction = this.getOrCreateUserInteraction(userMap, interactingUser.id, interactingUser)
+
+    userInteraction.user = {
+      ...userInteraction.user,
+      ...interactingUser,
+    }
+
+    switch (event.type) {
+      case 'reply':
+        userInteraction.interactions.replies++
+        if (event.direction === 'incoming') {
+          userInteraction.interactions.incomingReplies++
+        } else {
+          userInteraction.interactions.outgoingReplies++
+        }
+        break
+      case 'like':
+        userInteraction.interactions.likes++
+        break
+      case 'quote':
+        userInteraction.interactions.quotes++
+        break
+      case 'retweet':
+        userInteraction.interactions.retweets++
+        break
+    }
+
+    userInteraction.interactionHistory.push({
+      ...event,
+    })
+
+    if (new Date(event.timestamp) > new Date(userInteraction.lastInteraction)) {
+      userInteraction.lastInteraction = event.timestamp
+    }
+
+    userMap.set(interactingUser.id, userInteraction)
   }
 
   /**
@@ -139,6 +199,8 @@ export class InteractionCalculator {
         user,
         interactions: {
           replies: 0,
+          incomingReplies: 0,
+          outgoingReplies: 0,
           quotes: 0,
           retweets: 0,
           likes: 0,
@@ -193,8 +255,16 @@ export class InteractionCalculator {
       .slice(0, limit)
 
     // Calculate statistics
-    const totalReplies = sortedUsers.reduce((sum, user) => sum + user.interactions.replies, 0)
-    const totalLikes = sortedUsers.reduce((sum, user) => sum + user.interactions.likes, 0)
+    const { incomingReplies, outgoingReplies, likes } = sortedUsers.reduce(
+      (totals, user) => {
+        totals.incomingReplies += user.interactions.incomingReplies
+        totals.outgoingReplies += user.interactions.outgoingReplies
+        totals.likes += user.interactions.likes
+        return totals
+      },
+      { incomingReplies: 0, outgoingReplies: 0, likes: 0 },
+    )
+    const totalReplies = incomingReplies + outgoingReplies
 
     // Find time range
     const allTimestamps = sortedUsers.flatMap((user) => user.interactionHistory.map((event) => event.timestamp))
@@ -214,7 +284,9 @@ export class InteractionCalculator {
       currentUser,
       totalUsers: sortedUsers.length,
       totalReplies,
-      totalLikes,
+      totalLikes: likes,
+      totalIncomingReplies: incomingReplies,
+      totalOutgoingReplies: outgoingReplies,
       analysisDate: new Date().toLocaleDateString('en-US'),
       timeRange: {
         start: startTime,
