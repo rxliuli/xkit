@@ -19,7 +19,7 @@ export interface TwitterTweet {
   author: TwitterUser
   createdAt: string
   type: 'reply' | 'quote' | 'retweet' | 'original'
-  replyTo?: string
+  replyTo?: TwitterUser
   quotedTweet?: TwitterTweet
   retweetedTweet?: TwitterTweet
   likeCount: number
@@ -41,6 +41,28 @@ function processAvatarUrl(url: string): string {
     return url.replace(/_normal\.(jpg|jpeg|png)$/, '.$1')
   }
   return url
+}
+
+function createPlaceholderReplyToUser(legacy: Tweet['legacy']): TwitterUser | undefined {
+  const replyToUserId = legacy.in_reply_to_user_id_str
+
+  if (!replyToUserId) {
+    return undefined
+  }
+
+  const replyToScreenName = legacy.in_reply_to_screen_name || ''
+  const mentionedUser = legacy.entities?.user_mentions?.find((mention) => mention.screen_name === replyToScreenName)
+
+  const displayName = mentionedUser?.name || replyToScreenName || replyToUserId
+  const avatarScreenName = replyToScreenName || replyToUserId
+
+  return {
+    id: replyToUserId,
+    username: replyToScreenName,
+    displayName,
+    avatar: `https://unavatar.io/twitter/${encodeURIComponent(avatarScreenName)}`,
+    verified: false,
+  }
 }
 
 /**
@@ -79,7 +101,7 @@ export function convertTweet(tweet: Tweet): TwitterTweet {
         : legacy.retweeted_status_result
           ? 'retweet'
           : 'original',
-    replyTo: legacy.in_reply_to_status_id_str || undefined,
+    replyTo: createPlaceholderReplyToUser(legacy),
     likeCount: legacy.favorite_count || 0,
     retweetCount: legacy.retweet_count || 0,
     replyCount: legacy.reply_count || 0,
