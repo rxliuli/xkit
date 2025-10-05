@@ -456,7 +456,7 @@ function TwitterCircle() {
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-800">@{username}'s Interaction Circle</h2>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                <button
+                {/* <button
                   onClick={shareToTwitter}
                   className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors text-sm sm:text-base flex items-center justify-center gap-2"
                 >
@@ -464,7 +464,7 @@ function TwitterCircle() {
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
                   Share
-                </button>
+                </button> */}
                 <button
                   onClick={exportToPNG}
                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
