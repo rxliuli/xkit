@@ -27,6 +27,14 @@ export interface UserRelationship {
   isMutual: boolean
 }
 
+interface NodeSortMetrics {
+  totalScore: number
+  relationPriority: number
+  interactionWeight: number
+  lastInteractionTimestamp: number
+  verifiedBonus: number
+}
+
 export class FamilyTreeCalculator {
   /**
    * Build relationships between users
@@ -73,6 +81,63 @@ export class FamilyTreeCalculator {
     targetUser: TwitterUser,
     interactionWeights?: Map<string, UserInteraction>,
   ): FamilyTreeData {
+    const metricsCache = new Map<string, NodeSortMetrics>()
+
+    const computeMetrics = (relationship: UserRelationship): NodeSortMetrics => {
+      const cached = metricsCache.get(relationship.user.id)
+      if (cached) {
+        return cached
+      }
+
+      const interaction = interactionWeights?.get(relationship.user.id)
+      const relationPriority = relationship.isMutual
+        ? 3
+        : relationship.isFollowing
+          ? 2
+          : relationship.isFollower
+            ? 1
+            : 0
+      const interactionWeight = interaction?.weight ?? 0
+      const verifiedBonus = relationship.user.verified ? 10 : 0
+
+      const parsedLastInteraction = interaction?.lastInteraction ? Date.parse(interaction.lastInteraction) : NaN
+      const lastInteractionTimestamp = Number.isFinite(parsedLastInteraction) ? parsedLastInteraction : 0
+
+      const totalScore = relationPriority * 50 + interactionWeight + verifiedBonus
+
+      const metrics: NodeSortMetrics = {
+        totalScore,
+        relationPriority,
+        interactionWeight,
+        lastInteractionTimestamp,
+        verifiedBonus,
+      }
+
+      metricsCache.set(relationship.user.id, metrics)
+      return metrics
+    }
+
+    const compareNodes = (a: TreeNode, b: TreeNode) => {
+      const metricsA = metricsCache.get(a.id)
+      const metricsB = metricsCache.get(b.id)
+
+      if (metricsA && metricsB) {
+        if (metricsA.totalScore !== metricsB.totalScore) {
+          return metricsB.totalScore - metricsA.totalScore
+        }
+
+        if (metricsA.lastInteractionTimestamp !== metricsB.lastInteractionTimestamp) {
+          return metricsB.lastInteractionTimestamp - metricsA.lastInteractionTimestamp
+        }
+
+        if (metricsA.interactionWeight !== metricsB.interactionWeight) {
+          return metricsB.interactionWeight - metricsA.interactionWeight
+        }
+      }
+
+      return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+    }
+
     const mutualUsers: TreeNode[] = []
     const followingOnlyUsers: TreeNode[] = []
     const followerOnlyUsers: TreeNode[] = []
@@ -92,6 +157,8 @@ export class FamilyTreeCalculator {
         relationLabel: relationship.isMutual ? 'Mutual' : relationship.isFollowing ? 'Following' : 'Follower',
       }
 
+      computeMetrics(relationship)
+
       if (relationship.isMutual) {
         mutualUsers.push(node)
         mutualCount++
@@ -106,21 +173,9 @@ export class FamilyTreeCalculator {
       }
     })
 
-    // Sort by interaction weight if available, otherwise by name
-    const sortByInteraction = (a: TreeNode, b: TreeNode) => {
-      if (interactionWeights) {
-        const weightA = interactionWeights.get(a.id)?.weight || 0
-        const weightB = interactionWeights.get(b.id)?.weight || 0
-        if (weightA !== weightB) {
-          return weightB - weightA // Higher weight first
-        }
-      }
-      return a.name.localeCompare(b.name)
-    }
-
-    mutualUsers.sort(sortByInteraction)
-    followingOnlyUsers.sort(sortByInteraction)
-    followerOnlyUsers.sort(sortByInteraction)
+    mutualUsers.sort(compareNodes)
+    followingOnlyUsers.sort(compareNodes)
+    followerOnlyUsers.sort(compareNodes)
 
     // Build traditional family tree structure
     const layers: TreeNode[][] = []
