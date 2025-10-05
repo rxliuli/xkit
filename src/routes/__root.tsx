@@ -198,7 +198,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               author: {
                 '@type': 'Person',
                 name: 'rxliuli',
-                url: 'https://github.com/rxliuli',
+                url: 'https://rxliuli.com',
               },
               publisher: {
                 '@type': 'Organization',

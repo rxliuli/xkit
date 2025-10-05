@@ -43,15 +43,15 @@ export const Route = createFileRoute('/interaction-circle')({
       },
       {
         property: 'og:image',
-        content: 'https://xkit.rxliuli.com/logo512.png',
+        content: 'https://xkit.rxliuli.com/og/interaction-circle.jpg',
       },
       {
         property: 'og:image:width',
-        content: '512',
+        content: '2560',
       },
       {
         property: 'og:image:height',
-        content: '512',
+        content: '1600',
       },
       {
         property: 'og:image:alt',
@@ -76,7 +76,7 @@ export const Route = createFileRoute('/interaction-circle')({
       },
       {
         name: 'twitter:image',
-        content: 'https://xkit.rxliuli.com/logo512.png',
+        content: 'https://xkit.rxliuli.com/og/interaction-circle.jpg',
       },
       {
         name: 'twitter:image:alt',

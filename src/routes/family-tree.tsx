@@ -44,15 +44,15 @@ export const Route = createFileRoute('/family-tree')({
       },
       {
         property: 'og:image',
-        content: 'https://xkit.rxliuli.com/logo512.png',
+        content: 'https://xkit.rxliuli.com/og/family-tree.jpg',
       },
       {
         property: 'og:image:width',
-        content: '512',
+        content: '2560',
       },
       {
         property: 'og:image:height',
-        content: '512',
+        content: '1600',
       },
       {
         property: 'og:image:alt',
@@ -77,7 +77,7 @@ export const Route = createFileRoute('/family-tree')({
       },
       {
         name: 'twitter:image',
-        content: 'https://xkit.rxliuli.com/logo512.png',
+        content: 'https://xkit.rxliuli.com/og/family-tree.jpg',
       },
       {
         name: 'twitter:image:alt',
