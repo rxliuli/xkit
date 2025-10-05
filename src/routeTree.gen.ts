@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as InteractionCircleRouteImport } from './routes/interaction-circle'
+import { Route as FamilyTreeRouteImport } from './routes/family-tree'
 import { Route as IndexRouteImport } from './routes/index'
 
 const InteractionCircleRoute = InteractionCircleRouteImport.update({
   id: '/interaction-circle',
   path: '/interaction-circle',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FamilyTreeRoute = FamilyTreeRouteImport.update({
+  id: '/family-tree',
+  path: '/family-tree',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/family-tree': typeof FamilyTreeRoute
   '/interaction-circle': typeof InteractionCircleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/family-tree': typeof FamilyTreeRoute
   '/interaction-circle': typeof InteractionCircleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/family-tree': typeof FamilyTreeRoute
   '/interaction-circle': typeof InteractionCircleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/interaction-circle'
+  fullPaths: '/' | '/family-tree' | '/interaction-circle'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/interaction-circle'
-  id: '__root__' | '/' | '/interaction-circle'
+  to: '/' | '/family-tree' | '/interaction-circle'
+  id: '__root__' | '/' | '/family-tree' | '/interaction-circle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FamilyTreeRoute: typeof FamilyTreeRoute
   InteractionCircleRoute: typeof InteractionCircleRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/interaction-circle'
       fullPath: '/interaction-circle'
       preLoaderRoute: typeof InteractionCircleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/family-tree': {
+      id: '/family-tree'
+      path: '/family-tree'
+      fullPath: '/family-tree'
+      preLoaderRoute: typeof FamilyTreeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,11 +87,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FamilyTreeRoute: FamilyTreeRoute,
   InteractionCircleRoute: InteractionCircleRoute,
 }
-export const routeTree = rootRouteImport
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRouteImport._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
 import type { createStart } from '@tanstack/react-start'

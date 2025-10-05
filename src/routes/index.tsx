@@ -118,11 +118,11 @@ function App() {
           </p>
 
           {/* Tools Grid */}
-          <div className="max-w-4xl mx-auto px-4">
+          <div className="max-w-4xl mx-auto px-4 grid gap-6 sm:gap-8">
             {/* Twitter Circle Tool */}
             <Link
               to="/interaction-circle"
-              className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block max-w-2xl mx-auto mb-6 sm:mb-8"
+              className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
             >
               <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🐦</div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">Twitter Interaction Circle</h3>
@@ -143,8 +143,32 @@ function App() {
               </div>
             </Link>
 
+            {/* Twitter Family Tree Tool */}
+            <Link
+              to="/family-tree"
+              className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
+            >
+              <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🌳</div>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">Twitter Family Tree</h3>
+              <p className="text-gray-600 text-sm sm:text-base">
+                Visualize your Twitter network as a family tree based on following relationships. Discover mutual
+                connections, followers, and the people you follow in a beautiful tree structure.
+              </p>
+              <div className="mt-6 inline-flex items-center text-purple-600 font-medium group-hover:text-purple-700">
+                Generate Tree
+                <svg
+                  className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </Link>
+
             {/* More Features Coming Soon */}
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl shadow-lg p-6 sm:p-8 border-2 border-dashed border-purple-200 max-w-2xl mx-auto">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl shadow-lg p-6 sm:p-8 border-2 border-dashed border-purple-200">
               <div className="text-center">
                 <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🚀</div>
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">More Features Coming Soon</h3>

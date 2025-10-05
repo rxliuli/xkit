@@ -3,17 +3,8 @@
  * Communicate with Twitter API through browser extension
  */
 
-import { TwitterTweet, TwitterLike, TwitterUser, convertTweet } from './twitter-adapter'
-
-/**
- * Process avatar URL, remove _normal suffix to get higher quality images
- */
-function processAvatarUrl(url: string): string {
-  if (url.endsWith('_normal.jpg') || url.endsWith('_normal.jpeg') || url.endsWith('_normal.png')) {
-    return url.replace(/_normal\.(jpg|jpeg|png)$/, '.$1')
-  }
-  return url
-}
+import { TwitterTweet, TwitterLike, TwitterUser, convertTweet, convertUser } from './twitter-adapter'
+import { User } from '../@types/twitter-web-api'
 
 export class TwitterAPIProxy {
   /**
@@ -47,7 +38,7 @@ export class TwitterAPIProxy {
   /**
    * Get user information by username
    */
-  async getUserByScreenName(username: string): Promise<TwitterUser> {
+  async getUserByScreenName(username: string): Promise<User> {
     const isAvailable = await this.checkExtensionAvailability()
 
     if (!isAvailable) {
@@ -62,13 +53,7 @@ export class TwitterAPIProxy {
         throw new Error(`User @${username} does not exist`)
       }
 
-      return {
-        id: user.rest_id,
-        username: user.core.screen_name,
-        displayName: user.core.name,
-        avatar: processAvatarUrl(user.avatar.image_url),
-        verified: user.verification.verified || user.is_blue_verified,
-      }
+      return user
     } catch (error) {
       console.error('Failed to get user information:', error)
       throw new Error(`Failed to get user @${username} information, please try again`)
@@ -185,6 +170,98 @@ export class TwitterAPIProxy {
       console.error('Failed to get like data:', error)
       throw new Error(
         'Unable to get like data, please ensure the browser extension is installed and logged into Twitter',
+      )
+    }
+  }
+
+  /**
+   * Get user's following list (supports pagination)
+   */
+  async getFollowing(
+    userId: string,
+    count: number,
+    onProgress?: (current: number, total: number) => void,
+  ): Promise<TwitterUser[]> {
+    const isAvailable = await this.checkExtensionAvailability()
+
+    if (!isAvailable) {
+      throw new Error(
+        'Twitter Web API Extension Not Installed or Activated. Please install and activate the extension first.',
+      )
+    }
+
+    try {
+      const allFollowing: TwitterUser[] = []
+      let cursor: string | undefined
+      let hasMore = true
+
+      while (hasMore && allFollowing.length < count) {
+        const response = await window.__TWITTER_WEB_API__.getFollowing({
+          userId,
+          cursor,
+          count: Math.min(100, count - allFollowing.length),
+        })
+
+        // Convert users to apply avatar processing
+        const convertedUsers = response.data.map((user: User) => convertUser(user))
+        allFollowing.push(...convertedUsers)
+        cursor = response.cursor?.bottom
+        hasMore = !!cursor && response.data.length > 0
+
+        onProgress?.(allFollowing.length, count)
+      }
+
+      return allFollowing.slice(0, count)
+    } catch (error) {
+      console.error('Failed to get following data:', error)
+      throw new Error(
+        'Unable to get following data, please ensure the browser extension is installed and logged into Twitter',
+      )
+    }
+  }
+
+  /**
+   * Get user's followers list (supports pagination)
+   */
+  async getFollowers(
+    userId: string,
+    count: number,
+    onProgress?: (current: number, total: number) => void,
+  ): Promise<TwitterUser[]> {
+    const isAvailable = await this.checkExtensionAvailability()
+
+    if (!isAvailable) {
+      throw new Error(
+        'Twitter Web API Extension Not Installed or Activated. Please install and activate the extension first.',
+      )
+    }
+
+    try {
+      const allFollowers: TwitterUser[] = []
+      let cursor: string | undefined
+      let hasMore = true
+
+      while (hasMore && allFollowers.length < count) {
+        const response = await window.__TWITTER_WEB_API__.getFollowers({
+          userId,
+          cursor,
+          count: Math.min(100, count - allFollowers.length),
+        })
+
+        // Convert users to apply avatar processing
+        const convertedUsers = response.data.map((user: User) => convertUser(user))
+        allFollowers.push(...convertedUsers)
+        cursor = response.cursor?.bottom
+        hasMore = !!cursor && response.data.length > 0
+
+        onProgress?.(allFollowers.length, count)
+      }
+
+      return allFollowers.slice(0, count)
+    } catch (error) {
+      console.error('Failed to get followers data:', error)
+      throw new Error(
+        'Unable to get followers data, please ensure the browser extension is installed and logged into Twitter',
       )
     }
   }

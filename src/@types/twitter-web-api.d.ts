@@ -64,6 +64,8 @@ declare const typeNameEnum: {
   readonly CommunityQueryResult: 'CommunityQueryResult'
   readonly ApiMedia: 'ApiMedia'
   readonly CommunityHashtagSlice: 'CommunityHashtagSlice'
+  readonly CommunityLeaveAction: 'CommunityLeaveAction'
+  readonly CommunityInvites: 'CommunityInvites'
 }
 export type TypeNameEnum = (typeof typeNameEnum)[keyof typeof typeNameEnum]
 export type TypeName = TypeNameEnum
@@ -649,6 +651,7 @@ export type CommunityJoinAction = {
 }
 declare const communityJoinActionUnavailableReasonEnum: {
   readonly ViewerRequestRequired: 'ViewerRequestRequired'
+  readonly ViewerIsMember: 'ViewerIsMember'
 }
 export type CommunityJoinActionUnavailableReasonEnum =
   (typeof communityJoinActionUnavailableReasonEnum)[keyof typeof communityJoinActionUnavailableReasonEnum]
@@ -684,13 +687,13 @@ export type CommunityLeaveActionResult = {
    */
   __typename: TypeName
   /**
-   * @type string
+   * @type string | undefined
    */
-  message: string
+  message?: string
   /**
-   * @type string
+   * @type string | undefined
    */
-  reason: CommunityLeaveActionResultReasonEnum
+  reason?: CommunityLeaveActionResultReasonEnum
 }
 export type CommunityPinActionResult = {
   /**
@@ -722,13 +725,13 @@ export type CommunityInvitesResult = {
    */
   __typename: TypeName
   /**
-   * @type string
+   * @type string | undefined
    */
-  message: string
+  message?: string
   /**
-   * @type string
+   * @type string | undefined
    */
-  reason: CommunityInvitesResultReasonEnum
+  reason?: CommunityInvitesResultReasonEnum
 }
 export type CommunityJoinRequestsResult = {
   /**
@@ -1402,6 +1405,7 @@ declare const communityDataJoinPolicyEnum: {
 export type CommunityDataJoinPolicyEnum = (typeof communityDataJoinPolicyEnum)[keyof typeof communityDataJoinPolicyEnum]
 declare const communityDataRoleEnum: {
   readonly NonMember: 'NonMember'
+  readonly Member: 'Member'
 }
 export type CommunityDataRoleEnum = (typeof communityDataRoleEnum)[keyof typeof communityDataRoleEnum]
 export type CommunityData = {
@@ -1464,9 +1468,9 @@ export type CommunityData = {
    */
   moderator_count?: number
   /**
-   * @type string | undefined
+   * @type string
    */
-  name?: string
+  name: string
   primary_community_topic?: PrimaryCommunityTopic
   /**
    * @type string | undefined
@@ -2993,9 +2997,9 @@ export type ApiImage = {
    */
   original_img_height: number
   /**
-   * @type object
+   * @type object | undefined
    */
-  salient_rect: {
+  salient_rect?: {
     /**
      * @type number
      */
@@ -3308,12 +3312,31 @@ declare function getNotificationsTimeline(options: {
   cursor?: string
   count?: number
 }): Promise<NormalizedPageResponse<ItemContentUnion[]>>
+declare function getFollowers(options: {
+  userId: string
+  count?: number
+  cursor?: string
+}): Promise<PageDataWithHeaders<User>>
+declare function getFollowing(options: {
+  userId: string
+  count?: number
+  cursor?: string
+}): Promise<PageDataWithHeaders<User>>
+declare function getRetweeters(options: {
+  tweetId: string
+  cursor?: string
+  count?: number
+  screenName?: string
+}): Promise<PageDataWithHeaders<User>>
 export interface TwitterWebAPI {
   getUserByScreenName: typeof getUserByScreenName
   getUserTweets: typeof getUserTweets
   getUserTweetsAndReplies: typeof getUserTweetsAndReplies
   getLikes: typeof getLikes
   getNotificationsTimeline: typeof getNotificationsTimeline
+  getFollowing: typeof getFollowing
+  getFollowers: typeof getFollowers
+  getRetweeters: typeof getRetweeters
 }
 
 export {}
