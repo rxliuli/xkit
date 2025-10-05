@@ -1,6 +1,5 @@
 import { Link } from '@tanstack/react-router'
 import { MenuIcon } from 'lucide-react'
-import logo from '../logo.png'
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
 
 export function Header() {
@@ -10,7 +9,7 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <Link to="/" className="flex items-center space-x-3">
-            <img src={logo} alt="XKit Logo" className="h-8 w-8" />
+            <img src={'/logo192.png'} alt="XKit Logo" className="h-8 w-8" />
             <span className="text-xl font-bold text-gray-900">XKit Tools</span>
           </Link>
 
@@ -52,7 +51,7 @@ export function Header() {
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <SheetHeader>
                   <div className="flex items-center space-x-3 mb-6">
-                    <img src={logo} alt="XKit Logo" className="h-8 w-8" />
+                    <img src={'/logo192.png'} alt="XKit Logo" className="h-8 w-8" />
                     <SheetTitle className="text-xl font-bold text-gray-900">XKit Tools</SheetTitle>
                   </div>
                 </SheetHeader>

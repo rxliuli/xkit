@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import logo from '../logo.png'
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -106,7 +105,7 @@ function App() {
       <div className="flex flex-col items-center justify-center px-4 py-12 sm:px-6 sm:py-20">
         <div className="max-w-4xl mx-auto text-center">
           <img
-            src={logo}
+            src={'/logo192.png'}
             className="h-24 sm:h-32 mx-auto mb-6 sm:mb-8 animate-[spin_20s_linear_infinite]"
             alt="XKit Logo"
           />
