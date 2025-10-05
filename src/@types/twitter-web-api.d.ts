@@ -3328,6 +3328,10 @@ declare function getRetweeters(options: {
   count?: number
   screenName?: string
 }): Promise<PageDataWithHeaders<User>>
+interface ShareData$1 {
+  text: string
+  image?: string
+}
 export interface TwitterWebAPI {
   getUserByScreenName: typeof getUserByScreenName
   getUserTweets: typeof getUserTweets
@@ -3337,6 +3341,7 @@ export interface TwitterWebAPI {
   getFollowing: typeof getFollowing
   getFollowers: typeof getFollowers
   getRetweeters: typeof getRetweeters
+  shareToTwitter(options: ShareData$1): void
 }
 
 export {}

@@ -47,11 +47,11 @@ export const Route = createFileRoute('/interaction-circle')({
       },
       {
         property: 'og:image:width',
-        content: '2560',
+        content: '1280',
       },
       {
         property: 'og:image:height',
-        content: '1600',
+        content: '800',
       },
       {
         property: 'og:image:alt',
@@ -210,6 +210,100 @@ function TwitterCircle() {
     }
   }
 
+  // Generate PNG as base64
+  const generatePNGBase64 = async (): Promise<string> => {
+    const svgElement = document.querySelector('.twitter-circle-container svg') as SVGSVGElement
+    if (!svgElement) {
+      throw new Error('Visualization chart not found')
+    }
+
+    // Clone SVG element
+    const clonedSvg = svgElement.cloneNode(true) as SVGSVGElement
+
+    // Get all image elements and convert to base64
+    const imageElements = clonedSvg.querySelectorAll('image')
+    const imagePromises = Array.from(imageElements).map(async (img) => {
+      const href = img.getAttribute('href') || img.getAttribute('xlink:href')
+      if (href && href.startsWith('http')) {
+        try {
+          const base64 = await convertImageToBase64(href)
+          img.setAttribute('href', base64)
+        } catch (error) {
+          console.warn('Skip image conversion:', href, error)
+        }
+      }
+    })
+
+    await Promise.all(imagePromises)
+
+    // Get SVG dimensions
+    const svgRect = svgElement.getBoundingClientRect()
+    const svgData = new XMLSerializer().serializeToString(clonedSvg)
+
+    // Create canvas
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    if (!ctx) {
+      throw new Error('Unable to create canvas context')
+    }
+
+    // Set canvas dimensions
+    const scale = 2
+    canvas.width = svgRect.width * scale
+    canvas.height = svgRect.height * scale
+    ctx.scale(scale, scale)
+
+    // Set background color
+    ctx.fillStyle = '#f8fafc'
+    ctx.fillRect(0, 0, svgRect.width, svgRect.height)
+
+    // Create image and draw
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      const svgBlob = new Blob([svgData], {
+        type: 'image/svg+xml;charset=utf-8',
+      })
+      const url = URL.createObjectURL(svgBlob)
+
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, svgRect.width, svgRect.height)
+        URL.revokeObjectURL(url)
+
+        // Get base64 data
+        const base64 = canvas.toDataURL('image/png', 0.95)
+        resolve(base64)
+      }
+
+      img.onerror = () => {
+        URL.revokeObjectURL(url)
+        reject(new Error('Image generation failed'))
+      }
+
+      img.src = url
+    })
+  }
+
+  // Share to Twitter functionality
+  const shareToTwitter = async () => {
+    try {
+      const text = `Check out my Twitter Interaction Circle! 🎯\n\nAnalyzed ${circleData?.totalUsers} users, ${circleData?.totalReplies} replies, and ${circleData?.totalLikes} likes.\n\nGenerate your own at:\nhttps://xkit.rxliuli.com/interaction-circle`
+
+      // Generate image as base64
+      const imageBase64 = await generatePNGBase64()
+
+      if (window.__TWITTER_WEB_API__?.shareToTwitter) {
+        window.__TWITTER_WEB_API__.shareToTwitter({ text, image: imageBase64 })
+      } else {
+        // Fallback to Twitter Web Intent (without image)
+        const encodedText = encodeURIComponent(text)
+        window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank')
+      }
+    } catch (error) {
+      console.error('Share failed:', error)
+      alert('Failed to generate image for sharing, please try again')
+    }
+  }
+
   // Export PNG functionality
   const exportToPNG = async () => {
     const svgElement = document.querySelector('.twitter-circle-container svg') as SVGSVGElement
@@ -361,12 +455,23 @@ function TwitterCircle() {
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-800">@{username}'s Interaction Circle</h2>
-              <button
-                onClick={exportToPNG}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
-              >
-                Export PNG
-              </button>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <button
+                  onClick={shareToTwitter}
+                  className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors text-sm sm:text-base flex items-center justify-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                  Share
+                </button>
+                <button
+                  onClick={exportToPNG}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+                >
+                  Export PNG
+                </button>
+              </div>
             </div>
 
             <div className="flex justify-center mb-4 sm:mb-6 twitter-circle-container overflow-x-auto">
