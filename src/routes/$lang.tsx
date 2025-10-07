@@ -1,23 +1,23 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
-import { languages, type AvailableLanguages, initI18nWithLanguage } from '../i18n'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import i18n, { initI18nWithLanguage, languages, type AvailableLanguages } from '../i18n'
 
 export const Route = createFileRoute('/$lang')({
   // Validate the language parameter and set i18n language on server-side
   beforeLoad: ({ params }) => {
     const lang = params.lang as string
+    console.log('beforeLoad')
+    console.log('lang', lang, i18n.language)
 
-    // If the language is not valid, redirect to English
-    if (!languages.includes(lang as AvailableLanguages)) {
+    if (lang.startsWith('.') || !languages.includes(lang as AvailableLanguages)) {
       throw redirect({
         to: '/$lang',
-        params: { lang: 'en' },
+        params: { lang: i18n.language },
         replace: true,
       })
     }
 
-    // Set the language for i18n (works on both server and client)
     initI18nWithLanguage(lang as AvailableLanguages)
   },
   component: LocaleLayout,

@@ -33,29 +33,27 @@ const detectBrowserLanguage = (serverPath?: string): AvailableLanguages => {
       }
     }
 
-    // Default fallback for SSR when path is not available or doesn't contain a valid language
     return 'en'
+  } else {
+    const pathParts = window.location.pathname.split('/')
+    const urlLang = pathParts[1] // First segment after /
+
+    if (languages.includes(urlLang as AvailableLanguages)) {
+      return urlLang as AvailableLanguages
+    }
+
+    // Fallback to browser language
+    const browserLang = navigator.language
+
+    if (languages.includes(browserLang as AvailableLanguages)) {
+      return browserLang as AvailableLanguages
+    }
+
+    const langCode = browserLang.split('-')[0]
+    const match = languages.find((lang) => lang.startsWith(langCode))
+
+    return match || 'en'
   }
-
-  // Client-side: try to get language from URL path first
-  const pathParts = window.location.pathname.split('/')
-  const urlLang = pathParts[1] // First segment after /
-
-  if (languages.includes(urlLang as AvailableLanguages)) {
-    return urlLang as AvailableLanguages
-  }
-
-  // Fallback to browser language
-  const browserLang = navigator.language
-
-  if (languages.includes(browserLang as AvailableLanguages)) {
-    return browserLang as AvailableLanguages
-  }
-
-  const langCode = browserLang.split('-')[0]
-  const match = languages.find((lang) => lang.startsWith(langCode))
-
-  return match || 'en'
 }
 
 /**

@@ -1,7 +1,7 @@
-import { HeadContent, Scripts, createRootRouteWithContext, Outlet } from '@tanstack/react-router'
+import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from '@tanstack/react-router'
 
-import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
+import { Header } from '../components/Header'
 
 import appCss from '../styles.css?url'
 
@@ -175,9 +175,8 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation()
-
   return (
-    <html lang={i18n.language}>
+    <html lang={i18n.language} suppressHydrationWarning>
       <head>
         <HeadContent />
         {/* JSON-LD Structured Data */}
