@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import D3TwitterCircle from '../components/D3TwitterCircle'
 import { TwitterAPIError, TwitterAPIProxy } from '../lib/twitter-api-proxy'
@@ -116,6 +116,14 @@ function TwitterCircle() {
   const [circleData, setCircleData] = useState<CircleData | null>(null)
   const [error, setError] = useState('')
   const { width } = useWindowSize()
+
+  useEffect(() => {
+    if (username) {
+      analyzeUser()
+    }
+  }, [username])
+
+  const onSubmit = async (username: string) => setUsername(username)
 
   const analyzeUser = async () => {
     if (!username.trim()) {
@@ -309,7 +317,7 @@ function TwitterCircle() {
         <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <InputSection
             isLoading={isLoading}
-            analyzeUser={analyzeUser}
+            onSubmit={onSubmit}
             classNames={{
               input: 'focus:ring-2 focus:ring-blue-500 focus:border-transparent',
               button: 'bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500',

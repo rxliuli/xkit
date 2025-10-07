@@ -1,22 +1,23 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 
 interface InputSectionProps {
   isLoading: boolean
-  analyzeUser: () => void
+  onSubmit: (username: string) => void
   classNames?: {
     input?: string
     button?: string
   }
 }
 
-export const InputSection = ({ isLoading, analyzeUser, classNames }: InputSectionProps) => {
+export const InputSection = ({ isLoading, onSubmit, classNames }: InputSectionProps) => {
   const { t } = useTranslation()
-  const [username, setUsername] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !isLoading) {
-      analyzeUser()
+      if (!inputRef.current?.value) return
+      onSubmit(inputRef.current?.value || '')
     }
   }
   return (
@@ -32,8 +33,7 @@ export const InputSection = ({ isLoading, analyzeUser, classNames }: InputSectio
           <input
             id="username"
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            ref={inputRef}
             onKeyPress={handleKeyPress}
             placeholder={t('familyTree.usernamePlaceholder')}
             className={cn(
@@ -45,7 +45,7 @@ export const InputSection = ({ isLoading, analyzeUser, classNames }: InputSectio
         </div>
       </div>
       <button
-        onClick={analyzeUser}
+        onClick={() => onSubmit(inputRef.current?.value || '')}
         disabled={isLoading}
         className={cn(
           'w-full sm:w-auto px-6 sm:px-8 py-3 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base font-medium',

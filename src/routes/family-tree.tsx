@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import D3FamilyTree from '../components/D3FamilyTree'
 import { TwitterAPIError, TwitterAPIProxy } from '../lib/twitter-api-proxy'
@@ -117,6 +117,14 @@ function FamilyTree() {
   const [treeData, setTreeData] = useState<FamilyTreeData | null>()
   const [error, setError] = useState('')
   const { width } = useWindowSize()
+
+  useEffect(() => {
+    if (username) {
+      analyzeUser()
+    }
+  }, [username])
+
+  const onSubmit = async (username: string) => setUsername(username)
 
   const analyzeUser = async () => {
     if (!username.trim()) {
@@ -317,7 +325,7 @@ function FamilyTree() {
         <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <InputSection
             isLoading={isLoading}
-            analyzeUser={analyzeUser}
+            onSubmit={onSubmit}
             classNames={{
               input: 'focus:ring-2 focus:ring-purple-500 focus:border-transparent',
               button: 'bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500',
