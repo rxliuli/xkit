@@ -1,0 +1,144 @@
+{
+  "header": {
+    "brand": "XKit ツール",
+    "home": "ホーム",
+    "twitterCircle": "Twitterサークル",
+    "familyTree": "ファミリーツリー",
+    "menu": "メインメニューを開く"
+  },
+  "home": {
+    "title": "XKit ツール",
+    "subtitle": "ネットワークインタラクションデータを理解するための強力なソーシャルメディア分析ツールスイート",
+    "twitterCircle": {
+      "title": "Twitterインタラクションサークル",
+      "description": "Twitterのインタラクションデータを分析し、パーソナライズされたインタラクションサークルの視覚化を生成します。最も頻繁にインタラクションするユーザーを発見し、コアソーシャルネットワークを明らかにします。",
+      "cta": "分析を開始"
+    },
+    "familyTree": {
+      "title": "Twitterファミリーツリー",
+      "description": "フォロー関係に基づいてTwitterネットワークをファミリーツリーとして視覚化します。相互フォロー、フォロワー、フォローしている人を美しいツリー構造で発見します。",
+      "cta": "ツリーを生成"
+    },
+    "comingSoon": {
+      "title": "さらなる機能が近日公開",
+      "description": "ツイート感情分析、トピックトレンド追跡、ユーザー影響力評価など、より便利なTwitter分析ツールの開発に取り組んでいます。お楽しみに！",
+      "cta": "近日公開"
+    },
+    "features": {
+      "title": "コア機能",
+      "dataViz": {
+        "title": "データ視覚化",
+        "description": "D3.jsを使用してインタラクティブなデータ視覚化チャートを作成"
+      },
+      "privacy": {
+        "title": "プライバシー保護",
+        "description": "すべてのデータ処理はローカルで行われ、プライバシーを保護します"
+      },
+      "realtime": {
+        "title": "リアルタイム分析",
+        "description": "大量のデータを迅速に分析し、リアルタイムで結果を生成"
+      }
+    }
+  },
+  "meta": {
+    "title": "XKit ツール - ソーシャルメディア分析スイート",
+    "description": "ネットワークインタラクションデータを理解するための強力なソーシャルメディア分析ツールスイート。Twitterインタラクションサークルを作成し、ユーザーエンゲージメントを分析し、ソーシャルメディアプレゼンスを視覚化します。",
+    "keywords": "ソーシャルメディア分析, Twitterツール, インタラクションサークル, データ視覚化, ネットワーク分析, Twitter分析, ソーシャルメディアインサイト, ユーザーエンゲージメント分析"
+  },
+  "footer": {
+    "copyright": "© {{year}} XKit ツール。rxliuli が ❤️ で制作。",
+    "visitSite": "メインサイトへ",
+    "github": "GitHub",
+    "tagline": "XKit ツール - ソーシャルメディア分析と生産性ツールのコレクション"
+  },
+  "interactionCircle": {
+    "title": "Twitterインタラクションサークル生成ツール",
+    "subtitle": "Twitterのインタラクションデータを分析し、パーソナライズされたインタラクションサークルの視覚化を生成します",
+    "usernameLabel": "Twitterユーザー名",
+    "usernamePlaceholder": "ユーザー名を入力（@なし）",
+    "analyseButton": "分析を開始",
+    "analysingButton": "分析中...",
+    "progress": {
+      "initialising": "分析を初期化中...",
+      "fetchingReplies": "返信データを取得中...",
+      "analysingReplies": "返信データを分析中... {{current}}/{{total}} ツイート",
+      "fetchingLikes": "いいねデータを取得中...",
+      "analysingLikes": "いいねデータを分析中... {{current}}/{{total}} いいね",
+      "fetchingUser": "ユーザー情報を取得中...",
+      "calculating": "インタラクション重みを計算中... {{replies}} 件の返信と {{likes}} 件のいいねを分析済み",
+      "complete": "分析完了！{{users}} ユーザーのインタラクションサークルを生成しました"
+    },
+    "errors": {
+      "enterUsername": "Twitterユーザー名を入力してください",
+      "chartNotFound": "視覚化チャートが見つかりません。もう一度お試しください",
+      "shareFailed": "共有用の画像生成に失敗しました。もう一度お試しください",
+      "imageFailed": "画像生成に失敗しました。もう一度お試しください",
+      "exportFailed": "エクスポートに失敗しました。もう一度お試しください",
+      "analysisFailed": "分析に失敗しました。もう一度お試しください"
+    },
+    "visualisation": {
+      "title": "@{{username}} のインタラクションサークル",
+      "exportButton": "PNG をエクスポート",
+      "stats": {
+        "users": "インタラクティブユーザー",
+        "replies": "返信",
+        "likes": "いいね",
+        "date": "分析日"
+      }
+    }
+  },
+  "familyTree": {
+    "title": "Twitterファミリーツリー生成ツール",
+    "subtitle": "フォロー関係に基づいてTwitterネットワークをファミリーツリーとして視覚化します",
+    "usernameLabel": "Twitterユーザー名",
+    "usernamePlaceholder": "ユーザー名を入力（@なし）",
+    "generateButton": "ツリーを生成",
+    "analysingButton": "分析中...",
+    "progress": {
+      "initialising": "分析を初期化中...",
+      "fetchingUser": "ユーザー情報を取得中...",
+      "fetchingInteractions": "インタラクションデータを取得中...",
+      "analysingReplies": "返信を分析中... {{current}}/{{total}}",
+      "analysingLikes": "いいねを分析中... {{current}}/{{total}}",
+      "fetchingFollowing": "フォローデータを取得中...",
+      "analysingFollowing": "フォローを分析中... {{current}}/{{total}} ユーザー",
+      "fetchingFollowers": "フォロワーデータを取得中...",
+      "analysingFollowers": "フォロワーを分析中... {{current}}/{{total}} ユーザー",
+      "buildingTree": "インタラクションデータを含むファミリーツリーを構築中...",
+      "selectingUsers": "最もインタラクションの多いユーザーを選択中...",
+      "complete": "分析完了！{{nodes}} ユーザーのファミリーツリーを生成しました"
+    },
+    "errors": {
+      "enterUsername": "Twitterユーザー名を入力してください",
+      "chartNotFound": "視覚化チャートが見つかりません。もう一度お試しください",
+      "shareFailed": "共有用の画像生成に失敗しました。もう一度お試しください",
+      "imageFailed": "画像生成に失敗しました。もう一度お試しください",
+      "exportFailed": "エクスポートに失敗しました。もう一度お試しください",
+      "analysisFailed": "分析に失敗しました。もう一度お試しください"
+    },
+    "visualisation": {
+      "title": "@{{username}} のファミリーツリー",
+      "exportButton": "PNG をエクスポート",
+      "stats": {
+        "totalUsers": "総ユーザー数",
+        "following": "フォロー中",
+        "followers": "フォロワー",
+        "mutual": "相互フォロー"
+      }
+    }
+  },
+  "api": {
+    "errors": {
+      "extensionNotInstalled": "Twitter Web API 拡張機能がインストールまたは有効化されていません。まず拡張機能をインストールして有効化してください。",
+      "extensionNotInstalledWithInstructions": "Twitter Web API 拡張機能がインストールまたは有効化されていません。まず拡張機能をインストールして有効化してください。\n\nChrome ウェブストアから Twitter Web API 拡張機能をインストールしてください：\n{{url}}\n\nインストール後、Twitter にログインしていることを確認してください。",
+      "userNotFound": "ユーザー @{{username}} は存在しません",
+      "getUserFailed": "ユーザー @{{username}} の情報取得に失敗しました。もう一度お試しください",
+      "getRepliesFailed": "返信データを取得できません。ブラウザ拡張機能がインストールされ、Twitterにログインしていることを確認してください",
+      "getLikesFailed": "いいねデータを取得できません。ブラウザ拡張機能がインストールされ、Twitterにログインしていることを確認してください",
+      "getFollowingFailed": "フォローデータを取得できません。ブラウザ拡張機能がインストールされ、Twitterにログインしていることを確認してください",
+      "getFollowersFailed": "フォロワーデータを取得できません。ブラウザ拡張機能がインストールされ、Twitterにログインしていることを確認してください",
+      "invalidTweetData": "ツイートデータが無効です",
+      "canvasContextFailed": "キャンバスコンテキストを作成できません"
+    }
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "header": {
+    "brand": "XKit 工具",
+    "home": "首頁",
+    "twitterCircle": "推特圈子",
+    "familyTree": "推特關係樹",
+    "menu": "開啟主選單"
+  },
+  "home": {
+    "title": "XKit 工具",
+    "subtitle": "強大的社群媒體分析工具套件，幫助您了解網路互動資料",
+    "twitterCircle": {
+      "title": "推特互動圈",
+      "description": "分析您的推特互動資料，生成個人化的互動圈視覺化圖表。發現您最常互動的使用者，揭示您的核心社交網路。",
+      "cta": "開始分析"
+    },
+    "familyTree": {
+      "title": "推特關係樹",
+      "description": "基於追蹤關係將您的推特網路視覺化為家族樹。以美麗的樹形結構展示相互追蹤、粉絲和您追蹤的人。",
+      "cta": "生成樹圖"
+    },
+    "comingSoon": {
+      "title": "更多功能即將推出",
+      "description": "我們正在努力開發更多有用的推特分析工具，包括推文情感分析、話題趨勢追蹤、使用者影響力評估等。敬請期待！",
+      "cta": "即將推出"
+    },
+    "features": {
+      "title": "核心功能",
+      "dataViz": {
+        "title": "資料視覺化",
+        "description": "使用 D3.js 建立互動式資料視覺化圖表"
+      },
+      "privacy": {
+        "title": "隱私保護",
+        "description": "所有資料處理均在本地完成，保護您的隱私"
+      },
+      "realtime": {
+        "title": "即時分析",
+        "description": "快速分析大量資料並生成即時結果"
+      }
+    }
+  },
+  "meta": {
+    "title": "XKit 工具 - 社群媒體分析套件",
+    "description": "強大的社群媒體分析工具套件，幫助您了解網路互動資料。建立推特互動圈，分析使用者參與度，視覺化您的社群媒體形象。",
+    "keywords": "社群媒體分析, 推特工具, 互動圈, 資料視覺化, 網路分析, 推特分析, 社群媒體洞察, 使用者參與度分析"
+  },
+  "footer": {
+    "copyright": "© {{year}} XKit 工具。由 rxliuli 用 ❤️ 製作。",
+    "visitSite": "訪問主站",
+    "github": "GitHub",
+    "tagline": "XKit 工具 - 社群媒體分析和生產力工具集合"
+  },
+  "interactionCircle": {
+    "title": "推特互動圈產生器",
+    "subtitle": "分析您的推特互動資料，產生個人化的互動圈視覺化圖表",
+    "usernameLabel": "推特使用者名稱",
+    "usernamePlaceholder": "輸入使用者名稱（不含@）",
+    "analyseButton": "開始分析",
+    "analysingButton": "分析中...",
+    "progress": {
+      "initialising": "初始化分析...",
+      "fetchingReplies": "取得回覆資料...",
+      "analysingReplies": "分析回覆資料... {{current}}/{{total}} 則推文",
+      "fetchingLikes": "取得按讚資料...",
+      "analysingLikes": "分析按讚資料... {{current}}/{{total}} 個按讚",
+      "fetchingUser": "取得使用者資訊...",
+      "calculating": "計算互動權重... 已分析 {{replies}} 則回覆和 {{likes}} 個按讚",
+      "complete": "分析完成！已產生包含 {{users}} 位使用者的互動圈"
+    },
+    "errors": {
+      "enterUsername": "請輸入推特使用者名稱",
+      "chartNotFound": "未找到視覺化圖表，請重試",
+      "shareFailed": "產生分享圖片失敗，請重試",
+      "imageFailed": "圖片產生失敗，請重試",
+      "exportFailed": "匯出失敗，請重試",
+      "analysisFailed": "分析失敗，請重試"
+    },
+    "visualisation": {
+      "title": "@{{username}} 的互動圈",
+      "exportButton": "匯出 PNG",
+      "stats": {
+        "users": "互動使用者",
+        "replies": "回覆",
+        "likes": "按讚",
+        "date": "分析日期"
+      }
+    }
+  },
+  "familyTree": {
+    "title": "推特關係樹產生器",
+    "subtitle": "基於追蹤關係將您的推特網路視覺化為家族樹",
+    "usernameLabel": "推特使用者名稱",
+    "usernamePlaceholder": "輸入使用者名稱（不含@）",
+    "generateButton": "產生樹圖",
+    "analysingButton": "分析中...",
+    "progress": {
+      "initialising": "初始化分析...",
+      "fetchingUser": "取得使用者資訊...",
+      "fetchingInteractions": "取得互動資料...",
+      "analysingReplies": "分析回覆... {{current}}/{{total}}",
+      "analysingLikes": "分析按讚... {{current}}/{{total}}",
+      "fetchingFollowing": "取得追蹤資料...",
+      "analysingFollowing": "分析追蹤... {{current}}/{{total}} 位使用者",
+      "fetchingFollowers": "取得粉絲資料...",
+      "analysingFollowers": "分析粉絲... {{current}}/{{total}} 位使用者",
+      "buildingTree": "建立包含互動資料的關係樹...",
+      "selectingUsers": "選擇互動最多的使用者...",
+      "complete": "分析完成！已產生包含 {{nodes}} 位使用者的關係樹"
+    },
+    "errors": {
+      "enterUsername": "請輸入推特使用者名稱",
+      "chartNotFound": "未找到視覺化圖表，請重試",
+      "shareFailed": "產生分享圖片失敗，請重試",
+      "imageFailed": "圖片產生失敗，請重試",
+      "exportFailed": "匯出失敗，請重試",
+      "analysisFailed": "分析失敗，請重試"
+    },
+    "visualisation": {
+      "title": "@{{username}} 的關係樹",
+      "exportButton": "匯出 PNG",
+      "stats": {
+        "totalUsers": "總使用者數",
+        "following": "追蹤",
+        "followers": "粉絲",
+        "mutual": "相互追蹤"
+      }
+    }
+  },
+  "api": {
+    "errors": {
+      "extensionNotInstalled": "未安裝或未啟用 Twitter Web API 擴充功能。請先安裝並啟用擴充功能。",
+      "extensionNotInstalledWithInstructions": "Twitter Web API 擴充功能未安裝或未啟用。請先安裝並啟用擴充功能。\n\n請從 Chrome 線上應用程式商店安裝 Twitter Web API 擴充功能：\n{{url}}\n\n安裝後，請確保您已登入推特帳戶。",
+      "userNotFound": "使用者 @{{username}} 不存在",
+      "getUserFailed": "取得使用者 @{{username}} 資訊失敗，請重試",
+      "getRepliesFailed": "無法取得回覆資料，請確保已安裝瀏覽器擴充功能並登入推特",
+      "getLikesFailed": "無法取得按讚資料，請確保已安裝瀏覽器擴充功能並登入推特",
+      "getFollowingFailed": "無法取得追蹤資料，請確保已安裝瀏覽器擴充功能並登入推特",
+      "getFollowersFailed": "無法取得粉絲資料，請確保已安裝瀏覽器擴充功能並登入推特",
+      "invalidTweetData": "推文資料無效",
+      "canvasContextFailed": "無法建立畫布上下文"
+    }
+  }
+}

@@ -1,8 +1,17 @@
 import { Link } from '@tanstack/react-router'
-import { MenuIcon } from 'lucide-react'
+import { MenuIcon, Languages } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
+import { languages, type AvailableLanguages } from '../i18n'
 
 export function Header() {
+  const { t, i18n } = useTranslation()
+
+  // Handler to change language
+  const changeLanguage = (lng: AvailableLanguages) => {
+    i18n.changeLanguage(lng)
+  }
+
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,11 +19,11 @@ export function Header() {
           {/* Logo and Brand */}
           <Link to="/" className="flex items-center space-x-3">
             <img src={'/logo192.png'} alt="XKit Logo" className="h-8 w-8" />
-            <span className="text-xl font-bold text-gray-900">XKit Tools</span>
+            <span className="text-xl font-bold text-gray-900">{t('header.brand')}</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-8 items-center">
             <Link
               to="/"
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
@@ -22,7 +31,7 @@ export function Header() {
                 className: 'text-blue-600 hover:text-blue-700',
               }}
             >
-              Home
+              {t('header.home')}
             </Link>
             <Link
               to="/interaction-circle"
@@ -31,8 +40,44 @@ export function Header() {
                 className: 'text-blue-600 hover:text-blue-700',
               }}
             >
-              Twitter Circle
+              {t('header.twitterCircle')}
             </Link>
+
+            <Link
+              to="/family-tree"
+              className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+              activeProps={{
+                className: 'text-blue-600 hover:text-blue-700',
+              }}
+            >
+              {t('header.familyTree')}
+            </Link>
+
+            {/* Language Switcher */}
+            <div className="relative group">
+              <button className="flex items-center space-x-1 text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <Languages className="h-4 w-4" />
+                <span className="uppercase">{i18n.language.split('-')[0]}</span>
+              </button>
+              <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="py-1">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang}
+                      onClick={() => changeLanguage(lang)}
+                      className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                        i18n.language === lang ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700'
+                      }`}
+                    >
+                      {lang === 'en' && 'English'}
+                      {lang === 'zh-CN' && '简体中文'}
+                      {lang === 'zh-TW' && '繁體中文'}
+                      {lang === 'ja-JP' && '日本語'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </nav>
 
           {/* Mobile menu */}
@@ -43,7 +88,7 @@ export function Header() {
                   type="button"
                   className="text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 p-2"
                 >
-                  <span className="sr-only">Open main menu</span>
+                  <span className="sr-only">{t('header.menu')}</span>
                   <MenuIcon className="h-6 w-6" />
                 </button>
               </SheetTrigger>
@@ -52,7 +97,7 @@ export function Header() {
                 <SheetHeader>
                   <div className="flex items-center space-x-3 mb-6">
                     <img src={'/logo192.png'} alt="XKit Logo" className="h-8 w-8" />
-                    <SheetTitle className="text-xl font-bold text-gray-900">XKit Tools</SheetTitle>
+                    <SheetTitle className="text-xl font-bold text-gray-900">{t('header.brand')}</SheetTitle>
                   </div>
                 </SheetHeader>
 
@@ -65,7 +110,7 @@ export function Header() {
                         className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',
                       }}
                     >
-                      🏠 Home
+                      🏠 {t('header.home')}
                     </Link>
                   </SheetClose>
                   <SheetClose asChild>
@@ -76,9 +121,33 @@ export function Header() {
                         className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',
                       }}
                     >
-                      🐦 Twitter Circle
+                      🐦 {t('header.twitterCircle')}
                     </Link>
                   </SheetClose>
+
+                  {/* Mobile Language Switcher */}
+                  <div className="pt-4 border-t border-gray-200">
+                    <p className="px-4 py-2 text-sm font-semibold text-gray-500">Language</p>
+                    <div className="space-y-2">
+                      {languages.map((lang) => (
+                        <SheetClose key={lang} asChild>
+                          <button
+                            onClick={() => changeLanguage(lang)}
+                            className={`block w-full text-left px-4 py-2 text-sm rounded-md ${
+                              i18n.language === lang
+                                ? 'bg-blue-50 text-blue-600 font-medium'
+                                : 'text-gray-700 hover:bg-gray-50'
+                            }`}
+                          >
+                            {lang === 'en' && '🇬🇧 English'}
+                            {lang === 'zh-CN' && '🇨🇳 简体中文'}
+                            {lang === 'zh-TW' && '🇹🇼 繁體中文'}
+                            {lang === 'ja-JP' && '🇯🇵 日本語'}
+                          </button>
+                        </SheetClose>
+                      ))}
+                    </div>
+                  </div>
                 </nav>
               </SheetContent>
             </Sheet>

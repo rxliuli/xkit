@@ -1,0 +1,144 @@
+{
+  "header": {
+    "brand": "XKit 工具",
+    "home": "首页",
+    "twitterCircle": "推特圈子",
+    "familyTree": "推特关系树",
+    "menu": "打开主菜单"
+  },
+  "home": {
+    "title": "XKit 工具",
+    "subtitle": "强大的社交媒体分析工具套件，帮助您了解网络互动数据",
+    "twitterCircle": {
+      "title": "推特互动圈",
+      "description": "分析您的推特互动数据，生成个性化的互动圈可视化图表。发现您最常互动的用户，揭示您的核心社交网络。",
+      "cta": "开始分析"
+    },
+    "familyTree": {
+      "title": "推特关系树",
+      "description": "基于关注关系将您的推特网络可视化为家族树。以美丽的树形结构展示相互关注、粉丝和您关注的人。",
+      "cta": "生成树图"
+    },
+    "comingSoon": {
+      "title": "更多功能即将推出",
+      "description": "我们正在努力开发更多有用的推特分析工具，包括推文情感分析、话题趋势追踪、用户影响力评估等。敬请期待！",
+      "cta": "即将推出"
+    },
+    "features": {
+      "title": "核心功能",
+      "dataViz": {
+        "title": "数据可视化",
+        "description": "使用 D3.js 创建交互式数据可视化图表"
+      },
+      "privacy": {
+        "title": "隐私保护",
+        "description": "所有数据处理均在本地完成，保护您的隐私"
+      },
+      "realtime": {
+        "title": "实时分析",
+        "description": "快速分析大量数据并生成实时结果"
+      }
+    }
+  },
+  "meta": {
+    "title": "XKit 工具 - 社交媒体分析套件",
+    "description": "强大的社交媒体分析工具套件，帮助您了解网络互动数据。创建推特互动圈，分析用户参与度，可视化您的社交媒体形象。",
+    "keywords": "社交媒体分析, 推特工具, 互动圈, 数据可视化, 网络分析, 推特分析, 社交媒体洞察, 用户参与度分析"
+  },
+  "footer": {
+    "copyright": "© {{year}} XKit 工具。由 rxliuli 用 ❤️ 制作。",
+    "visitSite": "访问主站",
+    "github": "GitHub",
+    "tagline": "XKit 工具 - 社交媒体分析和生产力工具集合"
+  },
+  "interactionCircle": {
+    "title": "推特互动圈生成器",
+    "subtitle": "分析您的推特互动数据，生成个性化的互动圈可视化图表",
+    "usernameLabel": "推特用户名",
+    "usernamePlaceholder": "输入用户名（不带@）",
+    "analyseButton": "开始分析",
+    "analysingButton": "分析中...",
+    "progress": {
+      "initialising": "初始化分析...",
+      "fetchingReplies": "获取回复数据...",
+      "analysingReplies": "分析回复数据... {{current}}/{{total}} 条推文",
+      "fetchingLikes": "获取点赞数据...",
+      "analysingLikes": "分析点赞数据... {{current}}/{{total}} 个点赞",
+      "fetchingUser": "获取用户信息...",
+      "calculating": "计算互动权重... 已分析 {{replies}} 条回复和 {{likes}} 个点赞",
+      "complete": "分析完成！已生成包含 {{users}} 个用户的互动圈"
+    },
+    "errors": {
+      "enterUsername": "请输入推特用户名",
+      "chartNotFound": "未找到可视化图表，请重试",
+      "shareFailed": "生成分享图片失败，请重试",
+      "imageFailed": "图片生成失败，请重试",
+      "exportFailed": "导出失败，请重试",
+      "analysisFailed": "分析失败，请重试"
+    },
+    "visualisation": {
+      "title": "@{{username}} 的互动圈",
+      "exportButton": "导出 PNG",
+      "stats": {
+        "users": "互动用户",
+        "replies": "回复",
+        "likes": "点赞",
+        "date": "分析日期"
+      }
+    }
+  },
+  "familyTree": {
+    "title": "推特关系树生成器",
+    "subtitle": "基于关注关系将您的推特网络可视化为家族树",
+    "usernameLabel": "推特用户名",
+    "usernamePlaceholder": "输入用户名（不带@）",
+    "generateButton": "生成树图",
+    "analysingButton": "分析中...",
+    "progress": {
+      "initialising": "初始化分析...",
+      "fetchingUser": "获取用户信息...",
+      "fetchingInteractions": "获取互动数据...",
+      "analysingReplies": "分析回复... {{current}}/{{total}}",
+      "analysingLikes": "分析点赞... {{current}}/{{total}}",
+      "fetchingFollowing": "获取关注数据...",
+      "analysingFollowing": "分析关注... {{current}}/{{total}} 位用户",
+      "fetchingFollowers": "获取粉丝数据...",
+      "analysingFollowers": "分析粉丝... {{current}}/{{total}} 位用户",
+      "buildingTree": "构建包含互动数据的关系树...",
+      "selectingUsers": "选择互动最多的用户...",
+      "complete": "分析完成！已生成包含 {{nodes}} 个用户的关系树"
+    },
+    "errors": {
+      "enterUsername": "请输入推特用户名",
+      "chartNotFound": "未找到可视化图表，请重试",
+      "shareFailed": "生成分享图片失败，请重试",
+      "imageFailed": "图片生成失败，请重试",
+      "exportFailed": "导出失败，请重试",
+      "analysisFailed": "分析失败，请重试"
+    },
+    "visualisation": {
+      "title": "@{{username}} 的关系树",
+      "exportButton": "导出 PNG",
+      "stats": {
+        "totalUsers": "总用户数",
+        "following": "关注",
+        "followers": "粉丝",
+        "mutual": "相互关注"
+      }
+    }
+  },
+  "api": {
+    "errors": {
+      "extensionNotInstalled": "未安装或未激活 Twitter Web API 扩展程序。请先安装并激活扩展程序。",
+      "extensionNotInstalledWithInstructions": "Twitter Web API 扩展程序未安装或未激活。请先安装并激活扩展程序。\n\n请从 Chrome 网上应用店安装 Twitter Web API 扩展程序：\n{{url}}\n\n安装后，请确保您已登录推特账户。",
+      "userNotFound": "用户 @{{username}} 不存在",
+      "getUserFailed": "获取用户 @{{username}} 信息失败，请重试",
+      "getRepliesFailed": "无法获取回复数据，请确保已安装浏览器扩展并登录推特",
+      "getLikesFailed": "无法获取点赞数据，请确保已安装浏览器扩展并登录推特",
+      "getFollowingFailed": "无法获取关注数据，请确保已安装浏览器扩展并登录推特",
+      "getFollowersFailed": "无法获取粉丝数据，请确保已安装浏览器扩展并登录推特",
+      "invalidTweetData": "推文数据无效",
+      "canvasContextFailed": "无法创建画布上下文"
+    }
+  }
+}

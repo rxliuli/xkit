@@ -6,6 +6,7 @@ import { Footer } from '../components/Footer'
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 interface MyRouterContext {
   queryClient: QueryClient

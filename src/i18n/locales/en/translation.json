@@ -1,0 +1,144 @@
+{
+  "header": {
+    "brand": "XKit Tools",
+    "home": "Home",
+    "twitterCircle": "Twitter Circle",
+    "familyTree": "Family Tree",
+    "menu": "Open main menu"
+  },
+  "home": {
+    "title": "XKit Tools",
+    "subtitle": "A powerful suite of social media analysis tools to help you understand your network interaction data",
+    "twitterCircle": {
+      "title": "Twitter Interaction Circle",
+      "description": "Analyse your Twitter interaction data and generate personalised interaction circle visualisations. Discover which users you interact with most frequently and uncover your core social network.",
+      "cta": "Start Analysis"
+    },
+    "familyTree": {
+      "title": "Twitter Family Tree",
+      "description": "Visualise your Twitter network as a family tree based on following relationships. Discover mutual connections, followers, and the people you follow in a beautiful tree structure.",
+      "cta": "Generate Tree"
+    },
+    "comingSoon": {
+      "title": "More Features Coming Soon",
+      "description": "We're working hard to develop more useful Twitter analysis tools, including tweet sentiment analysis, topic trend tracking, user influence assessment, and more. Stay tuned!",
+      "cta": "Coming Soon"
+    },
+    "features": {
+      "title": "Core Features",
+      "dataViz": {
+        "title": "Data Visualisation",
+        "description": "Create interactive data visualisation charts using D3.js"
+      },
+      "privacy": {
+        "title": "Privacy Protection",
+        "description": "All data processing is done locally to protect your privacy"
+      },
+      "realtime": {
+        "title": "Real-time Analysis",
+        "description": "Quickly analyse large amounts of data and generate real-time results"
+      }
+    }
+  },
+  "meta": {
+    "title": "XKit Tools - Social Media Analysis Suite",
+    "description": "A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles, analyse user engagement, and visualise your social media presence.",
+    "keywords": "social media analysis, twitter tools, interaction circle, data visualisation, network analysis, twitter analytics, social media insights, user engagement analysis"
+  },
+  "footer": {
+    "copyright": "© {{year}} XKit Tools. Built with ❤️ by rxliuli.",
+    "visitSite": "Visit Main Site",
+    "github": "GitHub",
+    "tagline": "XKit Tools - A collection of social media analysis and productivity tools"
+  },
+  "interactionCircle": {
+    "title": "Twitter Interaction Circle Generator",
+    "subtitle": "Analyse your Twitter interaction data and generate personalised interaction circle visualisations",
+    "usernameLabel": "Twitter Username",
+    "usernamePlaceholder": "Enter username (without @)",
+    "analyseButton": "Start Analysis",
+    "analysingButton": "Analysing...",
+    "progress": {
+      "initialising": "Initialising analysis...",
+      "fetchingReplies": "Fetching reply data...",
+      "analysingReplies": "Analysing reply data... {{current}}/{{total}} tweets",
+      "fetchingLikes": "Fetching like data...",
+      "analysingLikes": "Analysing like data... {{current}}/{{total}} likes",
+      "fetchingUser": "Fetching user information...",
+      "calculating": "Calculating interaction weights... Analysed {{replies}} replies and {{likes}} likes",
+      "complete": "Analysis complete! Generated interaction circle with {{users}} users"
+    },
+    "errors": {
+      "enterUsername": "Please enter a Twitter username",
+      "chartNotFound": "Visualisation chart not found, please try again",
+      "shareFailed": "Failed to generate image for sharing, please try again",
+      "imageFailed": "Image generation failed, please try again",
+      "exportFailed": "Export failed, please try again",
+      "analysisFailed": "Analysis failed, please try again"
+    },
+    "visualisation": {
+      "title": "@{{username}}'s Interaction Circle",
+      "exportButton": "Export PNG",
+      "stats": {
+        "users": "Interactive Users",
+        "replies": "Replies",
+        "likes": "Likes",
+        "date": "Analysis Date"
+      }
+    }
+  },
+  "familyTree": {
+    "title": "Twitter Family Tree Generator",
+    "subtitle": "Visualise your Twitter network as a family tree based on following relationships",
+    "usernameLabel": "Twitter Username",
+    "usernamePlaceholder": "Enter username (without @)",
+    "generateButton": "Generate Tree",
+    "analysingButton": "Analysing...",
+    "progress": {
+      "initialising": "Initialising analysis...",
+      "fetchingUser": "Fetching user information...",
+      "fetchingInteractions": "Fetching interaction data...",
+      "analysingReplies": "Analysing replies... {{current}}/{{total}}",
+      "analysingLikes": "Analysing likes... {{current}}/{{total}}",
+      "fetchingFollowing": "Fetching following data...",
+      "analysingFollowing": "Analysing following... {{current}}/{{total}} users",
+      "fetchingFollowers": "Fetching followers data...",
+      "analysingFollowers": "Analysing followers... {{current}}/{{total}} users",
+      "buildingTree": "Building family tree with interaction data...",
+      "selectingUsers": "Selecting most interacted users...",
+      "complete": "Analysis complete! Generated family tree with {{nodes}} users"
+    },
+    "errors": {
+      "enterUsername": "Please enter a Twitter username",
+      "chartNotFound": "Visualisation chart not found, please try again",
+      "shareFailed": "Failed to generate image for sharing, please try again",
+      "imageFailed": "Image generation failed, please try again",
+      "exportFailed": "Export failed, please try again",
+      "analysisFailed": "Analysis failed, please try again"
+    },
+    "visualisation": {
+      "title": "@{{username}}'s Family Tree",
+      "exportButton": "Export PNG",
+      "stats": {
+        "totalUsers": "Total Users",
+        "following": "Following",
+        "followers": "Followers",
+        "mutual": "Mutual Follows"
+      }
+    }
+  },
+  "api": {
+    "errors": {
+      "extensionNotInstalled": "Twitter Web API Extension Not Installed or Activated. Please install and activate the extension first.",
+      "extensionNotInstalledWithInstructions": "Twitter Web API Extension Not Installed or Activated. Please install and activate the extension first.\n\nPlease install the Twitter Web API extension from the Chrome Web Store:\n{{url}}\n\nAfter installation, make sure you are logged into your Twitter account.",
+      "userNotFound": "User @{{username}} does not exist",
+      "getUserFailed": "Failed to get user @{{username}} information, please try again",
+      "getRepliesFailed": "Unable to get reply data, please ensure the browser extension is installed and logged into Twitter",
+      "getLikesFailed": "Unable to get like data, please ensure the browser extension is installed and logged into Twitter",
+      "getFollowingFailed": "Unable to get following data, please ensure the browser extension is installed and logged into Twitter",
+      "getFollowersFailed": "Unable to get followers data, please ensure the browser extension is installed and logged into Twitter",
+      "invalidTweetData": "Invalid tweet data",
+      "canvasContextFailed": "Unable to create canvas context"
+    }
+  }
+}

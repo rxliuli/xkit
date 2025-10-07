@@ -4,6 +4,7 @@
  */
 
 import type { User, Tweet } from '../@types/twitter-web-api'
+import i18n from '../i18n'
 
 export interface TwitterUser {
   id: string
@@ -64,7 +65,7 @@ export function convertTweet(tweet: Tweet): TwitterTweet {
   const user = tweet.core?.user_results?.result
 
   if (!legacy || !user || user.__typename !== 'User') {
-    throw new Error('Invalid tweet data')
+    throw new Error(i18n.t('api.errors.invalidTweetData'))
   }
 
   return {

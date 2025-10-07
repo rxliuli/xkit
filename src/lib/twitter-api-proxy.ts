@@ -6,6 +6,17 @@
 import { TwitterTweet, TwitterLike, TwitterUser, convertTweet, convertUser } from './twitter-adapter'
 import { User } from '../@types/twitter-web-api'
 
+export class TwitterAPIError extends Error {
+  code: string
+  params: Record<string, string>
+  constructor(message: string, code: string, params?: Record<string, string>) {
+    super(message)
+    this.name = 'TwitterAPIError'
+    this.code = code
+    this.params = params || {}
+  }
+}
+
 export class TwitterAPIProxy {
   /**
    * Check if browser extension is available
@@ -42,21 +53,26 @@ export class TwitterAPIProxy {
     const isAvailable = await this.checkExtensionAvailability()
 
     if (!isAvailable) {
-      throw new Error(
+      throw new TwitterAPIError(
         'Twitter Web API Extension Not Installed or Activated. Please install and activate the extension first.',
+        'EXTENSION_NOT_INSTALLED',
       )
     }
 
     try {
       const user = await window.__TWITTER_WEB_API__.getUserByScreenName(username)
       if (!user) {
-        throw new Error(`User @${username} does not exist`)
+        throw new TwitterAPIError(`User @${username} does not exist`, 'USER_NOT_FOUND', {
+          username,
+        })
       }
 
       return user
     } catch (error) {
       console.error('Failed to get user information:', error)
-      throw new Error(`Failed to get user @${username} information, please try again`)
+      throw new TwitterAPIError(`Failed to get user @${username} information, please try again`, 'GET_USER_FAILED', {
+        username,
+      })
     }
   }
 
@@ -71,8 +87,9 @@ export class TwitterAPIProxy {
     const isAvailable = await this.checkExtensionAvailability()
 
     if (!isAvailable) {
-      throw new Error(
+      throw new TwitterAPIError(
         'Twitter Web API Extension Not Installed or Activated. Please install and activate the extension first.',
+        'EXTENSION_NOT_INSTALLED',
       )
     }
 
@@ -80,7 +97,9 @@ export class TwitterAPIProxy {
       // First get user information
       const user = await window.__TWITTER_WEB_API__.getUserByScreenName(username)
       if (!user) {
-        throw new Error(`User @${username} does not exist`)
+        throw new TwitterAPIError(`User @${username} does not exist`, 'USER_NOT_FOUND', {
+          username,
+        })
       }
 
       const allReplies: TwitterTweet[] = []
@@ -110,8 +129,12 @@ export class TwitterAPIProxy {
       return allReplies.slice(0, count)
     } catch (error) {
       console.error('Failed to get reply data:', error)
-      throw new Error(
+      throw new TwitterAPIError(
         'Unable to get reply data, please ensure the browser extension is installed and logged into Twitter',
+        'GET_REPLIES_FAILED',
+        {
+          username,
+        },
       )
     }
   }
@@ -127,8 +150,9 @@ export class TwitterAPIProxy {
     const isAvailable = await this.checkExtensionAvailability()
 
     if (!isAvailable) {
-      throw new Error(
+      throw new TwitterAPIError(
         'Twitter Web API Extension Not Installed or Activated. Please install and activate the extension first.',
+        'EXTENSION_NOT_INSTALLED',
       )
     }
 
@@ -136,7 +160,9 @@ export class TwitterAPIProxy {
       // First get user information
       const user = await window.__TWITTER_WEB_API__.getUserByScreenName(username)
       if (!user) {
-        throw new Error(`User @${username} does not exist`)
+        throw new TwitterAPIError(`User @${username} does not exist`, 'USER_NOT_FOUND', {
+          username,
+        })
       }
 
       const allLikes: TwitterLike[] = []
@@ -168,8 +194,12 @@ export class TwitterAPIProxy {
       return allLikes.slice(0, count)
     } catch (error) {
       console.error('Failed to get like data:', error)
-      throw new Error(
+      throw new TwitterAPIError(
         'Unable to get like data, please ensure the browser extension is installed and logged into Twitter',
+        'GET_LIKES_FAILED',
+        {
+          username,
+        },
       )
     }
   }
@@ -185,8 +215,9 @@ export class TwitterAPIProxy {
     const isAvailable = await this.checkExtensionAvailability()
 
     if (!isAvailable) {
-      throw new Error(
+      throw new TwitterAPIError(
         'Twitter Web API Extension Not Installed or Activated. Please install and activate the extension first.',
+        'EXTENSION_NOT_INSTALLED',
       )
     }
 
@@ -214,8 +245,12 @@ export class TwitterAPIProxy {
       return allFollowing.slice(0, count)
     } catch (error) {
       console.error('Failed to get following data:', error)
-      throw new Error(
+      throw new TwitterAPIError(
         'Unable to get following data, please ensure the browser extension is installed and logged into Twitter',
+        'GET_FOLLOWING_FAILED',
+        {
+          userId,
+        },
       )
     }
   }
@@ -231,8 +266,9 @@ export class TwitterAPIProxy {
     const isAvailable = await this.checkExtensionAvailability()
 
     if (!isAvailable) {
-      throw new Error(
+      throw new TwitterAPIError(
         'Twitter Web API Extension Not Installed or Activated. Please install and activate the extension first.',
+        'EXTENSION_NOT_INSTALLED',
       )
     }
 
@@ -260,8 +296,12 @@ export class TwitterAPIProxy {
       return allFollowers.slice(0, count)
     } catch (error) {
       console.error('Failed to get followers data:', error)
-      throw new Error(
+      throw new TwitterAPIError(
         'Unable to get followers data, please ensure the browser extension is installed and logged into Twitter',
+        'GET_FOLLOWERS_FAILED',
+        {
+          userId,
+        },
       )
     }
   }
