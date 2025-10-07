@@ -87,7 +87,7 @@ export function Header() {
                         currentLang === lang ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700'
                       }`}
                     >
-                      {lang === 'en' && 'English'}
+                      {lang === 'en-US' && 'English'}
                       {lang === 'zh-CN' && '简体中文'}
                       {lang === 'zh-TW' && '繁體中文'}
                       {lang === 'ja-JP' && '日本語'}
@@ -171,7 +171,7 @@ export function Header() {
                                 : 'text-gray-700 hover:bg-gray-50'
                             }`}
                           >
-                            {lang === 'en' && '🇬🇧 English'}
+                            {lang === 'en-US' && '🇺🇸 English'}
                             {lang === 'zh-CN' && '🇨🇳 简体中文'}
                             {lang === 'zh-TW' && '🇹🇼 繁體中文'}
                             {lang === 'ja-JP' && '🇯🇵 日本語'}

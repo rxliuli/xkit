@@ -1,19 +1,19 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import en from './locales/en/translation.json'
+import enUS from './locales/en-us/translation.json'
 import zhCN from './locales/zh-cn/translation.json'
 import zhTW from './locales/zh-tw/translation.json'
 import jaJP from './locales/ja-jp/translation.json'
 
 export const availableLanguages = {
-  en,
+  'en-US': enUS,
   'zh-CN': zhCN,
   'zh-TW': zhTW,
   'ja-JP': jaJP,
 } as const
 
 export type AvailableLanguages = keyof typeof availableLanguages
-export const languages: AvailableLanguages[] = ['en', 'zh-CN', 'zh-TW', 'ja-JP']
+export const languages: AvailableLanguages[] = ['en-US', 'zh-CN', 'zh-TW', 'ja-JP']
 
 /**
  * Detects the appropriate language based on the current path or browser settings.
@@ -33,7 +33,7 @@ const detectBrowserLanguage = (serverPath?: string): AvailableLanguages => {
       }
     }
 
-    return 'en'
+    return 'en-US'
   } else {
     const pathParts = window.location.pathname.split('/')
     const urlLang = pathParts[1] // First segment after /
@@ -52,7 +52,7 @@ const detectBrowserLanguage = (serverPath?: string): AvailableLanguages => {
     const langCode = browserLang.split('-')[0]
     const match = languages.find((lang) => lang.startsWith(langCode))
 
-    return match || 'en'
+    return match || 'en-US'
   }
 }
 
@@ -69,13 +69,13 @@ export const initI18nWithLanguage = (language: AvailableLanguages) => {
 
 i18n.use(initReactI18next).init({
   resources: {
-    en: { translation: en },
+    'en-US': { translation: enUS },
     'zh-CN': { translation: zhCN },
     'zh-TW': { translation: zhTW },
     'ja-JP': { translation: jaJP },
   },
   lng: detectBrowserLanguage(),
-  fallbackLng: 'en',
+  fallbackLng: 'en-US',
   interpolation: { escapeValue: false },
 })
 
