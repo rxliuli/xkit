@@ -9,18 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as InteractionCircleRouteImport } from './routes/interaction-circle'
-import { Route as FamilyTreeRouteImport } from './routes/family-tree'
+import { Route as LangRouteImport } from './routes/$lang'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LangIndexRouteImport } from './routes/$lang/index'
+import { Route as LangInteractionCircleRouteImport } from './routes/$lang/interaction-circle'
+import { Route as LangFamilyTreeRouteImport } from './routes/$lang/family-tree'
 
-const InteractionCircleRoute = InteractionCircleRouteImport.update({
-  id: '/interaction-circle',
-  path: '/interaction-circle',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FamilyTreeRoute = FamilyTreeRouteImport.update({
-  id: '/family-tree',
-  path: '/family-tree',
+const LangRoute = LangRouteImport.update({
+  id: '/$lang',
+  path: '/$lang',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -28,51 +25,74 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LangIndexRoute = LangIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangInteractionCircleRoute = LangInteractionCircleRouteImport.update({
+  id: '/interaction-circle',
+  path: '/interaction-circle',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangFamilyTreeRoute = LangFamilyTreeRouteImport.update({
+  id: '/family-tree',
+  path: '/family-tree',
+  getParentRoute: () => LangRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/family-tree': typeof FamilyTreeRoute
-  '/interaction-circle': typeof InteractionCircleRoute
+  '/$lang': typeof LangRouteWithChildren
+  '/$lang/family-tree': typeof LangFamilyTreeRoute
+  '/$lang/interaction-circle': typeof LangInteractionCircleRoute
+  '/$lang/': typeof LangIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/family-tree': typeof FamilyTreeRoute
-  '/interaction-circle': typeof InteractionCircleRoute
+  '/$lang/family-tree': typeof LangFamilyTreeRoute
+  '/$lang/interaction-circle': typeof LangInteractionCircleRoute
+  '/$lang': typeof LangIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/family-tree': typeof FamilyTreeRoute
-  '/interaction-circle': typeof InteractionCircleRoute
+  '/$lang': typeof LangRouteWithChildren
+  '/$lang/family-tree': typeof LangFamilyTreeRoute
+  '/$lang/interaction-circle': typeof LangInteractionCircleRoute
+  '/$lang/': typeof LangIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/family-tree' | '/interaction-circle'
+  fullPaths:
+    | '/'
+    | '/$lang'
+    | '/$lang/family-tree'
+    | '/$lang/interaction-circle'
+    | '/$lang/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/family-tree' | '/interaction-circle'
-  id: '__root__' | '/' | '/family-tree' | '/interaction-circle'
+  to: '/' | '/$lang/family-tree' | '/$lang/interaction-circle' | '/$lang'
+  id:
+    | '__root__'
+    | '/'
+    | '/$lang'
+    | '/$lang/family-tree'
+    | '/$lang/interaction-circle'
+    | '/$lang/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  FamilyTreeRoute: typeof FamilyTreeRoute
-  InteractionCircleRoute: typeof InteractionCircleRoute
+  LangRoute: typeof LangRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/interaction-circle': {
-      id: '/interaction-circle'
-      path: '/interaction-circle'
-      fullPath: '/interaction-circle'
-      preLoaderRoute: typeof InteractionCircleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/family-tree': {
-      id: '/family-tree'
-      path: '/family-tree'
-      fullPath: '/family-tree'
-      preLoaderRoute: typeof FamilyTreeRouteImport
+    '/$lang': {
+      id: '/$lang'
+      path: '/$lang'
+      fullPath: '/$lang'
+      preLoaderRoute: typeof LangRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -82,13 +102,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$lang/': {
+      id: '/$lang/'
+      path: '/'
+      fullPath: '/$lang/'
+      preLoaderRoute: typeof LangIndexRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/interaction-circle': {
+      id: '/$lang/interaction-circle'
+      path: '/interaction-circle'
+      fullPath: '/$lang/interaction-circle'
+      preLoaderRoute: typeof LangInteractionCircleRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/family-tree': {
+      id: '/$lang/family-tree'
+      path: '/family-tree'
+      fullPath: '/$lang/family-tree'
+      preLoaderRoute: typeof LangFamilyTreeRouteImport
+      parentRoute: typeof LangRoute
+    }
   }
 }
 
+interface LangRouteChildren {
+  LangFamilyTreeRoute: typeof LangFamilyTreeRoute
+  LangInteractionCircleRoute: typeof LangInteractionCircleRoute
+  LangIndexRoute: typeof LangIndexRoute
+}
+
+const LangRouteChildren: LangRouteChildren = {
+  LangFamilyTreeRoute: LangFamilyTreeRoute,
+  LangInteractionCircleRoute: LangInteractionCircleRoute,
+  LangIndexRoute: LangIndexRoute,
+}
+
+const LangRouteWithChildren = LangRoute._addFileChildren(LangRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  FamilyTreeRoute: FamilyTreeRoute,
-  InteractionCircleRoute: InteractionCircleRoute,
+  LangRoute: LangRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

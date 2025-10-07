@@ -1,16 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import D3TwitterCircle from '../components/D3TwitterCircle'
-import { TwitterAPIError, TwitterAPIProxy } from '../lib/twitter-api-proxy'
-import { InteractionCalculator, CircleData } from '../lib/interaction-calculator'
-import { convertUser } from '../lib/twitter-adapter'
+import D3TwitterCircle from '../../components/D3TwitterCircle'
+import { TwitterAPIError, TwitterAPIProxy } from '../../lib/twitter-api-proxy'
+import { InteractionCalculator, CircleData } from '../../lib/interaction-calculator'
+import { convertUser } from '../../lib/twitter-adapter'
 import { useWindowSize } from '@/lib/hooks/useWindowSize'
 import { AnalysisError } from '@/components/AnalysisError'
 import { LoadingProgressBar } from '@/components/LoadingProgressBar'
 import { InputSection } from '@/components/InputSection'
 
-export const Route = createFileRoute('/interaction-circle')({
+export const Route = createFileRoute('/$lang/interaction-circle')({
   head: () => ({
     meta: [
       {

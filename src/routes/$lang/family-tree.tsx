@@ -1,17 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import D3FamilyTree from '../components/D3FamilyTree'
-import { TwitterAPIError, TwitterAPIProxy } from '../lib/twitter-api-proxy'
-import { convertUser } from '../lib/twitter-adapter'
-import { FamilyTreeCalculator, FamilyTreeData } from '../lib/family-tree-calculator'
-import { InteractionCalculator } from '../lib/interaction-calculator'
+import D3FamilyTree from '../../components/D3FamilyTree'
+import { convertUser } from '../../lib/twitter-adapter'
+import { FamilyTreeCalculator, FamilyTreeData } from '../../lib/family-tree-calculator'
+import { InteractionCalculator } from '../../lib/interaction-calculator'
+import { TwitterAPIError, TwitterAPIProxy } from '../../lib/twitter-api-proxy'
 import { useWindowSize } from '@/lib/hooks/useWindowSize'
 import { AnalysisError } from '@/components/AnalysisError'
 import { LoadingProgressBar } from '@/components/LoadingProgressBar'
 import { InputSection } from '@/components/InputSection'
 
-export const Route = createFileRoute('/family-tree')({
+export const Route = createFileRoute('/$lang/family-tree')({
   head: () => ({
     meta: [
       {

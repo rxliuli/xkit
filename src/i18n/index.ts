@@ -15,9 +15,37 @@ export const availableLanguages = {
 export type AvailableLanguages = keyof typeof availableLanguages
 export const languages: AvailableLanguages[] = ['en', 'zh-CN', 'zh-TW', 'ja-JP']
 
-const detectBrowserLanguage = (): AvailableLanguages => {
-  if (typeof window === 'undefined') return 'en'
+/**
+ * Detects the appropriate language based on the current path or browser settings.
+ *
+ * @param serverPath - Optional path from server-side request (for SSR)
+ * @returns The detected language code
+ */
+const detectBrowserLanguage = (serverPath?: string): AvailableLanguages => {
+  // Server-side: extract language from the provided path
+  if (typeof window === 'undefined') {
+    if (serverPath) {
+      const pathParts = serverPath.split('/')
+      const urlLang = pathParts[1] // First segment after /
 
+      if (languages.includes(urlLang as AvailableLanguages)) {
+        return urlLang as AvailableLanguages
+      }
+    }
+
+    // Default fallback for SSR when path is not available or doesn't contain a valid language
+    return 'en'
+  }
+
+  // Client-side: try to get language from URL path first
+  const pathParts = window.location.pathname.split('/')
+  const urlLang = pathParts[1] // First segment after /
+
+  if (languages.includes(urlLang as AvailableLanguages)) {
+    return urlLang as AvailableLanguages
+  }
+
+  // Fallback to browser language
   const browserLang = navigator.language
 
   if (languages.includes(browserLang as AvailableLanguages)) {
@@ -30,6 +58,17 @@ const detectBrowserLanguage = (): AvailableLanguages => {
   return match || 'en'
 }
 
+/**
+ * Initializes i18n with a specific language (useful for SSR).
+ *
+ * @param language - The language to initialize with
+ */
+export const initI18nWithLanguage = (language: AvailableLanguages) => {
+  if (i18n.language !== language) {
+    i18n.changeLanguage(language)
+  }
+}
+
 i18n.use(initReactI18next).init({
   resources: {
     en: { translation: en },
@@ -37,7 +76,7 @@ i18n.use(initReactI18next).init({
     'zh-TW': { translation: zhTW },
     'ja-JP': { translation: jaJP },
   },
-  lng: typeof window !== 'undefined' ? detectBrowserLanguage() : 'en',
+  lng: detectBrowserLanguage(),
   fallbackLng: 'en',
   interpolation: { escapeValue: false },
 })

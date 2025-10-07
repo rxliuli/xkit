@@ -1,220 +1,29 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
+// This route handles the root path and redirects to the locale-prefixed version
 export const Route = createFileRoute('/')({
-  head: () => ({
-    meta: [
-      {
-        title: 'XKit Tools - Social Media Analysis Suite',
-      },
-      {
-        name: 'description',
-        content:
-          'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles, analyze user engagement, and visualize your social media presence.',
-      },
-      {
-        name: 'keywords',
-        content:
-          'social media analysis, twitter tools, interaction circle, data visualization, network analysis, twitter analytics, social media insights, user engagement analysis',
-      },
-      // Open Graph tags
-      {
-        property: 'og:title',
-        content: 'XKit Tools - Social Media Analysis Suite',
-      },
-      {
-        property: 'og:description',
-        content:
-          'A powerful suite of social media analysis tools to help you understand your network interaction data. Create Twitter interaction circles and analyze user engagement.',
-      },
-      {
-        property: 'og:type',
-        content: 'website',
-      },
-      {
-        property: 'og:url',
-        content: 'https://xkit.rxliuli.com',
-      },
-      {
-        property: 'og:image',
-        content: 'https://xkit.rxliuli.com/logo512.png',
-      },
-      {
-        property: 'og:image:width',
-        content: '512',
-      },
-      {
-        property: 'og:image:height',
-        content: '512',
-      },
-      {
-        property: 'og:image:alt',
-        content: 'XKit Tools Logo - Social Media Analysis Suite',
-      },
-      {
-        property: 'og:site_name',
-        content: 'XKit Tools',
-      },
-      // Twitter Card tags
-      {
-        name: 'twitter:card',
-        content: 'summary_large_image',
-      },
-      {
-        name: 'twitter:title',
-        content: 'XKit Tools - Social Media Analysis Suite',
-      },
-      {
-        name: 'twitter:description',
-        content:
-          'A powerful suite of social media analysis tools. Create Twitter interaction circles and analyze your social media network data.',
-      },
-      {
-        name: 'twitter:image',
-        content: 'https://xkit.rxliuli.com/logo512.png',
-      },
-      {
-        name: 'twitter:image:alt',
-        content: 'XKit Tools Logo - Social Media Analysis Suite',
-      },
-      {
-        name: 'twitter:creator',
-        content: '@moeruri',
-      },
-      {
-        name: 'twitter:site',
-        content: '@moeruri',
-      },
-      // Additional meta tags
-      {
-        name: 'robots',
-        content: 'index, follow',
-      },
-      {
-        name: 'author',
-        content: 'XKit Tools',
-      },
-    ],
-  }),
-  component: App,
+  beforeLoad: () => {
+    // Detect browser language - this will only run on client-side navigation
+    let detectedLang = 'en'
+
+    if (typeof window !== 'undefined') {
+      const browserLang = navigator.language
+      const supportedLangs = ['en', 'zh-CN', 'zh-TW', 'ja-JP']
+
+      if (supportedLangs.includes(browserLang)) {
+        detectedLang = browserLang
+      } else {
+        const langCode = browserLang.split('-')[0]
+        const match = supportedLangs.find((lang) => lang.startsWith(langCode))
+        detectedLang = match || 'en'
+      }
+    }
+
+    // Redirect to the locale-specific home page
+    throw redirect({
+      to: '/$lang',
+      params: { lang: detectedLang },
+      replace: true,
+    })
+  },
 })
-
-function App() {
-  const { t } = useTranslation()
-
-  return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Hero Section */}
-      <div className="flex flex-col items-center justify-center px-4 py-12 sm:px-6 sm:py-20">
-        <div className="max-w-4xl mx-auto text-center">
-          <img
-            src={'/logo192.png'}
-            className="h-24 sm:h-32 mx-auto mb-6 sm:mb-8 animate-[spin_20s_linear_infinite]"
-            alt="XKit Logo"
-          />
-
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 sm:mb-4">{t('home.title')}</h1>
-
-          <p className="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto px-4">{t('home.subtitle')}</p>
-
-          {/* Tools Grid */}
-          <div className="max-w-4xl mx-auto px-4 grid gap-6 sm:gap-8">
-            {/* Twitter Circle Tool */}
-            <Link
-              to="/interaction-circle"
-              className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
-            >
-              <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🐦</div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">
-                {t('home.twitterCircle.title')}
-              </h3>
-              <p className="text-gray-600 text-sm sm:text-base">{t('home.twitterCircle.description')}</p>
-              <div className="mt-6 inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700">
-                {t('home.twitterCircle.cta')}
-                <svg
-                  className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </Link>
-
-            {/* Twitter Family Tree Tool */}
-            <Link
-              to="/family-tree"
-              className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
-            >
-              <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🌳</div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">{t('home.familyTree.title')}</h3>
-              <p className="text-gray-600 text-sm sm:text-base">{t('home.familyTree.description')}</p>
-              <div className="mt-6 inline-flex items-center text-purple-600 font-medium group-hover:text-purple-700">
-                {t('home.familyTree.cta')}
-                <svg
-                  className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </Link>
-
-            {/* More Features Coming Soon */}
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl shadow-lg p-6 sm:p-8 border-2 border-dashed border-purple-200">
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🚀</div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">
-                  {t('home.comingSoon.title')}
-                </h3>
-                <p className="text-gray-600">{t('home.comingSoon.description')}</p>
-                <div className="mt-6 inline-flex items-center text-purple-600 font-medium">
-                  {t('home.comingSoon.cta')}
-                  <svg className="ml-2 w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Features */}
-          <div className="mt-12 sm:mt-16 text-center">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8">{t('home.features.title')}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-              <div className="bg-white/70 rounded-lg p-4 sm:p-6">
-                <div className="text-xl sm:text-2xl mb-2 sm:mb-3">📊</div>
-                <h4 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">
-                  {t('home.features.dataViz.title')}
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-600">{t('home.features.dataViz.description')}</p>
-              </div>
-              <div className="bg-white/70 rounded-lg p-4 sm:p-6">
-                <div className="text-xl sm:text-2xl mb-2 sm:mb-3">🔒</div>
-                <h4 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">
-                  {t('home.features.privacy.title')}
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-600">{t('home.features.privacy.description')}</p>
-              </div>
-              <div className="bg-white/70 rounded-lg p-4 sm:p-6">
-                <div className="text-xl sm:text-2xl mb-2 sm:mb-3">⚡</div>
-                <h4 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">
-                  {t('home.features.realtime.title')}
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-600">{t('home.features.realtime.description')}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}

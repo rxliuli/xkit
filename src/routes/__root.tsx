@@ -174,8 +174,10 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { i18n } = useTranslation()
+
   return (
-    <html lang="en">
+    <html lang={i18n.language}>
       <head>
         <HeadContent />
         {/* JSON-LD Structured Data */}

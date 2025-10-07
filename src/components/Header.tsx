@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useParams, useNavigate } from '@tanstack/react-router'
 import { MenuIcon, Languages } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
@@ -6,10 +6,25 @@ import { languages, type AvailableLanguages } from '../i18n'
 
 export function Header() {
   const { t, i18n } = useTranslation()
+  const params = useParams({ strict: false }) as { lang?: string }
+  const navigate = useNavigate()
 
-  // Handler to change language
+  // Get current language from URL params or fallback to i18n
+  const currentLang = (params.lang || i18n.language) as AvailableLanguages
+
+  // Handler to change language - updates the URL path
   const changeLanguage = (lng: AvailableLanguages) => {
-    i18n.changeLanguage(lng)
+    // Get the current path without the locale (SSR safe)
+    let currentPath = '/'
+    if (typeof window !== 'undefined') {
+      currentPath = window.location.pathname.replace(`/${currentLang}`, '') || '/'
+    }
+
+    // Navigate to the same path with new locale
+    navigate({
+      to: `/${lng}${currentPath}`,
+      replace: false,
+    })
   }
 
   return (
@@ -17,7 +32,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
-          <Link to="/" className="flex items-center space-x-3">
+          <Link to="/$lang" params={{ lang: currentLang }} className="flex items-center space-x-3">
             <img src={'/logo192.png'} alt="XKit Logo" className="h-8 w-8" />
             <span className="text-xl font-bold text-gray-900">{t('header.brand')}</span>
           </Link>
@@ -25,7 +40,8 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 items-center">
             <Link
-              to="/"
+              to="/$lang"
+              params={{ lang: currentLang }}
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
                 className: 'text-blue-600 hover:text-blue-700',
@@ -34,7 +50,8 @@ export function Header() {
               {t('header.home')}
             </Link>
             <Link
-              to="/interaction-circle"
+              to="/$lang/interaction-circle"
+              params={{ lang: currentLang }}
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
                 className: 'text-blue-600 hover:text-blue-700',
@@ -44,7 +61,8 @@ export function Header() {
             </Link>
 
             <Link
-              to="/family-tree"
+              to="/$lang/family-tree"
+              params={{ lang: currentLang }}
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
                 className: 'text-blue-600 hover:text-blue-700',
@@ -57,7 +75,7 @@ export function Header() {
             <div className="relative group">
               <button className="flex items-center space-x-1 text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 <Languages className="h-4 w-4" />
-                <span className="uppercase">{i18n.language.split('-')[0]}</span>
+                <span className="uppercase">{currentLang.split('-')[0]}</span>
               </button>
               <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <div className="py-1">
@@ -66,7 +84,7 @@ export function Header() {
                       key={lang}
                       onClick={() => changeLanguage(lang)}
                       className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                        i18n.language === lang ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700'
+                        currentLang === lang ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700'
                       }`}
                     >
                       {lang === 'en' && 'English'}
@@ -104,7 +122,8 @@ export function Header() {
                 <nav className="flex flex-col space-y-4">
                   <SheetClose asChild>
                     <Link
-                      to="/"
+                      to="/$lang"
+                      params={{ lang: currentLang }}
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
                         className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',
@@ -115,13 +134,26 @@ export function Header() {
                   </SheetClose>
                   <SheetClose asChild>
                     <Link
-                      to="/interaction-circle"
+                      to="/$lang/interaction-circle"
+                      params={{ lang: currentLang }}
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
                         className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',
                       }}
                     >
                       🐦 {t('header.twitterCircle')}
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link
+                      to="/$lang/family-tree"
+                      params={{ lang: currentLang }}
+                      className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
+                      activeProps={{
+                        className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',
+                      }}
+                    >
+                      🌳 {t('header.familyTree')}
                     </Link>
                   </SheetClose>
 
@@ -134,7 +166,7 @@ export function Header() {
                           <button
                             onClick={() => changeLanguage(lang)}
                             className={`block w-full text-left px-4 py-2 text-sm rounded-md ${
-                              i18n.language === lang
+                              currentLang === lang
                                 ? 'bg-blue-50 text-blue-600 font-medium'
                                 : 'text-gray-700 hover:bg-gray-50'
                             }`}
