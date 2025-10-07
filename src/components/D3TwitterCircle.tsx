@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
+import { useTranslation } from 'react-i18next'
 import { CircleData } from '../lib/interaction-calculator'
 
 interface D3TwitterCircleProps {
@@ -29,6 +30,7 @@ interface CircleNode {
 }
 
 const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, height = 600 }) => {
+  const { t } = useTranslation()
   const svgRef = useRef<SVGSVGElement>(null)
   const [tooltip, setTooltip] = useState<{
     visible: boolean
@@ -355,7 +357,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
           visible: true,
           x: svgRect.left + mouseX + 10,
           y: svgRect.top + mouseY - 10,
-          content: `@${d.username}\nReplies: ${d.interactions.replies} | Likes: ${d.interactions.likes}`,
+          content: `@${d.username}\n${t('interactionCircle.visualisation.tooltip.replies')}: ${d.interactions.replies} | ${t('interactionCircle.visualisation.tooltip.likes')}: ${d.interactions.likes}`,
         })
       })
       .on('mouseout', function () {
@@ -367,7 +369,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
       .on('click', (_, d) => {
         window.open(`https://twitter.com/${d.username}`, '_blank')
       })
-  }, [data, width, height])
+  }, [data, width, height, t])
 
   return (
     <div className="relative">

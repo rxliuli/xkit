@@ -84,6 +84,10 @@
         "replies": "回复",
         "likes": "点赞",
         "date": "分析日期"
+      },
+      "tooltip": {
+        "replies": "回复",
+        "likes": "点赞"
       }
     }
   },
@@ -124,6 +128,11 @@
         "following": "关注",
         "followers": "粉丝",
         "mutual": "相互关注"
+      },
+      "labels": {
+        "parents": "父母",
+        "spouse": "配偶",
+        "children": "子女"
       }
     }
   },

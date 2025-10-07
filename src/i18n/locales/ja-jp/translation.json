@@ -84,6 +84,10 @@
         "replies": "返信",
         "likes": "いいね",
         "date": "分析日"
+      },
+      "tooltip": {
+        "replies": "返信",
+        "likes": "いいね"
       }
     }
   },
@@ -124,6 +128,11 @@
         "following": "フォロー中",
         "followers": "フォロワー",
         "mutual": "相互フォロー"
+      },
+      "labels": {
+        "parents": "両親",
+        "spouse": "配偶者",
+        "children": "子供"
       }
     }
   },

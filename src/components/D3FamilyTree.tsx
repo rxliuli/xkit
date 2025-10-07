@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
+import { useTranslation } from 'react-i18next'
 import { FamilyTreeData, TreeNode } from '../lib/family-tree-calculator'
 
 interface D3FamilyTreeProps {
@@ -37,6 +38,7 @@ const sanitizeId = (id: string) => id.replace(/[^a-zA-Z0-9_-]/g, '')
 const getRadius = (_type: TreeNode['type']) => NODE_RADIUS
 
 export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps) {
+  const { t } = useTranslation()
   const svgRef = useRef<SVGSVGElement>(null)
 
   useEffect(() => {
@@ -62,7 +64,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
     const centerX = width / 2
     let currentY = 50
 
-    drawSectionLabel('PARENTS', centerX, TOP_MARGIN)
+    drawSectionLabel(t('familyTree.visualisation.labels.parents'), centerX, TOP_MARGIN)
     currentY += 22
     currentY += 100
     const [x1, x2] = [0, 1].map((index) => {
@@ -80,7 +82,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
     currentY += 40
     drawHorizontalLine(x1, centerX, currentY)
     drawVerticalLine(x1, currentY, currentY + 20)
-    drawSectionLabel('SPOUSE', x2, currentY)
+    drawSectionLabel(t('familyTree.visualisation.labels.spouse'), x2, currentY)
     currentY += 80
     drawUser(rootNode, x1, currentY)
     drawUser(spouseNode, x2, currentY)
@@ -95,7 +97,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
     drawVerticalLine(x1, currentY, currentY + 20)
     drawVerticalLine(x2, currentY, currentY + 20)
     currentY += 20
-    drawSectionLabel('CHILDREN', centerX, currentY)
+    drawSectionLabel(t('familyTree.visualisation.labels.children'), centerX, currentY)
     currentY += 40
     drawUser(childrenLayer[0], x1, currentY + 22)
     drawUser(childrenLayer[1], x2, currentY + 22)
@@ -360,7 +362,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
     return () => {
       svg.selectAll('*').remove()
     }
-  }, [data, width, height])
+  }, [data, width, height, t])
 
   return <svg ref={svgRef} width={width} height={height} style={{ background: BACKGROUND_COLOR }} />
 }
