@@ -9,22 +9,28 @@ export function Header() {
   const params = useParams({ strict: false }) as { lang?: string }
   const navigate = useNavigate()
 
-  // Get current language from URL params or fallback to i18n
-  const currentLang = (params.lang || i18n.language) as AvailableLanguages
+  // Get current language: undefined means en-US (default)
+  const currentLang = (params.lang || 'en-US') as AvailableLanguages
 
-  // Handler to change language - updates the URL path
+  // Helper: Get language prefix for URL (en-US uses root, others use /{lang})
+  const getLangPrefix = (lng: AvailableLanguages) => {
+    return lng === 'en-US' ? '' : `/${lng}`
+  }
+
+  // Helper: Get current page path without language prefix
+  const getCurrentPage = () => {
+    if (typeof window === 'undefined') return ''
+    const path = window.location.pathname
+    // Remove language prefix if present
+    const withoutLang = languages.reduce((p, lang) => p.replace(`/${lang}`, ''), path)
+    return withoutLang || '/'
+  }
+
+  // Handler to change language
   const changeLanguage = (lng: AvailableLanguages) => {
-    // Get the current path without the locale (SSR safe)
-    let currentPath = '/'
-    if (typeof window !== 'undefined') {
-      currentPath = window.location.pathname.replace(`/${currentLang}`, '') || '/'
-    }
-
-    // Navigate to the same path with new locale
-    navigate({
-      to: `/${lng}${currentPath}`,
-      replace: false,
-    })
+    const currentPage = getCurrentPage()
+    const newPath = getLangPrefix(lng) + currentPage
+    navigate({ to: newPath, replace: false })
   }
 
   return (
@@ -32,7 +38,11 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
-          <Link to="/$lang" params={{ lang: currentLang }} className="flex items-center space-x-3">
+          <Link
+            to={currentLang === 'en-US' ? '/' : '/{-$lang}'}
+            params={currentLang === 'en-US' ? {} : { lang: currentLang }}
+            className="flex items-center space-x-3"
+          >
             <img src={'/logo192.png'} alt="XKit Logo" className="h-8 w-8" />
             <span className="text-xl font-bold text-gray-900">{t('header.brand')}</span>
           </Link>
@@ -40,8 +50,8 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 items-center">
             <Link
-              to="/$lang"
-              params={{ lang: currentLang }}
+              to={currentLang === 'en-US' ? '/' : '/{-$lang}'}
+              params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
                 className: 'text-blue-600 hover:text-blue-700',
@@ -50,8 +60,8 @@ export function Header() {
               {t('header.home')}
             </Link>
             <Link
-              to="/$lang/interaction-circle"
-              params={{ lang: currentLang }}
+              to={currentLang === 'en-US' ? '/interaction-circle' : '/{-$lang}/interaction-circle'}
+              params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
                 className: 'text-blue-600 hover:text-blue-700',
@@ -61,8 +71,8 @@ export function Header() {
             </Link>
 
             <Link
-              to="/$lang/family-tree"
-              params={{ lang: currentLang }}
+              to={currentLang === 'en-US' ? '/family-tree' : '/{-$lang}/family-tree'}
+              params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
                 className: 'text-blue-600 hover:text-blue-700',
@@ -122,8 +132,8 @@ export function Header() {
                 <nav className="flex flex-col space-y-4">
                   <SheetClose asChild>
                     <Link
-                      to="/$lang"
-                      params={{ lang: currentLang }}
+                      to={currentLang === 'en-US' ? '/' : '/{-$lang}'}
+                      params={currentLang === 'en-US' ? {} : { lang: currentLang }}
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
                         className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',
@@ -134,8 +144,8 @@ export function Header() {
                   </SheetClose>
                   <SheetClose asChild>
                     <Link
-                      to="/$lang/interaction-circle"
-                      params={{ lang: currentLang }}
+                      to={currentLang === 'en-US' ? '/interaction-circle' : '/{-$lang}/interaction-circle'}
+                      params={currentLang === 'en-US' ? {} : { lang: currentLang }}
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
                         className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',
@@ -146,8 +156,8 @@ export function Header() {
                   </SheetClose>
                   <SheetClose asChild>
                     <Link
-                      to="/$lang/family-tree"
-                      params={{ lang: currentLang }}
+                      to={currentLang === 'en-US' ? '/family-tree' : '/{-$lang}/family-tree'}
+                      params={currentLang === 'en-US' ? {} : { lang: currentLang }}
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
                         className: 'text-blue-600 hover:text-blue-700 bg-blue-50 border-blue-200',

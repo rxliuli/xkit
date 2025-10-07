@@ -175,8 +175,10 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation()
+  // Use i18n.language, defaulting to 'en-US' if not set
+  const htmlLang = i18n.language || 'en-US'
   return (
-    <html lang={i18n.language} suppressHydrationWarning>
+    <html lang={htmlLang} suppressHydrationWarning>
       <head>
         <HeadContent />
         {/* JSON-LD Structured Data */}

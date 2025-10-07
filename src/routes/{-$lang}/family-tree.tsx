@@ -1,40 +1,41 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import D3TwitterCircle from '../../components/D3TwitterCircle'
-import { TwitterAPIError, TwitterAPIProxy } from '../../lib/twitter-api-proxy'
-import { InteractionCalculator, CircleData } from '../../lib/interaction-calculator'
+import D3FamilyTree from '../../components/D3FamilyTree'
 import { convertUser } from '../../lib/twitter-adapter'
+import { FamilyTreeCalculator, FamilyTreeData } from '../../lib/family-tree-calculator'
+import { InteractionCalculator } from '../../lib/interaction-calculator'
+import { TwitterAPIError, TwitterAPIProxy } from '../../lib/twitter-api-proxy'
 import { useWindowSize } from '@/lib/hooks/useWindowSize'
 import { AnalysisError } from '@/components/AnalysisError'
 import { LoadingProgressBar } from '@/components/LoadingProgressBar'
 import { InputSection } from '@/components/InputSection'
 
-export const Route = createFileRoute('/$lang/interaction-circle')({
+export const Route = createFileRoute('/{-$lang}/family-tree')({
   head: () => ({
     meta: [
       {
-        title: 'Twitter Interaction Circle Generator - XKit Tools',
+        title: 'Twitter Family Tree Generator - XKit Tools',
       },
       {
         name: 'description',
         content:
-          'Analyze your Twitter interaction data and generate personalized interaction circle visualizations. Discover who you interact with most on Twitter through replies and likes analysis.',
+          'Generate a family tree visualization based on Twitter following relationships. Discover your Twitter network and relationship hierarchy.',
       },
       {
         name: 'keywords',
         content:
-          'twitter, interaction circle, social media analysis, twitter analytics, data visualization, twitter tools, social network analysis',
+          'twitter, family tree, following network, social media analysis, twitter analytics, relationship visualization, twitter tools',
       },
       // Open Graph tags
       {
         property: 'og:title',
-        content: 'Twitter Interaction Circle Generator - XKit Tools',
+        content: 'Twitter Family Tree Generator - XKit Tools',
       },
       {
         property: 'og:description',
         content:
-          'Analyze your Twitter interaction data and generate personalized interaction circle visualizations. Discover who you interact with most on Twitter.',
+          'Generate a family tree visualization based on Twitter following relationships. Discover your Twitter network and relationship hierarchy.',
       },
       {
         property: 'og:type',
@@ -42,11 +43,11 @@ export const Route = createFileRoute('/$lang/interaction-circle')({
       },
       {
         property: 'og:url',
-        content: 'https://xkit.rxliuli.com/interaction-circle',
+        content: 'https://xkit.rxliuli.com/family-tree',
       },
       {
         property: 'og:image',
-        content: 'https://xkit.rxliuli.com/og/interaction-circle.jpg',
+        content: 'https://xkit.rxliuli.com/og/family-tree.jpg',
       },
       {
         property: 'og:image:width',
@@ -58,7 +59,7 @@ export const Route = createFileRoute('/$lang/interaction-circle')({
       },
       {
         property: 'og:image:alt',
-        content: 'Twitter Interaction Circle Generator - XKit Tools',
+        content: 'Twitter Family Tree Generator - XKit Tools',
       },
       {
         property: 'og:site_name',
@@ -71,19 +72,19 @@ export const Route = createFileRoute('/$lang/interaction-circle')({
       },
       {
         name: 'twitter:title',
-        content: 'Twitter Interaction Circle Generator - XKit Tools',
+        content: 'Twitter Family Tree Generator - XKit Tools',
       },
       {
         name: 'twitter:description',
-        content: 'Analyze your Twitter interaction data and generate personalized interaction circle visualizations.',
+        content: 'Generate a family tree visualization based on Twitter following relationships.',
       },
       {
         name: 'twitter:image',
-        content: 'https://xkit.rxliuli.com/og/interaction-circle.jpg',
+        content: 'https://xkit.rxliuli.com/og/family-tree.jpg',
       },
       {
         name: 'twitter:image:alt',
-        content: 'Twitter Interaction Circle Generator - XKit Tools',
+        content: 'Twitter Family Tree Generator - XKit Tools',
       },
       {
         name: 'twitter:creator',
@@ -104,16 +105,16 @@ export const Route = createFileRoute('/$lang/interaction-circle')({
       },
     ],
   }),
-  component: TwitterCircle,
+  component: FamilyTree,
 })
 
-function TwitterCircle() {
+function FamilyTree() {
   const { t } = useTranslation()
   const [username, setUsername] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [progress, setProgress] = useState(0)
   const [progressText, setProgressText] = useState('')
-  const [circleData, setCircleData] = useState<CircleData | null>(null)
+  const [treeData, setTreeData] = useState<FamilyTreeData | null>()
   const [error, setError] = useState('')
   const { width } = useWindowSize()
 
@@ -127,73 +128,90 @@ function TwitterCircle() {
 
   const analyzeUser = async () => {
     if (!username.trim()) {
-      setError(t('interactionCircle.errors.enterUsername'))
+      setError(t('familyTree.errors.enterUsername'))
       return
     }
 
     setIsLoading(true)
     setError('')
     setProgress(0)
-    setProgressText(t('interactionCircle.progress.initialising'))
+    setProgressText(t('familyTree.progress.initialising'))
 
     try {
       const apiProxy = new TwitterAPIProxy()
-      const calculator = new InteractionCalculator()
+      const calculator = new FamilyTreeCalculator()
+      const interactionCalc = new InteractionCalculator()
 
-      // Fetch reply data
+      // Get target user information
+      setProgress(5)
+      setProgressText(t('familyTree.progress.fetchingUser'))
+      const rawTargetUser = await apiProxy.getUserByScreenName(username)
+      const targetUser = convertUser(rawTargetUser)
+
+      // Fetch interaction data (replies and likes)
       setProgress(10)
-      setProgressText(t('interactionCircle.progress.fetchingReplies'))
+      setProgressText(t('familyTree.progress.fetchingInteractions'))
 
-      let currentReplies = 0
-      const replies = await apiProxy.getReplies(username, 500, (current, total) => {
-        currentReplies = current
-        setProgress(10 + (current / total) * 40) // 10-50%
-        setProgressText(t('interactionCircle.progress.analysingReplies', { current, total }))
+      const replies = await apiProxy.getReplies(username, 200, (current, total) => {
+        setProgress(10 + (current / total) * 20) // 10-30%
+        setProgressText(t('familyTree.progress.analysingReplies', { current, total }))
       })
 
-      // Fetch like data
+      const likes = await apiProxy.getLikes(username, 300, (current, total) => {
+        setProgress(30 + (current / total) * 20) // 30-50%
+        setProgressText(t('familyTree.progress.analysingLikes', { current, total }))
+      })
+
+      // Fetch following data
       setProgress(50)
-      setProgressText(t('interactionCircle.progress.fetchingLikes'))
+      setProgressText(t('familyTree.progress.fetchingFollowing'))
 
-      let currentLikes = 0
-      const likes = await apiProxy.getLikes(username, 1000, (current, total) => {
-        currentLikes = current
-        setProgress(50 + (current / total) * 30) // 50-80%
-        setProgressText(t('interactionCircle.progress.analysingLikes', { current, total }))
+      const following = await apiProxy.getFollowing(targetUser.id, 100, (current, total) => {
+        setProgress(50 + (current / total) * 15) // 50-65%
+        setProgressText(t('familyTree.progress.analysingFollowing', { current, total }))
       })
 
-      // Fetch target user information
-      setProgress(80)
-      setProgressText(t('interactionCircle.progress.fetchingUser'))
+      // Fetch followers data
+      setProgress(65)
+      setProgressText(t('familyTree.progress.fetchingFollowers'))
 
-      const user = await apiProxy.getUserByScreenName(username)
-      const currentUser = convertUser(user)
+      const followers = await apiProxy.getFollowers(targetUser.id, 100, (current, total) => {
+        setProgress(65 + (current / total) * 15) // 65-80%
+        setProgressText(t('familyTree.progress.analysingFollowers', { current, total }))
+      })
+
+      // Build family tree relationships with interaction weights
+      setProgress(80)
+      setProgressText(t('familyTree.progress.buildingTree'))
+
+      const relationships = calculator.buildRelationships(following, followers)
 
       // Calculate interaction weights
-      setProgress(85)
-      setProgressText(t('interactionCircle.progress.calculating', { replies: currentReplies, likes: currentLikes }))
+      const interactions = interactionCalc.parseInteractions(replies, likes)
+      const weights = interactionCalc.calculateWeights(interactions)
 
-      const interactions = calculator.parseInteractions(replies, likes)
-      const weights = calculator.calculateWeights(interactions)
-      const data = calculator.generateCircleData(weights, currentUser, 48)
+      setProgress(90)
+      setProgressText(t('familyTree.progress.selectingUsers'))
+
+      const data = calculator.generateTreeData(relationships, targetUser, weights)
 
       setProgress(100)
-      setProgressText(t('interactionCircle.progress.complete', { users: data.totalUsers }))
-      setCircleData(data)
+      setProgressText(t('familyTree.progress.complete', { nodes: data.totalNodes }))
+      console.log('Family Tree Data:', data)
+      setTreeData(data)
     } catch (err) {
       const errorMessage =
         err instanceof TwitterAPIError
           ? t(`api.errors.${err.code}`, err.params)
           : err instanceof Error
             ? err.message
-            : t('interactionCircle.errors.analysisFailed')
+            : t('familyTree.errors.analysisFailed')
 
-      // If it's an extension-related error, provide detailed instructions and download link
+      console.log('Analysis error:', errorMessage)
       if (err instanceof TwitterAPIError && err.code === 'EXTENSION_NOT_INSTALLED') {
         const extensionInstallInstructions = t('api.errors.extensionNotInstalledWithInstructions', {
           url: 'https://chromewebstore.google.com/detail/pnbhkojogdglhidcgnfljnomjdckkfjh',
         })
-        console.log('Extension install instructions:', extensionInstallInstructions)
         setError(extensionInstallInstructions)
       } else {
         setError(errorMessage)
@@ -202,6 +220,9 @@ function TwitterCircle() {
       setIsLoading(false)
     }
   }
+
+  // Note: Share to Twitter functionality removed as it's currently not being used in the UI
+  // Can be restored from git history if needed in the future
 
   // Convert image URL to base64
   const convertImageToBase64 = async (url: string): Promise<string> => {
@@ -216,26 +237,21 @@ function TwitterCircle() {
       })
     } catch (error) {
       console.warn('Unable to convert image:', url, error)
-      return url // Return original URL if conversion fails
+      return url
     }
   }
 
-  // Note: Share to Twitter functionality removed as it's currently not being used in the UI
-  // Can be restored from git history if needed in the future
-
   // Export PNG functionality
   const exportToPNG = async () => {
-    const svgElement = document.querySelector('.twitter-circle-container svg') as SVGSVGElement
+    const svgElement = document.querySelector('.family-tree-container svg') as SVGSVGElement
     if (!svgElement) {
-      alert(t('interactionCircle.errors.chartNotFound'))
+      alert(t('familyTree.errors.chartNotFound'))
       return
     }
 
     try {
-      // Clone SVG element
       const clonedSvg = svgElement.cloneNode(true) as SVGSVGElement
 
-      // Get all image elements and convert to base64
       const imageElements = clonedSvg.querySelectorAll('image')
       const imagePromises = Array.from(imageElements).map(async (img) => {
         const href = img.getAttribute('href') || img.getAttribute('xlink:href')
@@ -251,28 +267,23 @@ function TwitterCircle() {
 
       await Promise.all(imagePromises)
 
-      // Get SVG dimensions
       const svgRect = svgElement.getBoundingClientRect()
       const svgData = new XMLSerializer().serializeToString(clonedSvg)
 
-      // Create canvas
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
       if (!ctx) {
         throw new Error(t('api.errors.canvasContextFailed'))
       }
 
-      // Set canvas dimensions
       const scale = 2
       canvas.width = svgRect.width * scale
       canvas.height = svgRect.height * scale
       ctx.scale(scale, scale)
 
-      // Set background color
       ctx.fillStyle = '#f8fafc'
       ctx.fillRect(0, 0, svgRect.width, svgRect.height)
 
-      // Create image and draw
       const img = new Image()
       const svgBlob = new Blob([svgData], {
         type: 'image/svg+xml;charset=utf-8',
@@ -283,34 +294,31 @@ function TwitterCircle() {
         ctx.drawImage(img, 0, 0, svgRect.width, svgRect.height)
         URL.revokeObjectURL(url)
 
-        // Download image
         const link = document.createElement('a')
-        link.download = `twitter-circle-${username}-${new Date().getTime()}.png`
+        link.download = `twitter-family-tree-${username}-${new Date().getTime()}.png`
         link.href = canvas.toDataURL('image/png', 0.95)
         link.click()
       }
 
       img.onerror = () => {
         URL.revokeObjectURL(url)
-        alert(t('interactionCircle.errors.imageFailed'))
+        alert(t('familyTree.errors.imageFailed'))
       }
 
       img.src = url
     } catch (error) {
       console.error('Export failed:', error)
-      alert(t('interactionCircle.errors.exportFailed'))
+      alert(t('familyTree.errors.exportFailed'))
     }
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 min-h-screen">
+    <div className="bg-gradient-to-br from-purple-50 to-pink-100 p-4 sm:p-6 min-h-screen">
       <div className="max-w-6xl mx-auto pt-4 sm:pt-8">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
-            {t('interactionCircle.title')}
-          </h1>
-          <p className="text-gray-600 text-sm sm:text-base px-4">{t('interactionCircle.subtitle')}</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">{t('familyTree.title')}</h1>
+          <p className="text-gray-600 text-sm sm:text-base px-4">{t('familyTree.subtitle')}</p>
         </div>
 
         {/* Input Section */}
@@ -319,8 +327,8 @@ function TwitterCircle() {
             isLoading={isLoading}
             onSubmit={onSubmit}
             classNames={{
-              input: 'focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-              button: 'bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500',
+              input: 'focus:ring-2 focus:ring-purple-500 focus:border-transparent',
+              button: 'bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500',
             }}
           />
 
@@ -332,11 +340,11 @@ function TwitterCircle() {
         </div>
 
         {/* Visualization Section */}
-        {circleData && (
+        {treeData && (
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
-                {t('interactionCircle.visualisation.title', { username })}
+                {t('familyTree.visualisation.title', { username })}
               </h2>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 {/* <button
@@ -350,47 +358,34 @@ function TwitterCircle() {
                 </button> */}
                 <button
                   onClick={exportToPNG}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm sm:text-base"
                 >
-                  {t('interactionCircle.visualisation.exportButton')}
+                  {t('familyTree.visualisation.exportButton')}
                 </button>
               </div>
             </div>
 
-            <div className="flex justify-center mb-4 sm:mb-6 twitter-circle-container overflow-x-auto">
-              <D3TwitterCircle
-                key={`${width}`}
-                data={circleData}
-                width={Math.min(width - 64, 600)}
-                height={Math.min(width - 64, 600)}
-              />
+            <div className="flex justify-center mb-4 sm:mb-6 family-tree-container overflow-x-auto">
+              <D3FamilyTree key={`${width}`} data={treeData} width={Math.min(width - 64, 600)} height={800} />
             </div>
 
             {/* Statistics */}
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+              <div className="text-center p-3 sm:p-4 bg-purple-50 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-purple-600">{treeData.totalNodes}</div>
+                <div className="text-xs sm:text-sm text-gray-600">{t('familyTree.visualisation.stats.totalUsers')}</div>
+              </div>
               <div className="text-center p-3 sm:p-4 bg-blue-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-blue-600">{circleData.totalUsers}</div>
-                <div className="text-xs sm:text-sm text-gray-600">
-                  {t('interactionCircle.visualisation.stats.users')}
-                </div>
+                <div className="text-xl sm:text-2xl font-bold text-blue-600">{treeData.followingCount}</div>
+                <div className="text-xs sm:text-sm text-gray-600">{t('familyTree.visualisation.stats.following')}</div>
               </div>
               <div className="text-center p-3 sm:p-4 bg-green-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-green-600">{circleData.totalReplies}</div>
-                <div className="text-xs sm:text-sm text-gray-600">
-                  {t('interactionCircle.visualisation.stats.replies')}
-                </div>
+                <div className="text-xl sm:text-2xl font-bold text-green-600">{treeData.followersCount}</div>
+                <div className="text-xs sm:text-sm text-gray-600">{t('familyTree.visualisation.stats.followers')}</div>
               </div>
-              <div className="text-center p-3 sm:p-4 bg-purple-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-purple-600">{circleData.totalLikes}</div>
-                <div className="text-xs sm:text-sm text-gray-600">
-                  {t('interactionCircle.visualisation.stats.likes')}
-                </div>
-              </div>
-              <div className="text-center p-3 sm:p-4 bg-orange-50 rounded-lg">
-                <div className="text-lg sm:text-2xl font-bold text-orange-600">{circleData.analysisDate}</div>
-                <div className="text-xs sm:text-sm text-gray-600">
-                  {t('interactionCircle.visualisation.stats.date')}
-                </div>
+              <div className="text-center p-3 sm:p-4 bg-pink-50 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-pink-600">{treeData.mutualCount}</div>
+                <div className="text-xs sm:text-sm text-gray-600">{t('familyTree.visualisation.stats.mutual')}</div>
               </div>
             </div>
           </div>

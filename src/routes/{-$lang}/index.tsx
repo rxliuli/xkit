@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 
-export const Route = createFileRoute('/$lang/')({
+export const Route = createFileRoute('/{-$lang}/')({
   head: () => ({
     meta: [
       {
@@ -102,6 +102,7 @@ export const Route = createFileRoute('/$lang/')({
 function HomePage() {
   const { t } = useTranslation()
   const { lang } = Route.useParams()
+  const currentLang = lang || 'en-US'
 
   return (
     <div className="bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -122,8 +123,8 @@ function HomePage() {
           <div className="max-w-4xl mx-auto px-4 grid gap-6 sm:gap-8">
             {/* Twitter Circle Tool */}
             <Link
-              to="/$lang/interaction-circle"
-              params={{ lang }}
+              to={'/{-$lang}/interaction-circle'}
+              params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
             >
               <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🐦</div>
@@ -146,8 +147,8 @@ function HomePage() {
 
             {/* Twitter Family Tree Tool */}
             <Link
-              to="/$lang/family-tree"
-              params={{ lang }}
+              to={'/{-$lang}/family-tree'}
+              params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
             >
               <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🌳</div>
