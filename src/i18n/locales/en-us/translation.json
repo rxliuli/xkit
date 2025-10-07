@@ -96,7 +96,7 @@
     "subtitle": "Visualise your Twitter network as a family tree based on following relationships",
     "usernameLabel": "Twitter Username",
     "usernamePlaceholder": "Enter username (without @)",
-    "generateButton": "Generate Tree",
+    "generateButton": "Generate",
     "analysingButton": "Analysing...",
     "progress": {
       "initialising": "Initialising analysis...",

@@ -96,7 +96,7 @@
     "subtitle": "基於追蹤關係將您的推特網路視覺化為家族樹",
     "usernameLabel": "推特使用者名稱",
     "usernamePlaceholder": "輸入使用者名稱（不含@）",
-    "generateButton": "產生樹圖",
+    "generateButton": "產生",
     "analysingButton": "分析中...",
     "progress": {
       "initialising": "初始化分析...",

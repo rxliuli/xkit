@@ -96,7 +96,7 @@
     "subtitle": "フォロー関係に基づいてTwitterネットワークをファミリーツリーとして視覚化します",
     "usernameLabel": "Twitterユーザー名",
     "usernamePlaceholder": "ユーザー名を入力（@なし）",
-    "generateButton": "ツリーを生成",
+    "generateButton": "生成",
     "analysingButton": "分析中...",
     "progress": {
       "initialising": "分析を初期化中...",

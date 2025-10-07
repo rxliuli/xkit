@@ -96,7 +96,7 @@
     "subtitle": "基于关注关系将您的推特网络可视化为家族树",
     "usernameLabel": "推特用户名",
     "usernamePlaceholder": "输入用户名（不带@）",
-    "generateButton": "生成树图",
+    "generateButton": "生成",
     "analysingButton": "分析中...",
     "progress": {
       "initialising": "初始化分析...",
