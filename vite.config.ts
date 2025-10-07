@@ -17,7 +17,7 @@ const config = defineConfig({
         crawlLinks: true,
         autoSubfolderIndex: true,
       },
-      pages: [{ path: '/' }],
+      pages: [{ path: '/en' }, { path: '/zh-CN' }, { path: '/zh-TW' }, { path: '/ja-JP' }],
     }),
     viteReact(),
   ],

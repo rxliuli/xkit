@@ -7,8 +7,6 @@ export const Route = createFileRoute('/$lang')({
   // Validate the language parameter and set i18n language on server-side
   beforeLoad: ({ params }) => {
     const lang = params.lang as string
-    console.log('beforeLoad')
-    console.log('lang', lang, i18n.language)
 
     if (lang.startsWith('.') || !languages.includes(lang as AvailableLanguages)) {
       throw redirect({
