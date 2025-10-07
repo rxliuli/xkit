@@ -17,6 +17,8 @@ interface CircleNode {
   verified: boolean
   interactions: {
     replies: number
+    incomingReplies: number
+    outgoingReplies: number
     likes: number
   }
   x?: number
@@ -121,6 +123,8 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
           verified: user.user.verified,
           interactions: {
             replies: user.interactions.replies,
+            incomingReplies: user.interactions.incomingReplies,
+            outgoingReplies: user.interactions.outgoingReplies,
             likes: user.interactions.likes,
           },
           layer: 'core',
@@ -143,6 +147,8 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
           verified: user.user.verified,
           interactions: {
             replies: user.interactions.replies,
+            incomingReplies: user.interactions.incomingReplies,
+            outgoingReplies: user.interactions.outgoingReplies,
             likes: user.interactions.likes,
           },
           layer: 'inner',
@@ -165,6 +171,8 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
           verified: user.user.verified,
           interactions: {
             replies: user.interactions.replies,
+            incomingReplies: user.interactions.incomingReplies,
+            outgoingReplies: user.interactions.outgoingReplies,
             likes: user.interactions.likes,
           },
           layer: 'outer',
@@ -355,7 +363,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
           visible: true,
           x: svgRect.left + mouseX + 10,
           y: svgRect.top + mouseY - 10,
-          content: `@${d.username}\nReplies: ${d.interactions.replies} | Likes: ${d.interactions.likes}`,
+          content: `@${d.username}\nReplies: ${d.interactions.incomingReplies} in / ${d.interactions.outgoingReplies} out\nLikes: ${d.interactions.likes} out`,
         })
       })
       .on('mouseout', function () {

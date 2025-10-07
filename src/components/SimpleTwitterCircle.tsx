@@ -80,8 +80,9 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
         <div className="font-bold">@{user.user.username}</div>
         <div>Weight: {Math.round(user.weight)}</div>
         <div>
-          Replies: {user.interactions.replies} | Likes: {user.interactions.likes}
+          Replies: {user.interactions.incomingReplies} in / {user.interactions.outgoingReplies} out
         </div>
+        <div>Likes: {user.interactions.likes} out</div>
       </div>
     </div>
   )
@@ -116,7 +117,8 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
         <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">My Twitter Interaction Circle</h2>
           <p className="text-sm text-gray-600">
-            Based on analysis of recent {data.totalReplies} replies and {data.totalLikes} likes
+            Based on analysis of recent {data.totalIncomingReplies} incoming / {data.totalOutgoingReplies} outgoing
+            replies and {data.totalLikes} outgoing likes
           </p>
         </div>
 
@@ -238,8 +240,11 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
             <div className="font-semibold text-gray-800 mb-2">Analysis Data</div>
             <div className="space-y-1">
               <div>Users Analyzed: {data.totalUsers}</div>
-              <div>Replies: {data.totalReplies}</div>
-              <div>Likes: {data.totalLikes}</div>
+              <div>
+                Replies — Incoming: {data.totalIncomingReplies} | Outgoing: {data.totalOutgoingReplies} (Total:{' '}
+                {data.totalReplies})
+              </div>
+              <div>Likes — Outgoing: {data.totalLikes}</div>
               <div>Analysis Date: {data.analysisDate}</div>
             </div>
           </div>

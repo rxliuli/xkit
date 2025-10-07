@@ -161,7 +161,7 @@ function TwitterCircle() {
       setProgress(85)
       setProgressText(`Calculating interaction weights... Analyzed ${currentReplies} replies and ${currentLikes} likes`)
 
-      const interactions = calculator.parseInteractions(replies, likes)
+      const interactions = calculator.parseInteractions(replies, likes, currentUser)
       const weights = calculator.calculateWeights(interactions)
       const data = calculator.generateCircleData(weights, currentUser, 48)
 
@@ -484,18 +484,22 @@ function TwitterCircle() {
             </div>
 
             {/* Statistics */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4">
               <div className="text-center p-3 sm:p-4 bg-blue-50 rounded-lg">
                 <div className="text-xl sm:text-2xl font-bold text-blue-600">{circleData.totalUsers}</div>
-                <div className="text-xs sm:text-sm text-gray-600">Interactive Users</div>
+                <div className="text-xs sm:text-sm text-gray-600">Interacted Users</div>
               </div>
               <div className="text-center p-3 sm:p-4 bg-green-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-green-600">{circleData.totalReplies}</div>
-                <div className="text-xs sm:text-sm text-gray-600">Replies</div>
+                <div className="text-xl sm:text-2xl font-bold text-green-600">{circleData.totalIncomingReplies}</div>
+                <div className="text-xs sm:text-sm text-gray-600">Incoming Replies</div>
               </div>
-              <div className="text-center p-3 sm:p-4 bg-purple-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-purple-600">{circleData.totalLikes}</div>
-                <div className="text-xs sm:text-sm text-gray-600">Likes</div>
+              <div className="text-center p-3 sm:p-4 bg-green-100 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-green-700">{circleData.totalOutgoingReplies}</div>
+                <div className="text-xs sm:text-sm text-gray-600">Outgoing Replies</div>
+              </div>
+              <div className="text-center p-3 sm:p-4 bg-purple-100 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-purple-700">{circleData.totalLikes}</div>
+                <div className="text-xs sm:text-sm text-gray-600">Outgoing Likes</div>
               </div>
               <div className="text-center p-3 sm:p-4 bg-orange-50 rounded-lg">
                 <div className="text-lg sm:text-2xl font-bold text-orange-600">{circleData.analysisDate}</div>
