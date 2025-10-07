@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
+import { memo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface InputSectionProps {
   isLoading: boolean
@@ -11,7 +11,7 @@ interface InputSectionProps {
   }
 }
 
-export const InputSection = ({ isLoading, onSubmit, classNames }: InputSectionProps) => {
+export const InputSection = memo(({ isLoading, onSubmit, classNames }: InputSectionProps) => {
   const { t } = useTranslation()
   const inputRef = useRef<HTMLInputElement>(null)
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -56,4 +56,4 @@ export const InputSection = ({ isLoading, onSubmit, classNames }: InputSectionPr
       </button>
     </div>
   )
-}
+})
