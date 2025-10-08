@@ -7,5 +7,14 @@
   },
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
-  }
+  },
+  "i18n-ally.localesPaths": [
+    "src/i18n/locales"
+  ],
+  "i18n-ally.enabledFrameworks": ["react-i18next"],
+  "i18n-ally.sourceLanguage": "en-us",
+  "i18n-ally.displayLanguage": "en-us",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.namespace": false,
+  "i18n-ally.pathMatcher": "{locale}/{namespace}.json"
 }
