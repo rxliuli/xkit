@@ -78,6 +78,7 @@
     },
     "visualisation": {
       "title": "@{{username}}'s Interaction Circle",
+      "shareButton": "Share",
       "exportButton": "Export PNG",
       "stats": {
         "users": "Interactive Users",
@@ -89,6 +90,9 @@
         "replies": "Replies",
         "likes": "Likes"
       }
+    },
+    "share": {
+      "text": "Check out my Twitter Interaction Circle! 🎯\n\nVisualized my most frequent interactions on Twitter.\n\nGenerate your own at:\nhttps://xkit.rxliuli.com/en-US/interaction-circle/"
     }
   },
   "familyTree": {
@@ -122,6 +126,7 @@
     },
     "visualisation": {
       "title": "@{{username}}'s Family Tree",
+      "shareButton": "Share",
       "exportButton": "Export PNG",
       "stats": {
         "totalUsers": "Total Users",
@@ -134,6 +139,9 @@
         "spouse": "SPOUSE",
         "children": "CHILDREN"
       }
+    },
+    "share": {
+      "text": "Check out my Twitter Family Tree! 🌳\n\nVisualized my closest Twitter connections.\n\nGenerate your own at:\nhttps://xkit.rxliuli.com/family-tree/"
     }
   },
   "api": {
