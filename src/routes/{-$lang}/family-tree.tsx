@@ -10,6 +10,8 @@ import { useWindowSize } from '@/lib/hooks/useWindowSize'
 import { AnalysisError } from '@/components/AnalysisError'
 import { LoadingProgressBar } from '@/components/LoadingProgressBar'
 import { InputSection } from '@/components/InputSection'
+import { FaTwitter } from 'react-icons/fa'
+import { svgToPNGBase64, exportSVGToPNG } from '@/lib/svg-export'
 
 export const Route = createFileRoute('/{-$lang}/family-tree')({
   head: () => ({
@@ -221,91 +223,27 @@ function FamilyTree() {
     }
   }
 
-  // Note: Share to Twitter functionality removed as it's currently not being used in the UI
-  // Can be restored from git history if needed in the future
-
-  // Convert image URL to base64
-  const convertImageToBase64 = async (url: string): Promise<string> => {
+  // Share to Twitter functionality
+  const shareToTwitter = async () => {
+    if (!treeData) {
+      alert('No data to share')
+      return
+    }
     try {
-      const response = await fetch(url)
-      const blob = await response.blob()
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onload = () => resolve(reader.result as string)
-        reader.onerror = reject
-        reader.readAsDataURL(blob)
-      })
+      const text = t('familyTree.share.text')
+      const imageBase64 = await svgToPNGBase64('.family-tree-container svg')
+      window.__TWITTER_WEB_API__.shareToTwitter({ text, image: imageBase64 })
     } catch (error) {
-      console.warn('Unable to convert image:', url, error)
-      return url
+      console.error('Share failed:', error)
+      alert(t('familyTree.errors.shareFailed'))
     }
   }
 
   // Export PNG functionality
   const exportToPNG = async () => {
-    const svgElement = document.querySelector('.family-tree-container svg') as SVGSVGElement
-    if (!svgElement) {
-      alert(t('familyTree.errors.chartNotFound'))
-      return
-    }
-
     try {
-      const clonedSvg = svgElement.cloneNode(true) as SVGSVGElement
-
-      const imageElements = clonedSvg.querySelectorAll('image')
-      const imagePromises = Array.from(imageElements).map(async (img) => {
-        const href = img.getAttribute('href') || img.getAttribute('xlink:href')
-        if (href && href.startsWith('http')) {
-          try {
-            const base64 = await convertImageToBase64(href)
-            img.setAttribute('href', base64)
-          } catch (error) {
-            console.warn('Skip image conversion:', href, error)
-          }
-        }
-      })
-
-      await Promise.all(imagePromises)
-
-      const svgRect = svgElement.getBoundingClientRect()
-      const svgData = new XMLSerializer().serializeToString(clonedSvg)
-
-      const canvas = document.createElement('canvas')
-      const ctx = canvas.getContext('2d')
-      if (!ctx) {
-        throw new Error(t('api.errors.canvasContextFailed'))
-      }
-
-      const scale = 2
-      canvas.width = svgRect.width * scale
-      canvas.height = svgRect.height * scale
-      ctx.scale(scale, scale)
-
-      ctx.fillStyle = '#f8fafc'
-      ctx.fillRect(0, 0, svgRect.width, svgRect.height)
-
-      const img = new Image()
-      const svgBlob = new Blob([svgData], {
-        type: 'image/svg+xml;charset=utf-8',
-      })
-      const url = URL.createObjectURL(svgBlob)
-
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, svgRect.width, svgRect.height)
-        URL.revokeObjectURL(url)
-
-        const link = document.createElement('a')
-        link.download = `twitter-family-tree-${username}-${new Date().getTime()}.png`
-        link.href = canvas.toDataURL('image/png', 0.95)
-        link.click()
-      }
-
-      img.onerror = () => {
-        URL.revokeObjectURL(url)
-        alert(t('familyTree.errors.imageFailed'))
-      }
-
-      img.src = url
+      const filename = `twitter-family-tree-${username}-${new Date().getTime()}.png`
+      await exportSVGToPNG('.family-tree-container svg', filename)
     } catch (error) {
       console.error('Export failed:', error)
       alert(t('familyTree.errors.exportFailed'))
@@ -347,15 +285,13 @@ function FamilyTree() {
                 {t('familyTree.visualisation.title', { username })}
               </h2>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                {/* <button
+                <button
                   onClick={shareToTwitter}
                   className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors text-sm sm:text-base flex items-center justify-center gap-2"
                 >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg>
-                  Share
-                </button> */}
+                  <FaTwitter />
+                  {t('familyTree.visualisation.shareButton')}
+                </button>
                 <button
                   onClick={exportToPNG}
                   className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm sm:text-base"
