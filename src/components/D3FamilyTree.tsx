@@ -71,8 +71,8 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
       const x = 150
       return parentsLayer.length >= 2 ? centerX - x + index * x * 2 : centerX
     })
-    drawUser(parentsLayer[0], x1, currentY)
-    drawUser(parentsLayer[1], x2, currentY)
+    if (parentsLayer[0]) drawUser(parentsLayer[0], x1, currentY)
+    if (parentsLayer[1]) drawUser(parentsLayer[1], x2, currentY)
     currentY += 85
     drawVerticalLine(x1, currentY, currentY + 20)
     drawVerticalLine(x2, currentY, currentY + 20)
@@ -91,6 +91,17 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
     drawVerticalLine(x2, currentY, currentY + 20)
     currentY += 20
     drawHorizontalLine(x1, x2, currentY)
+    if (childrenLayer.length === 0) {
+      return
+    }
+    if (childrenLayer.length === 1) {
+      drawVerticalLine(centerX, currentY, currentY + 60)
+      drawSectionLabel(t('familyTree.visualisation.labels.children'), centerX, currentY + 30)
+      currentY += 40
+      currentY += 60
+      drawUser(childrenLayer[0], centerX, currentY + 22)
+      return
+    }
     drawVerticalLine(centerX, currentY, currentY + 40)
     currentY += 40
     drawHorizontalLine(x1, x2, currentY)
