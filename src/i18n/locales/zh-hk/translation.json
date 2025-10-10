@@ -16,7 +16,7 @@
     },
     "familyTree": {
       "title": "Twitter 家族樹",
-      "description": "將你 Twitter 嘅追蹤關係整成一樖靚靚嘅家族樹。睇晒邊啲一齊跟緊、邊啲係擁躉、同埋你跟緊嘅人。",
+      "description": "將你 Twitter 嘅追蹤關係整成一樖靚靚嘅家族樹。睇晒邊啲互相跟緊、邊啲係擁躉、同埋你跟緊嘅人。",
       "cta": "產生家族樹"
     },
     "comingSoon": {
@@ -132,7 +132,7 @@
         "totalUsers": "總用戶數",
         "following": "跟緊",
         "followers": "擁躉",
-        "mutual": "一齊跟緊"
+        "mutual": "互相跟緊"
       },
       "labels": {
         "parents": "父母",
