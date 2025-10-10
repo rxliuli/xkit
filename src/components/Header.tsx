@@ -100,6 +100,7 @@ export function Header() {
                       {lang === 'en-US' && 'English'}
                       {lang === 'zh-CN' && '简体中文'}
                       {lang === 'zh-TW' && '繁體中文'}
+                      {lang === 'zh-HK' && '廣東話'}
                       {lang === 'ja-JP' && '日本語'}
                     </button>
                   ))}
@@ -184,6 +185,7 @@ export function Header() {
                             {lang === 'en-US' && '🇺🇸 English'}
                             {lang === 'zh-CN' && '🇨🇳 简体中文'}
                             {lang === 'zh-TW' && '🇹🇼 繁體中文'}
+                            {lang === 'zh-HK' && '🇭🇰 廣東話'}
                             {lang === 'ja-JP' && '🇯🇵 日本語'}
                           </button>
                         </SheetClose>
