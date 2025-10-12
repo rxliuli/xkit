@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import { CircleData, UserInteraction } from '../lib/interaction-calculator'
+import { getCSSVariable } from '../lib/utils'
 
 interface TwitterCircleVisualizerProps {
   data: CircleData
@@ -133,7 +134,7 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({ data,
       .attr('class', 'main-circle')
       .attr('r', (d) => d.radius)
       .attr('fill', (d) => `url(#gradient-${d.id})`)
-      .attr('stroke', '#ffffff')
+      .attr('stroke', getCSSVariable('--bg-white'))
       .attr('stroke-width', 2)
 
     // 添加头像（如果有的话）
@@ -156,7 +157,7 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({ data,
       .attr('dy', (d) => d.radius + 15)
       .attr('font-size', '12px')
       .attr('font-weight', 'bold')
-      .attr('fill', '#374151')
+      .attr('fill', getCSSVariable('--text-primary'))
       .text((d) => `@${d.user.user.username}`)
 
     // 添加权重标签
@@ -166,7 +167,7 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({ data,
       .attr('text-anchor', 'middle')
       .attr('dy', (d) => d.radius + 30)
       .attr('font-size', '10px')
-      .attr('fill', '#6B7280')
+      .attr('fill', getCSSVariable('--text-secondary'))
       .text((d) => `权重: ${Math.round(d.user.weight)}`)
 
     // 添加交互事件
@@ -254,7 +255,7 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({ data,
       .append('circle')
       .attr('r', 8)
       .attr('fill', (d) => d.color)
-      .attr('stroke', '#ffffff')
+      .attr('stroke', getCSSVariable('--bg-white'))
       .attr('stroke-width', 1)
 
     legendItems
@@ -262,7 +263,7 @@ const TwitterCircleVisualizer: React.FC<TwitterCircleVisualizerProps> = ({ data,
       .attr('x', 20)
       .attr('y', 4)
       .attr('font-size', '12px')
-      .attr('fill', '#374151')
+      .attr('fill', getCSSVariable('--text-primary'))
       .text((d) => d.text)
 
     // 清理函数

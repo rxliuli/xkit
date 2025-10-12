@@ -1,3 +1,5 @@
+import { getCSSVariable } from './utils'
+
 /**
  * Converts an image URL to base64 format
  */
@@ -23,7 +25,7 @@ async function convertImageToBase64(url: string): Promise<string> {
 }
 
 /**
- * Converts SVG element to PNG base64 data URL
+ * Convert SVG element to PNG base64 data URL
  * @param svgSelector - CSS selector for the SVG element
  * @param options - Configuration options
  * @returns Promise resolving to base64 data URL
@@ -35,7 +37,8 @@ export async function svgToPNGBase64(
     backgroundColor?: string
   } = {},
 ): Promise<string> {
-  const { scale = 2, backgroundColor = '#f8fafc' } = options
+  const defaultBgColor = getCSSVariable('--bg-canvas') || '#f8fafc'
+  const { scale = 2, backgroundColor = defaultBgColor } = options
 
   const svgElement = document.querySelector(svgSelector) as SVGSVGElement
   if (!svgElement) {
