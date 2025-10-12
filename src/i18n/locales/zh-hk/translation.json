@@ -1,0 +1,161 @@
+{
+  "header": {
+    "brand": "XKit 工具",
+    "home": "主頁",
+    "twitterCircle": "Twitter 互動圈",
+    "familyTree": "Twitter 家族樹",
+    "menu": "打開主選單"
+  },
+  "home": {
+    "title": "XKit 工具",
+    "subtitle": "一套超勁嘅社交媒體分析神器，呢套架撐幫你拆解網絡互動數據",
+    "twitterCircle": {
+      "title": "Twitter 互動圈",
+      "description": "分析你嘅 Twitter 互動數據，產生專屬互動圈視覺化圖表。起底同你玩得最密嘅用戶，揭示你嘅核心社交網絡。",
+      "cta": "開始分析"
+    },
+    "familyTree": {
+      "title": "Twitter 家族樹",
+      "description": "將你 Twitter 嘅追蹤關係整成一樖靚靚嘅家族樹。睇晒邊啲互相跟緊、邊啲係擁躉、同埋你跟緊嘅人。",
+      "cta": "產生家族樹"
+    },
+    "comingSoon": {
+      "title": "更多功能陸續有嚟",
+      "description": "我哋努力開發緊更多實用嘅 Twitter 分析工具，包括推文情感分析、話題趨勢追蹤、用戶影響力評估等。敬請期待！",
+      "cta": "即將推出"
+    },
+    "features": {
+      "title": "核心功能",
+      "dataViz": {
+        "title": "數據視覺化",
+        "description": "用 D3.js 建立互動式數據視覺化圖表"
+      },
+      "privacy": {
+        "title": "私隱保護",
+        "description": "所有數據處理都喺你部機攪掂，保護你嘅私隱"
+      },
+      "realtime": {
+        "title": "實時分析",
+        "description": "快速分析大量數據兼產生實時結果"
+      }
+    }
+  },
+  "meta": {
+    "title": "XKit 工具 - 一套社交媒體分析神器",
+    "description": "一套超勁嘅社交媒體分析神器，呢套架撐幫你拆解網絡互動數據。建立 Twitter 互動圈、分析用戶參與度，視覺化你嘅社交媒體形象。",
+    "keywords": "社交媒體分析, Twitter 工具, 互動圈, 數據視覺化, 網絡分析, Twitter 分析, 社交媒體洞察, 用戶參與度分析"
+  },
+  "footer": {
+    "copyright": "© {{year}} XKit 工具。由 rxliuli 用 ❤️ 製作。",
+    "visitSite": "瀏覽主站",
+    "github": "GitHub",
+    "tagline": "XKit 工具 - 社交媒體分析同生產力工具集合"
+  },
+  "interactionCircle": {
+    "title": "Twitter 互動圈產生器",
+    "subtitle": "分析你嘅 Twitter 互動數據，產生專屬互動圈視覺化圖表",
+    "usernameLabel": "Twitter 用戶名稱",
+    "usernamePlaceholder": "輸入用戶名稱（唔使加 @）",
+    "analyseButton": "開始分析",
+    "analysingButton": "分析緊...",
+    "progress": {
+      "initialising": "初始化分析...",
+      "fetchingReplies": "攞緊回覆數據...",
+      "analysingReplies": "分析緊回覆數據... {{current}}/{{total}} 條推文",
+      "fetchingLikes": "攞緊讚好數據...",
+      "analysingLikes": "分析緊讚好數據... {{current}}/{{total}} 個讚好",
+      "fetchingUser": "攞緊用戶資訊...",
+      "calculating": "計緊互動權重... 分析咗 {{replies}} 個回覆同 {{likes}} 個讚好",
+      "complete": "分析完成！已產生包含 {{users}} 個用戶嘅互動圈"
+    },
+    "errors": {
+      "enterUsername": "請輸入 Twitter 用戶名稱",
+      "chartNotFound": "搵唔到視覺化圖表，唔該試多次",
+      "shareFailed": "產生分享圖片失敗，唔該試多次",
+      "imageFailed": "產生圖片失敗，唔該試多次",
+      "exportFailed": "匯出失敗，唔該試多次",
+      "analysisFailed": "分析失敗，唔該試多次"
+    },
+    "visualisation": {
+      "title": "@{{username}} 嘅互動圈",
+      "exportButton": "匯出 PNG",
+      "shareButton": "分享",
+      "stats": {
+        "users": "互動用戶",
+        "replies": "回覆",
+        "likes": "讚好",
+        "date": "分析日期"
+      },
+      "tooltip": {
+        "replies": "回覆",
+        "likes": "讚好"
+      }
+    },
+    "share": {
+      "text": "Gen 咗我個 Twitter 互動圈出嚟！🎯\n\n一眼睇晒我喺 Twitter 同開邊班 friend 子玩。\n\n想玩嘅，撳下低條 link 試吓啦：\nhttps://xkit.rxliuli.com/zh-HK/interaction-circle/"
+    }
+  },
+  "familyTree": {
+    "title": "Twitter 家族樹產生器",
+    "subtitle": "將你 Twitter 嘅追蹤關係整成一樖靚靚嘅家族樹",
+    "usernameLabel": "Twitter 用戶名稱",
+    "usernamePlaceholder": "輸入用戶名稱（唔使加 @）",
+    "generateButton": "產生",
+    "analysingButton": "分析緊...",
+    "progress": {
+      "initialising": "初始化分析...",
+      "fetchingUser": "攞緊用戶資訊...",
+      "fetchingInteractions": "攞緊互動數據...",
+      "analysingReplies": "分析緊回覆... {{current}}/{{total}}",
+      "analysingLikes": "分析緊讚好... {{current}}/{{total}}",
+      "fetchingFollowing": "攞緊跟緊數據...",
+      "analysingFollowing": "分析緊跟緊... {{current}}/{{total}} 個用戶",
+      "fetchingFollowers": "攞緊擁躉數據...",
+      "analysingFollowers": "分析緊擁躉... {{current}}/{{total}} 個用戶",
+      "buildingTree": "用互動數據建立緊家族樹...",
+      "selectingUsers": "揀緊互動最多嘅用戶...",
+      "complete": "分析完成！已產生包含 {{nodes}} 個用戶嘅家族樹"
+    },
+    "errors": {
+      "enterUsername": "請輸入 Twitter 用戶名稱",
+      "chartNotFound": "搵唔到視覺化圖表，唔該試多次",
+      "shareFailed": "產生分享圖片失敗，唔該試多次",
+      "imageFailed": "產生圖片失敗，唔該試多次",
+      "exportFailed": "匯出失敗，唔該試多次",
+      "analysisFailed": "分析失敗，唔該試多次"
+    },
+    "visualisation": {
+      "title": "@{{username}} 嘅家族樹",
+      "shareButton": "分享",
+      "exportButton": "匯出 PNG",
+      "stats": {
+        "totalUsers": "總用戶數",
+        "following": "跟緊",
+        "followers": "擁躉",
+        "mutual": "互相跟緊"
+      },
+      "labels": {
+        "parents": "父母",
+        "spouse": "另一半",
+        "children": "仔女"
+      }
+    },
+    "share": {
+      "text": "Gen 咗我樖 Twitter 家族樹出嚟！🌳\n\n一眼睇晒邊啲係我喺 Twitter 嘅眞‧家人。\n\n想認祖歸宗？撳下低條 link 試吓啦：\nhttps://xkit.rxliuli.com/zh-HK/family-tree/"
+    }
+  },
+  "api": {
+    "errors": {
+      "extensionNotInstalled": "未安裝或啓用 Twitter Web API 擴充功能。請安裝兼啓用擴充功能先。",
+      "extensionNotInstalledWithInstructions": "未安裝或啓用 Twitter Web API 擴充功能。請安裝兼啓用擴充功能先。\n\n請喺 Chrome 線上應用程式商店安裝 Twitter Web API 擴充功能：\n{{url}}\n\n安裝後，請確保你登入咗你嘅 Twitter 帳戶。",
+      "userNotFound": "用戶 @{{username}} 唔存在",
+      "getUserFailed": "攞唔到用戶 @{{username}} 嘅資訊，唔該試多次",
+      "getRepliesFailed": "攞唔到回覆數據，請確保已安裝瀏覽器擴充功能兼登入 Twitter",
+      "getLikesFailed": "攞唔到讚好數據，請確保已安裝瀏覽器擴充功能兼登入 Twitter",
+      "getFollowingFailed": "攞唔到跟緊數據，請確保已安裝瀏覽器擴充功能兼登入 Twitter",
+      "getFollowersFailed": "攞唔到擁躉數據，請確保已安裝瀏覽器擴充功能兼登入 Twitter",
+      "invalidTweetData": "推文數據無效",
+      "canvasContextFailed": "建立唔到畫布內容"
+    }
+  }
+}

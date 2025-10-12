@@ -3,17 +3,19 @@ import { initReactI18next } from 'react-i18next'
 import enUS from './locales/en-us/translation.json'
 import zhCN from './locales/zh-cn/translation.json'
 import zhTW from './locales/zh-tw/translation.json'
+import zhHK from './locales/zh-hk/translation.json'
 import jaJP from './locales/ja-jp/translation.json'
 
 export const availableLanguages = {
   'en-US': enUS,
   'zh-CN': zhCN,
   'zh-TW': zhTW,
+  'zh-HK': zhHK,
   'ja-JP': jaJP,
 } as const
 
 export type AvailableLanguages = keyof typeof availableLanguages
-export const languages: AvailableLanguages[] = ['en-US', 'zh-CN', 'zh-TW', 'ja-JP']
+export const languages: AvailableLanguages[] = ['en-US', 'zh-CN', 'zh-TW', 'zh-HK', 'ja-JP']
 
 /**
  * Detects the appropriate language based on the current path or browser settings.
@@ -72,6 +74,7 @@ i18n.use(initReactI18next).init({
     'en-US': { translation: enUS },
     'zh-CN': { translation: zhCN },
     'zh-TW': { translation: zhTW },
+    'zh-HK': { translation: zhHK },
     'ja-JP': { translation: jaJP },
   },
   lng: detectBrowserLanguage(),
