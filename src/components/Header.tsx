@@ -5,7 +5,7 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
 import { languages, type AvailableLanguages } from '../i18n'
 
 export function Header() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const params = useParams({ strict: false }) as { lang?: string }
   const navigate = useNavigate()
 
@@ -39,7 +39,7 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <Link
-            to={currentLang === 'en-US' ? '/' : '/{-$lang}'}
+            to={'/{-$lang}'}
             params={currentLang === 'en-US' ? {} : { lang: currentLang }}
             className="flex items-center space-x-3"
           >
@@ -48,9 +48,9 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8 items-center">
+          <nav className="hidden md:flex items-center">
             <Link
-              to={currentLang === 'en-US' ? '/' : '/{-$lang}'}
+              to={'/{-$lang}'}
               params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
@@ -60,7 +60,7 @@ export function Header() {
               {t('header.home')}
             </Link>
             <Link
-              to={currentLang === 'en-US' ? '/interaction-circle' : '/{-$lang}/interaction-circle'}
+              to={'/{-$lang}/interaction-circle'}
               params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
@@ -71,7 +71,7 @@ export function Header() {
             </Link>
 
             <Link
-              to={currentLang === 'en-US' ? '/family-tree' : '/{-$lang}/family-tree'}
+              to={'/{-$lang}/family-tree'}
               params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
@@ -133,7 +133,7 @@ export function Header() {
                 <nav className="flex flex-col space-y-4">
                   <SheetClose asChild>
                     <Link
-                      to={currentLang === 'en-US' ? '/' : '/{-$lang}'}
+                      to={'/{-$lang}'}
                       params={currentLang === 'en-US' ? {} : { lang: currentLang }}
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
@@ -145,7 +145,7 @@ export function Header() {
                   </SheetClose>
                   <SheetClose asChild>
                     <Link
-                      to={currentLang === 'en-US' ? '/interaction-circle' : '/{-$lang}/interaction-circle'}
+                      to={'/{-$lang}/interaction-circle'}
                       params={currentLang === 'en-US' ? {} : { lang: currentLang }}
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
@@ -157,7 +157,7 @@ export function Header() {
                   </SheetClose>
                   <SheetClose asChild>
                     <Link
-                      to={currentLang === 'en-US' ? '/family-tree' : '/{-$lang}/family-tree'}
+                      to={'/{-$lang}/family-tree'}
                       params={currentLang === 'en-US' ? {} : { lang: currentLang }}
                       className="text-gray-600 hover:text-gray-900 px-4 py-3 rounded-md text-base font-medium transition-colors border border-gray-200 hover:bg-gray-50"
                       activeProps={{
