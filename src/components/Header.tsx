@@ -56,7 +56,7 @@ export function Header() {
               params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="text-nav hover:text-nav-hover px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
-                className: 'text-nav-active hover:text-nav-active-hover',
+                className: 'text-nav-active hover:text-nav-active-hover!',
               }}
             >
               {t('header.home')}
@@ -66,7 +66,7 @@ export function Header() {
               params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="text-nav hover:text-nav-hover px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
-                className: 'text-nav-active hover:text-nav-active-hover',
+                className: 'text-nav-active hover:text-nav-active-hover!',
               }}
             >
               {t('header.twitterCircle')}
@@ -77,7 +77,7 @@ export function Header() {
               params={currentLang === 'en-US' ? {} : { lang: currentLang }}
               className="text-nav hover:text-nav-hover px-3 py-2 rounded-md text-sm font-medium transition-colors"
               activeProps={{
-                className: 'text-nav-active hover:text-nav-active-hover',
+                className: 'text-nav-active hover:text-nav-active-hover!',
               }}
             >
               {t('header.familyTree')}
