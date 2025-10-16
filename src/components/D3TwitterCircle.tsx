@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import { useTranslation } from 'react-i18next'
 import { CircleData } from '../lib/interaction-calculator'
-import { getCSSVariable } from '../lib/utils'
 
 interface D3TwitterCircleProps {
   data: CircleData
@@ -237,11 +236,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
       .attr('cy', '30%')
       .attr('r', '70%')
 
-    currentUserGradient
-      .append('stop')
-      .attr('offset', '0%')
-      .attr('stop-color', getCSSVariable('--bg-white'))
-      .attr('stop-opacity', 0.3)
+    currentUserGradient.append('stop').attr('offset', '0%').attr('stop-color', '#ffffff').attr('stop-opacity', 0.3)
 
     currentUserGradient.append('stop').attr('offset', '100%').attr('stop-color', '#3b82f6').attr('stop-opacity', 0.8)
 
@@ -253,11 +248,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
         .attr('cy', '30%')
         .attr('r', '70%')
 
-      gradient
-        .append('stop')
-        .attr('offset', '0%')
-        .attr('stop-color', getCSSVariable('--bg-white'))
-        .attr('stop-opacity', 0.3)
+      gradient.append('stop').attr('offset', '0%').attr('stop-color', '#ffffff').attr('stop-opacity', 0.3)
 
       gradient
         .append('stop')
@@ -278,7 +269,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
       .attr('cx', centerX + 1)
       .attr('cy', centerY + 1)
       .attr('r', userAvatarSize)
-      .attr('fill', getCSSVariable('--shadow-color'))
+      .attr('fill', '#000000')
       .attr('opacity', 0.15)
 
     // User avatar background circle
@@ -322,7 +313,7 @@ const D3TwitterCircle: React.FC<D3TwitterCircleProps> = ({ data, width = 600, he
     nodeElements
       .append('circle')
       .attr('r', (d) => getNodeSize(d.layer))
-      .attr('fill', getCSSVariable('--shadow-color'))
+      .attr('fill', '#000000')
       .attr('opacity', 0.15)
       .attr('transform', 'translate(1, 1)')
 

@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 import { useTranslation } from 'react-i18next'
 import { FamilyTreeData, TreeNode } from '../lib/family-tree-calculator'
-import { getCSSVariable } from '../lib/utils'
 
 interface D3FamilyTreeProps {
   data: FamilyTreeData
@@ -10,7 +9,7 @@ interface D3FamilyTreeProps {
   height: number
 }
 
-const getBackgroundColor = () => getCSSVariable('--bg-canvas')
+const BACKGROUND_COLOR = '#f8fafc'
 const NODE_COLORS: Record<TreeNode['type'] | 'default', string> = {
   root: '#8b5cf6',
   spouse: '#10b981',
@@ -121,7 +120,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
         .attr('text-anchor', 'middle')
         .attr('font-size', 18)
         .attr('font-weight', 'bold')
-        .attr('fill', getCSSVariable('--text-muted'))
+        .attr('fill', '#6b7280')
         .attr('letter-spacing', '1.5px')
       const group = labelsGroup.append('g')
       const textElement = group.append('text').attr('x', x).attr('y', y).attr('dominant-baseline', 'middle').text(label)
@@ -136,7 +135,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
           .attr('width', bbox.width + SECTION_LABEL_PADDING_X * 2)
           .attr('height', bbox.height + SECTION_LABEL_PADDING_Y * 2)
           .attr('rx', 999)
-          .attr('fill', getBackgroundColor())
+          .attr('fill', BACKGROUND_COLOR)
       }
     }
 
@@ -154,7 +153,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
         .attr('cy', y)
         .attr('r', radius)
         .attr('fill', NODE_COLORS[node.type] || NODE_COLORS.default)
-        .attr('stroke', getCSSVariable('--bg-white'))
+        .attr('stroke', '#fff')
         .attr('stroke-width', 5)
 
       const clipId = `clip-${sanitizeId(node.id)}-${clipCounter++}`
@@ -188,7 +187,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
         .attr('text-anchor', 'middle')
         .attr('font-size', 16)
         .attr('font-weight', 500)
-        .attr('fill', getCSSVariable('--text-primary'))
+        .attr('fill', '#374151')
         .text(`@${node.username}`)
 
       const textNode = text.node()
@@ -201,7 +200,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
           .attr('width', bbox.width + TEXT_PADDING_X * 2)
           .attr('height', bbox.height + TEXT_PADDING_Y * 2)
           .attr('rx', 10)
-          .attr('fill', getBackgroundColor())
+          .attr('fill', BACKGROUND_COLOR)
       }
 
       return { x, y, radius }
@@ -211,7 +210,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
       const connectorsGroup = svg
         .append('g')
         .attr('class', 'connectors')
-        .attr('stroke', getCSSVariable('--stroke-color'))
+        .attr('stroke', '#9ca3af')
         .attr('stroke-width', 3)
         .attr('stroke-linecap', 'round')
         .attr('stroke-linejoin', 'round')
@@ -223,7 +222,7 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
       const connectorsGroup = svg
         .append('g')
         .attr('class', 'connectors')
-        .attr('stroke', getCSSVariable('--stroke-color'))
+        .attr('stroke', '#9ca3af')
         .attr('stroke-width', 3)
         .attr('stroke-linecap', 'round')
         .attr('stroke-linejoin', 'round')
@@ -376,5 +375,5 @@ export default function D3FamilyTree({ data, width, height }: D3FamilyTreeProps)
     }
   }, [data, width, height, t])
 
-  return <svg ref={svgRef} width={width} height={height} style={{ background: getBackgroundColor() }} />
+  return <svg ref={svgRef} width={width} height={height} style={{ background: BACKGROUND_COLOR }} />
 }

@@ -27,9 +27,8 @@ const SimpleTwitterCircle: React.FC<SimpleTwitterCircleProps> = ({ data, onExpor
     try {
       // Use html2canvas to export image
       const html2canvas = await import('html2canvas')
-      const bgColor = getCSSVariable('--bg-white')
       const canvas = await html2canvas.default(circleRef.current, {
-        backgroundColor: bgColor || '#ffffff',
+        backgroundColor: '#ffffff',
         scale: 2, // High resolution
         width: 800,
         height: 800,
