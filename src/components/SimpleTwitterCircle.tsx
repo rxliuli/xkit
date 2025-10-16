@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import { CircleData } from '../lib/interaction-calculator'
-import { getCSSVariable } from '../lib/utils'
 
 interface SimpleTwitterCircleProps {
   data: CircleData

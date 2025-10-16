@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import { CircleData, UserInteraction } from '../lib/interaction-calculator'
-import { getCSSVariable } from '../lib/utils'
 
 interface TwitterCircleVisualizerProps {
   data: CircleData
