@@ -4,7 +4,16 @@
     "home": "Home",
     "twitterCircle": "Twitter Circle",
     "familyTree": "Family Tree",
-    "menu": "Open main menu"
+    "menu": "Open main menu",
+    "theme": {
+      "section": "Theme",
+      "label": "Current theme: {{mode}}. Click to cycle through theme modes",
+      "title": "Theme: {{mode}}",
+      "titleAuto": "Theme: {{mode}} ({{resolved}})",
+      "auto": "Auto",
+      "light": "Light",
+      "dark": "Dark"
+    }
   },
   "home": {
     "title": "XKit Tools",

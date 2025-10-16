@@ -4,7 +4,16 @@
     "home": "首页",
     "twitterCircle": "推特圈子",
     "familyTree": "推特家族树",
-    "menu": "打开主菜单"
+    "menu": "打开主菜单",
+    "theme": {
+      "section": "主题",
+      "label": "当前主题：{{mode}}。点击切换主题模式",
+      "title": "主题：{{mode}}",
+      "titleAuto": "主题：{{mode}}（{{resolved}}）",
+      "auto": "自动",
+      "light": "浅色",
+      "dark": "深色"
+    }
   },
   "home": {
     "title": "XKit 工具",

@@ -163,7 +163,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootComponent() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
       <main className="flex-1">
         <Outlet />
@@ -181,6 +181,26 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang={htmlLang} suppressHydrationWarning>
       <head>
         <HeadContent />
+        {/* Apply theme immediately to prevent flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var themeMode = localStorage.getItem('themeMode') || 'auto';
+                  var theme = themeMode;
+                  
+                  if (themeMode === 'auto') {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  }
+                  
+                  document.documentElement.classList.remove('light', 'dark');
+                  document.documentElement.classList.add(theme);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"

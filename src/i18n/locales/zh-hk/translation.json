@@ -4,7 +4,16 @@
     "home": "主頁",
     "twitterCircle": "Twitter 互動圈",
     "familyTree": "Twitter 家族樹",
-    "menu": "打開主選單"
+    "menu": "打開主選單",
+    "theme": {
+      "section": "主題",
+      "label": "而家主題：{{mode}}。撳一下轉主題模式",
+      "title": "主題：{{mode}}",
+      "titleAuto": "主題：{{mode}}（{{resolved}}）",
+      "auto": "自動",
+      "light": "淺色",
+      "dark": "深色"
+    }
   },
   "home": {
     "title": "XKit 工具",

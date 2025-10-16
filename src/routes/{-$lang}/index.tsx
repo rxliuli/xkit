@@ -105,7 +105,7 @@ function HomePage() {
   const currentLang = lang || 'en-US'
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="bg-gradient-to-br from-blue-300/15 to-indigo-400/15 dark:bg-none">
       {/* Hero Section */}
       <div className="flex flex-col items-center justify-center px-4 py-12 sm:px-6 sm:py-20">
         <div className="max-w-4xl mx-auto text-center">
@@ -115,9 +115,13 @@ function HomePage() {
             alt="XKit Logo"
           />
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 sm:mb-4">{t('home.title')}</h1>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mb-3 sm:mb-4">
+            {t('home.title')}
+          </h1>
 
-          <p className="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto px-4">{t('home.subtitle')}</p>
+          <p className="text-lg sm:text-xl text-text-secondary mb-8 sm:mb-12 max-w-2xl mx-auto px-4">
+            {t('home.subtitle')}
+          </p>
 
           {/* Tools Grid */}
           <div className="max-w-4xl mx-auto px-4 grid gap-6 sm:gap-8">
@@ -125,14 +129,14 @@ function HomePage() {
             <Link
               to={'/{-$lang}/interaction-circle'}
               params={currentLang === 'en-US' ? {} : { lang: currentLang }}
-              className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
+              className="group bg-card rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
             >
               <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🐦</div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">
+              <h3 className="text-xl sm:text-2xl font-bold text-text-primary mb-2 sm:mb-3">
                 {t('home.twitterCircle.title')}
               </h3>
-              <p className="text-gray-600 text-sm sm:text-base">{t('home.twitterCircle.description')}</p>
-              <div className="mt-6 inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700">
+              <p className="text-text-secondary text-sm sm:text-base">{t('home.twitterCircle.description')}</p>
+              <div className="mt-6 inline-flex items-center text-blue-600 dark:text-blue-400 font-medium group-hover:text-blue-700 dark:group-hover:text-blue-300">
                 {t('home.twitterCircle.cta')}
                 <svg
                   className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"
@@ -149,12 +153,14 @@ function HomePage() {
             <Link
               to={'/{-$lang}/family-tree'}
               params={currentLang === 'en-US' ? {} : { lang: currentLang }}
-              className="group bg-white rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
+              className="group bg-card rounded-xl shadow-lg p-6 sm:p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 block"
             >
               <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🌳</div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">{t('home.familyTree.title')}</h3>
-              <p className="text-gray-600 text-sm sm:text-base">{t('home.familyTree.description')}</p>
-              <div className="mt-6 inline-flex items-center text-purple-600 font-medium group-hover:text-purple-700">
+              <h3 className="text-xl sm:text-2xl font-bold text-text-primary mb-2 sm:mb-3">
+                {t('home.familyTree.title')}
+              </h3>
+              <p className="text-text-secondary text-sm sm:text-base">{t('home.familyTree.description')}</p>
+              <div className="mt-6 inline-flex items-center text-purple-600 dark:text-purple-400 font-medium group-hover:text-purple-700 dark:group-hover:text-purple-300">
                 {t('home.familyTree.cta')}
                 <svg
                   className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"
@@ -168,14 +174,14 @@ function HomePage() {
             </Link>
 
             {/* More Features Coming Soon */}
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl shadow-lg p-6 sm:p-8 border-2 border-dashed border-purple-200">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl shadow-lg p-6 sm:p-8 border-2 border-dashed border-purple-200 dark:border-purple-700">
               <div className="text-center">
                 <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🚀</div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">
+                <h3 className="text-xl sm:text-2xl font-bold text-text-primary mb-2 sm:mb-3">
                   {t('home.comingSoon.title')}
                 </h3>
-                <p className="text-gray-600">{t('home.comingSoon.description')}</p>
-                <div className="mt-6 inline-flex items-center text-purple-600 font-medium">
+                <p className="text-text-secondary">{t('home.comingSoon.description')}</p>
+                <div className="mt-6 inline-flex items-center text-purple-600 dark:text-purple-400 font-medium">
                   {t('home.comingSoon.cta')}
                   <svg className="ml-2 w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -192,28 +198,28 @@ function HomePage() {
 
           {/* Features */}
           <div className="mt-12 sm:mt-16 text-center">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8">{t('home.features.title')}</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-text-primary mb-6 sm:mb-8">{t('home.features.title')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-              <div className="bg-white/70 rounded-lg p-4 sm:p-6">
+              <div className="bg-card/70 rounded-lg p-4 sm:p-6">
                 <div className="text-xl sm:text-2xl mb-2 sm:mb-3">📊</div>
-                <h4 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">
+                <h4 className="font-semibold text-text-primary mb-1 sm:mb-2 text-sm sm:text-base">
                   {t('home.features.dataViz.title')}
                 </h4>
-                <p className="text-xs sm:text-sm text-gray-600">{t('home.features.dataViz.description')}</p>
+                <p className="text-xs sm:text-sm text-text-secondary">{t('home.features.dataViz.description')}</p>
               </div>
-              <div className="bg-white/70 rounded-lg p-4 sm:p-6">
+              <div className="bg-card/70 rounded-lg p-4 sm:p-6">
                 <div className="text-xl sm:text-2xl mb-2 sm:mb-3">🔒</div>
-                <h4 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">
+                <h4 className="font-semibold text-text-primary mb-1 sm:mb-2 text-sm sm:text-base">
                   {t('home.features.privacy.title')}
                 </h4>
-                <p className="text-xs sm:text-sm text-gray-600">{t('home.features.privacy.description')}</p>
+                <p className="text-xs sm:text-sm text-text-secondary">{t('home.features.privacy.description')}</p>
               </div>
-              <div className="bg-white/70 rounded-lg p-4 sm:p-6">
+              <div className="bg-card/70 rounded-lg p-4 sm:p-6">
                 <div className="text-xl sm:text-2xl mb-2 sm:mb-3">⚡</div>
-                <h4 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">
+                <h4 className="font-semibold text-text-primary mb-1 sm:mb-2 text-sm sm:text-base">
                   {t('home.features.realtime.title')}
                 </h4>
-                <p className="text-xs sm:text-sm text-gray-600">{t('home.features.realtime.description')}</p>
+                <p className="text-xs sm:text-sm text-text-secondary">{t('home.features.realtime.description')}</p>
               </div>
             </div>
           </div>

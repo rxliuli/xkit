@@ -251,16 +251,16 @@ function FamilyTree() {
   }
 
   return (
-    <div className="bg-gradient-to-br from-purple-50 to-pink-100 p-4 sm:p-6 min-h-screen">
+    <div className="bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 p-4 sm:p-6 min-h-screen">
       <div className="max-w-6xl mx-auto pt-4 sm:pt-8">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">{t('familyTree.title')}</h1>
-          <p className="text-gray-600 text-sm sm:text-base px-4">{t('familyTree.subtitle')}</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-text-primary mb-2">{t('familyTree.title')}</h1>
+          <p className="text-text-secondary text-sm sm:text-base px-4">{t('familyTree.subtitle')}</p>
         </div>
 
         {/* Input Section */}
-        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
+        <div className="bg-card rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <InputSection
             isLoading={isLoading}
             onSubmit={onSubmit}
@@ -279,22 +279,22 @@ function FamilyTree() {
 
         {/* Visualization Section */}
         {treeData && (
-          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+          <div className="bg-card rounded-xl shadow-lg p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+              <h2 className="text-xl sm:text-2xl font-bold text-text-primary">
                 {t('familyTree.visualisation.title', { username })}
               </h2>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   onClick={shareToTwitter}
-                  className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors text-sm sm:text-base flex items-center justify-center gap-2"
+                  className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-700 transition-colors text-sm sm:text-base flex items-center justify-center gap-2"
                 >
                   <FaTwitter />
                   {t('familyTree.visualisation.shareButton')}
                 </button>
                 <button
                   onClick={exportToPNG}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm sm:text-base"
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800 transition-colors text-sm sm:text-base"
                 >
                   {t('familyTree.visualisation.exportButton')}
                 </button>
@@ -307,21 +307,37 @@ function FamilyTree() {
 
             {/* Statistics */}
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-              <div className="text-center p-3 sm:p-4 bg-purple-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-purple-600">{treeData.totalNodes}</div>
-                <div className="text-xs sm:text-sm text-gray-600">{t('familyTree.visualisation.stats.totalUsers')}</div>
+              <div className="text-center p-3 sm:p-4 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">
+                  {treeData.totalNodes}
+                </div>
+                <div className="text-xs sm:text-sm text-text-secondary">
+                  {t('familyTree.visualisation.stats.totalUsers')}
+                </div>
               </div>
-              <div className="text-center p-3 sm:p-4 bg-blue-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-blue-600">{treeData.followingCount}</div>
-                <div className="text-xs sm:text-sm text-gray-600">{t('familyTree.visualisation.stats.following')}</div>
+              <div className="text-center p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  {treeData.followingCount}
+                </div>
+                <div className="text-xs sm:text-sm text-text-secondary">
+                  {t('familyTree.visualisation.stats.following')}
+                </div>
               </div>
-              <div className="text-center p-3 sm:p-4 bg-green-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-green-600">{treeData.followersCount}</div>
-                <div className="text-xs sm:text-sm text-gray-600">{t('familyTree.visualisation.stats.followers')}</div>
+              <div className="text-center p-3 sm:p-4 bg-green-50 dark:bg-green-900/30 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
+                  {treeData.followersCount}
+                </div>
+                <div className="text-xs sm:text-sm text-text-secondary">
+                  {t('familyTree.visualisation.stats.followers')}
+                </div>
               </div>
-              <div className="text-center p-3 sm:p-4 bg-pink-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-pink-600">{treeData.mutualCount}</div>
-                <div className="text-xs sm:text-sm text-gray-600">{t('familyTree.visualisation.stats.mutual')}</div>
+              <div className="text-center p-3 sm:p-4 bg-pink-50 dark:bg-pink-900/30 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-pink-600 dark:text-pink-400">
+                  {treeData.mutualCount}
+                </div>
+                <div className="text-xs sm:text-sm text-text-secondary">
+                  {t('familyTree.visualisation.stats.mutual')}
+                </div>
               </div>
             </div>
           </div>
