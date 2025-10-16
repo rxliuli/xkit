@@ -4,7 +4,16 @@
     "home": "ホーム",
     "twitterCircle": "Twitterサークル",
     "familyTree": "ファミリーツリー",
-    "menu": "メインメニューを開く"
+    "menu": "メインメニューを開く",
+    "theme": {
+      "section": "テーマ",
+      "label": "現在のテーマ：{{mode}}。クリックしてテーマモードを切り替え",
+      "title": "テーマ：{{mode}}",
+      "titleAuto": "テーマ：{{mode}}（{{resolved}}）",
+      "auto": "自動",
+      "light": "ライト",
+      "dark": "ダーク"
+    }
   },
   "home": {
     "title": "XKit ツール",

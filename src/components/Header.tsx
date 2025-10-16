@@ -87,8 +87,15 @@ export function Header() {
             <button
               onClick={toggleTheme}
               className="text-nav hover:text-nav-hover px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              aria-label={`Current theme: ${themeMode}. Click to cycle through theme modes`}
-              title={`Theme: ${themeMode} ${themeMode === 'auto' ? `(${resolvedTheme})` : ''}`}
+              aria-label={t('header.theme.label', { mode: t(`header.theme.${themeMode}`) })}
+              title={
+                themeMode === 'auto'
+                  ? t('header.theme.titleAuto', {
+                      mode: t('header.theme.auto'),
+                      resolved: t(`header.theme.${resolvedTheme}`),
+                    })
+                  : t('header.theme.title', { mode: t(`header.theme.${themeMode}`) })
+              }
             >
               {themeMode === 'auto' ? (
                 <Monitor className="h-5 w-5" />
@@ -188,17 +195,17 @@ export function Header() {
 
                   {/* Mobile Theme Switcher */}
                   <div className="pt-4 border-t border-border-subtle">
-                    <p className="px-4 py-2 text-sm font-semibold text-text-secondary">Theme</p>
+                    <p className="px-4 py-2 text-sm font-semibold text-text-secondary">{t('header.theme.section')}</p>
                     <button
                       onClick={toggleTheme}
                       className="flex items-center justify-between w-full px-4 py-2 text-sm text-nav hover:bg-hover rounded-md"
                     >
                       <span>
                         {themeMode === 'auto'
-                          ? `💻 Auto (${resolvedTheme === 'light' ? 'Light' : 'Dark'})`
+                          ? `💻 ${t('header.theme.auto')} (${t(`header.theme.${resolvedTheme}`)})`
                           : themeMode === 'light'
-                            ? '☀️ Light Mode'
-                            : '🌙 Dark Mode'}
+                            ? `☀️ ${t('header.theme.light')}`
+                            : `🌙 ${t('header.theme.dark')}`}
                       </span>
                       {themeMode === 'auto' ? (
                         <Monitor className="h-4 w-4" />
