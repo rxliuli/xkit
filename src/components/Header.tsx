@@ -58,6 +58,7 @@ export function Header() {
               activeProps={{
                 className: 'text-nav-active hover:text-nav-active-hover!',
               }}
+              activeOptions={{ exact: true }}
             >
               {t('header.home')}
             </Link>
@@ -164,6 +165,7 @@ export function Header() {
                       activeProps={{
                         className: 'text-nav-active hover:text-nav-active-hover bg-hover',
                       }}
+                      activeOptions={{ exact: true }}
                     >
                       🏠 {t('header.home')}
                     </Link>
