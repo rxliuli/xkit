@@ -54,6 +54,7 @@ code {
 
   /* Custom Application Colors */
   --header: oklch(1 0 0);
+  --footer: oklch(1 0 0);
   --dropdown: oklch(1 0 0);
   --hover: oklch(0.988 0.001 247.896);
 
@@ -72,9 +73,9 @@ code {
 }
 
 .dark {
-  --background: oklch(0.141 0.005 285.823);
+  --background: oklch(0.2029 0.0037 229);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.141 0.005 285.823);
+  --card: oklch(0.2651 0.0076 274.67);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.141 0.005 285.823);
   --popover-foreground: oklch(0.985 0 0);
@@ -106,9 +107,10 @@ code {
   --sidebar-ring: oklch(0.442 0.017 285.786);
 
   /* Custom Application Colors - Dark Mode */
-  --header: oklch(0.227 0.013 285.885);
-  --dropdown: oklch(0.227 0.013 285.885);
-  --hover: oklch(0.303 0.011 286.033);
+  --header: oklch(0.2651 0.0076 274.67);
+  --footer: oklch(0.2651 0.0076 274.67);
+  --dropdown: oklch(0.2651 0.0076 274.67);
+  --hover: oklch(0.3651 0.0076 274.67);
 
   /* Text Colors - Dark Mode */
   --text-primary: oklch(0.899 0.004 264.542);
@@ -160,6 +162,7 @@ code {
 
   /* Custom Application Colors */
   --color-header: var(--header);
+  --color-footer: var(--footer);
   --color-dropdown: var(--dropdown);
   --color-hover: var(--hover);
 

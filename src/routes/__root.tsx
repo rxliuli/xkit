@@ -163,7 +163,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootComponent() {
   return (
-    <div className="min-h-screen bg-canvas flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
       <main className="flex-1">
         <Outlet />

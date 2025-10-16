@@ -232,18 +232,18 @@ function TwitterCircle() {
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 min-h-screen">
+    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-600/10 dark:to-indigo-600/10 p-4 sm:p-6 min-h-screen">
       <div className="max-w-6xl mx-auto pt-4 sm:pt-8">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-text-primary mb-2">
             {t('interactionCircle.title')}
           </h1>
-          <p className="text-gray-600 text-sm sm:text-base px-4">{t('interactionCircle.subtitle')}</p>
+          <p className="text-text-secondary text-sm sm:text-base px-4">{t('interactionCircle.subtitle')}</p>
         </div>
 
         {/* Input Section */}
-        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
+        <div className="bg-card rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <InputSection
             isLoading={isLoading}
             onSubmit={onSubmit}
@@ -262,15 +262,15 @@ function TwitterCircle() {
 
         {/* Visualization Section */}
         {circleData && (
-          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+          <div className="bg-card rounded-xl shadow-lg p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+              <h2 className="text-xl sm:text-2xl font-bold text-text-primary">
                 {t('interactionCircle.visualisation.title', { username })}
               </h2>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   onClick={shareToTwitter}
-                  className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors text-sm sm:text-base flex items-center justify-center gap-2"
+                  className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-700 transition-colors text-sm sm:text-base flex items-center justify-center gap-2"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -279,7 +279,7 @@ function TwitterCircle() {
                 </button>
                 <button
                   onClick={exportToPNG}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors text-sm sm:text-base"
                 >
                   {t('interactionCircle.visualisation.exportButton')}
                 </button>
@@ -297,27 +297,35 @@ function TwitterCircle() {
 
             {/* Statistics */}
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-              <div className="text-center p-3 sm:p-4 bg-blue-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-blue-600">{circleData.totalUsers}</div>
-                <div className="text-xs sm:text-sm text-gray-600">
+              <div className="text-center p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  {circleData.totalUsers}
+                </div>
+                <div className="text-xs sm:text-sm text-text-secondary">
                   {t('interactionCircle.visualisation.stats.users')}
                 </div>
               </div>
-              <div className="text-center p-3 sm:p-4 bg-green-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-green-600">{circleData.totalReplies}</div>
-                <div className="text-xs sm:text-sm text-gray-600">
+              <div className="text-center p-3 sm:p-4 bg-green-50 dark:bg-green-900/30 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
+                  {circleData.totalReplies}
+                </div>
+                <div className="text-xs sm:text-sm text-text-secondary">
                   {t('interactionCircle.visualisation.stats.replies')}
                 </div>
               </div>
-              <div className="text-center p-3 sm:p-4 bg-purple-50 rounded-lg">
-                <div className="text-xl sm:text-2xl font-bold text-purple-600">{circleData.totalLikes}</div>
-                <div className="text-xs sm:text-sm text-gray-600">
+              <div className="text-center p-3 sm:p-4 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">
+                  {circleData.totalLikes}
+                </div>
+                <div className="text-xs sm:text-sm text-text-secondary">
                   {t('interactionCircle.visualisation.stats.likes')}
                 </div>
               </div>
-              <div className="text-center p-3 sm:p-4 bg-orange-50 rounded-lg">
-                <div className="text-lg sm:text-2xl font-bold text-orange-600">{circleData.analysisDate}</div>
-                <div className="text-xs sm:text-sm text-gray-600">
+              <div className="text-center p-3 sm:p-4 bg-orange-50 dark:bg-orange-900/30 rounded-lg">
+                <div className="text-lg sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
+                  {circleData.analysisDate}
+                </div>
+                <div className="text-xs sm:text-sm text-text-secondary">
                   {t('interactionCircle.visualisation.stats.date')}
                 </div>
               </div>
